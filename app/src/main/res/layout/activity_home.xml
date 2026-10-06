@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFBFC">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollHome"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingTop="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#8B8992"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/txtUserName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Ngọc"
+                        android:textColor="#202027"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSearch"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#EAE7EA"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:contentDescription="Tìm kiếm"
+                        android:src="@drawable/ic_search"
+                        app:tint="#929098" />
+
+                    <TextView
+                        android:id="@+id/txtSearch"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="Tìm phòng, căn hộ..."
+                        android:textColor="#AAA7AE"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardBanner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="22dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:id="@+id/imgBanner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="N&amp;N Home"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/banner" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Khám phá"
+                    android:textColor="#202027"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtExploreAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:text="Xem tất cả ›"
+                    android:textColor="#FF4F91"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
+            <!-- ==================== CATEGORY ==================== -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:orientation="horizontal">
+
+                <!-- ==================== PHÒNG TRỌ ==================== -->
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardRoom"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="7dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardBackgroundColor="#FFEAF2"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="14dp">
+
+                        <!-- Icon -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="54dp"
+                            android:layout_height="54dp"
+                            app:cardBackgroundColor="#FFF7FA"
+                            app:cardCornerRadius="27dp"
+                            app:cardElevation="0dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="Phòng trọ"
+                                android:padding="14dp"
+                                android:src="@drawable/ic_home"
+                                app:tint="#FF5C9D" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Text -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Phòng trọ"
+                                android:textColor="#29272D"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <!-- Arrow -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="›"
+                            android:textColor="#5D5A62"
+                            android:textSize="27sp" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+
+                <!-- ==================== CĂN HỘ ==================== -->
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardApartment"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="7dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardBackgroundColor="#F2EDFF"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="14dp">
+
+                        <!-- Icon -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="54dp"
+                            android:layout_height="54dp"
+                            app:cardBackgroundColor="#FAF8FF"
+                            app:cardCornerRadius="27dp"
+                            app:cardElevation="0dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="Căn hộ"
+                                android:padding="14dp"
+                                android:src="@drawable/ic_apartment"
+                                app:tint="#8A6BC9" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Text -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Căn hộ"
+                                android:textColor="#29272D"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <!-- Arrow -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="›"
+                            android:textColor="#5D5A62"
+                            android:textSize="27sp" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+
+            <!-- ==================== PHÒNG CÒN TRỐNG ==================== -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Phòng còn trống"
+                    android:textColor="#202027"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtViewAllRooms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:text="Xem tất cả ›"
+                    android:textColor="#FF4F91"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+            <!-- Subtitle -->
+            <TextView
+                android:id="@+id/txtAvailableSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="Khám phá những lựa chọn đang sẵn sàng cho bạn"
+                android:textColor="#929097"
+                android:textSize="12sp" />
+
+
+            <!-- ==================== AVAILABLE ROOMS ==================== -->
+            <!-- Backend chỉ trả các Room có status = AVAILABLE -->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAvailableRooms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never" />
+
+
+            <!-- ==================== PHÒNG CỦA TÔI ==================== -->
+            <!-- Chỉ hiện khi người dùng có hợp đồng thuê đang hoạt động -->
+
+            <TextView
+                android:id="@+id/txtMyRoomTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:text="Phòng của tôi"
+                android:textColor="#202027"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardMyRoom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:visibility="gone"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#EEE9EC"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="13dp">
+
+                    <!-- Room image -->
+                    <ImageView
+                        android:id="@+id/imgMyRoom"
+                        android:layout_width="88dp"
+                        android:layout_height="82dp"
+                        android:padding="20dp"
+                        android:contentDescription="Phòng đang thuê"
+                        android:src="@drawable/ic_home"
+                        app:tint="#FF5C9D" />
+
+                    <!-- Room information -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txtMyRoomName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Phòng trọ 01"
+                            android:textColor="#202027"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtMyRoomStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="● Đang thuê"
+                            android:textColor="#4A9B74"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:text="Xem chi tiết  →"
+                            android:textColor="#F4518E"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <!-- ==================== BOTTOM NAVIGATION ==================== -->
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:background="#FFFFFF"
+        app:itemIconSize="22dp"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/menu_bottom_navigation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

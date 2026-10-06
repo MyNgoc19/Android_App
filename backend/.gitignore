@@ -1,0 +1,30 @@
+# Android Studio
+*.iml
+.gradle/
+.idea/
+local.properties
+
+# Android Build
+build/
+app/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Python virtual environment
+backend/venv/
+backend/.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Firebase Admin private key
+backend/service.json
+
+# Environment variables
+.env
+backend/.env
+
+# macOS
+.DS_Store

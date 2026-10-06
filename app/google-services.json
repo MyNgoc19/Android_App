@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "173790367050",
+    "project_id": "essay-room-rental",
+    "storage_bucket": "essay-room-rental.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:173790367050:android:4cdeea0a9486876c2785b3",
+        "android_client_info": {
+          "package_name": "com.example.essay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "173790367050-2gojc4f8j96odu0gs1ki8rne5te061g5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.essay",
+            "certificate_hash": "5976fd37778f99d2e6fab6e233c55f7ce59c8547"
+          }
+        },
+        {
+          "client_id": "173790367050-q3kcpbu8h2l0rtrnhscosq1fjv768bkc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrNP6aM-G-UJpgVSRfqdpWjNMv5g84Ihc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "173790367050-q3kcpbu8h2l0rtrnhscosq1fjv768bkc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
