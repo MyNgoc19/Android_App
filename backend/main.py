@@ -1,12 +1,20 @@
 from fastapi import FastAPI, Header, HTTPException
 from firebase_admin import auth
+from pydantic import BaseModel, Field
 from firebase_config import initialize_firebase
+from database import (
+    create_room_in_database,
+    get_rooms_from_database,
+    initialize_database,
+)
 from redis_client import get_redis
 import json
 
 initialize_firebase()
+initialize_database()
 app = FastAPI()
 redis_client = get_redis()
+ROOMS_CACHE_KEY = "cache:rooms_list"
 
 
 @app.get("/")
@@ -58,34 +66,29 @@ def protected(authorization: str = Header(None)):
 # 2. API Ví dụ ứng dụng Caching để Performance Improvement
 @app.get("/rooms")
 def get_rooms():
-    cache_key = "cache:rooms_list"
-
-    # Bước 1: Kiểm tra Redis Cache
-    cached_rooms = redis_client.get(cache_key)
+    cached_rooms = redis_client.get(ROOMS_CACHE_KEY)
     if cached_rooms:
         return {
             "source": "redis_cache",
             "rooms": json.loads(cached_rooms)
         }
 
-    # Bước 2: Nếu chưa có, giả lập lấy dữ liệu từ Database (hoặc xử lý nặng)
-    # (Trong thực tế bạn sẽ query từ PostgreSQL / MongoDB / Firebase Firestore)
-    rooms_from_db = [
-        {"id": 1, "name": "Phòng ôn thi Toán", "members": 12},
-        {"id": 2, "name": "Phòng luyện viết Essay", "members": 8},
-        {"id": 3, "name": "Phòng IELTS Speaking", "members": 15},
-        {"id": 4, "name": "Phòng ôn thi Toán", "members": 12},
-        {"id": 5, "name": "Phòng luyện viết Essay", "members": 8},
-        {"id": 6, "name": "Phòng IELTS Speaking", "members": 15},
-        {"id": 7, "name": "Phòng ôn thi Toán", "members": 12},
-        {"id": 8, "name": "Phòng luyện viết Essay", "members": 8},
-        {"id": 9, "name": "Phòng IELTS Speaking", "members": 15}
-    ]
-
-    # Bước 3: Lưu vào Redis Cache trong 5 phút (300 giây)
-    redis_client.setex(cache_key, 300, json.dumps(rooms_from_db))
+    rooms_from_db = get_rooms_from_database()
+    redis_client.setex(ROOMS_CACHE_KEY, 300, json.dumps(rooms_from_db))
 
     return {
-        "source": "database",
+        "source": "sqlite",
         "rooms": rooms_from_db
     }
+
+
+class RoomCreate(BaseModel):
+    name: str = Field(min_length=1, max_length=100)
+    members: int = Field(default=0, ge=0)
+
+
+@app.post("/rooms")
+def create_room(room_request: RoomCreate):
+    room = create_room_in_database(room_request.name.strip(), room_request.members)
+    redis_client.delete(ROOMS_CACHE_KEY)
+    return {"source": "sqlite", "room": room}
