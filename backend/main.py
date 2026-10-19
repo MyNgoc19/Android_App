@@ -22,7 +22,6 @@ def home():
     return {"message": "Essay API with Firebase Auth & Redis is running"}
 
 
-# 1. API Xác thực & Session Storage với Redis
 @app.get("/protected")
 def protected(authorization: str = Header(None)):
     if authorization is None or not authorization.startswith("Bearer "):
@@ -31,7 +30,6 @@ def protected(authorization: str = Header(None)):
     token = authorization.split(" ", 1)[1]
     cache_key = f"session_token:{token}"
 
-    # Check Redis Cache (Session Storage) để tăng Performance
     cached_session = redis_client.get(cache_key)
     if cached_session:
         return {
@@ -41,7 +39,6 @@ def protected(authorization: str = Header(None)):
         }
 
     try:
-        # Nếu chưa có trong Redis, xác thực với Firebase
         decoded_token = auth.verify_id_token(token)
         user_data = {
             "uid": decoded_token.get("uid"),
@@ -50,7 +47,6 @@ def protected(authorization: str = Header(None)):
             "provider": decoded_token.get("firebase", {}).get("sign_in_provider")
         }
 
-        # Lưu session vào Redis trong 1 giờ (3600 giây)
         redis_client.setex(cache_key, 3600, json.dumps(user_data))
 
         return {
@@ -63,7 +59,6 @@ def protected(authorization: str = Header(None)):
         raise HTTPException(status_code=401, detail=f"Invalid token: {str(e)}")
 
 
-# 2. API Ví dụ ứng dụng Caching để Performance Improvement
 @app.get("/rooms")
 def get_rooms():
     cached_rooms = redis_client.get(ROOMS_CACHE_KEY)
@@ -74,7 +69,10 @@ def get_rooms():
         }
 
     rooms_from_db = get_rooms_from_database()
-    redis_client.setex(ROOMS_CACHE_KEY, 300, json.dumps(rooms_from_db))
+    
+    redis_client.setex(ROOMS_CACHE_KEY, 
+                       300, 
+                       json.dumps(rooms_from_db))
 
     return {
         "source": "sqlite",

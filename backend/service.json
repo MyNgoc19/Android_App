@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "essay-room-rental",
+  "private_key_id": "4a483152e47a3baa38e466fec96c798bac59c7e9",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDQJReW8Z+IUpvZ\n4nLinPGUDaHjAT2ShXlSvr5bqtlDE6CvvzOjdJzJg3l6SxmrmIHDmofZ7AStRqKJ\niqcfiGYpGpNkuXFOC1ro6UjSmZ0MJ5LFH4m/AKo46s1zM+lQtmlXjQVtKAgOoqbR\nQxteOJW1RmYCON4+GXJR+VKcbGw3sGdgPG8c7cEEQXz7RuRAthFEYRDLjvy+/3MY\n+FXvHS3e5JGVJbjVRTHUk0e2uDcQsaicX+weiWWTAj4LaH5Ug3yjXydXkMNPGD/S\njRGU+iRez3J2crUg1uJjHw+YJTLW46qO0uCj4okPFto93dIXGWspDRsncUidF4LR\nFYE/GwAxAgMBAAECggEABeD2UJoUcmo64qWFrybVn+PeraWsUoYYjiC7CaXCqyVT\nxYL192jkwMBI3w5d9D3DdH3Z1mrXGvnCv3W+EKLul7ybax3duGGTuL5WAzS5fc1k\nVNL2NgHTzPW8xcMylMgCI6nk/FdEGv23DnQBwuCAQfVyDiADDufzFaOgFLDvQYdZ\n6En80fmoriIjL9qWS51imuRt5u3wLM1yHKNAKaOnA3SDZPvWFwtoPvBUgl5DgDz6\n0+TRSgObhpuiFIYSdlVUtJpyURLS1SlQaQ1FSaEwjOb1ac5Uo2Ibr7shHpaUdzHb\nC4SKT6T5MgPNK49TWhTFoZ99aHnbNYMMoSz4gBbeUQKBgQDuW5ikKJF86Zsa4498\nN3PZGyfi1xLitX994jjgcTpwfEEP8PongAmwECYg5Q5cv1xCvpM/Fd/WIzE3RW+P\nz9AM8DOKM6DXxYEcZHwcG+NP6d8cNp/IFEZSXdqRO0W9f0xIlV0RM+escyI5T4f7\nYbLzU1SH1+Yf9mzBBS2/0ysg5QKBgQDfjQWO75eB9F1z71zvaFFDmhMJQUPvnR9L\npF9dlJfTxo8yUxekTAkfzOvqAdMV226yx9u5x/NW+qa/qeAtY/OalUaYFurQ2NFs\nZ1VfSf/8IyGHhJijgtlwXw1Uxb+kHrRBSH0qADD1655wnPG4FlV/HD00TQR+n/4i\ncIq41qgJXQKBgQDLMCPn1HlpbU5+VnxLXI4SBhczRTphLm03J3Bqy7sQhquD5l2o\n7HnVr36BTiG3KJ2CfCjTf1cnmSpsPnHCu1lUnjKhXi9/oGrWhEZUQ+W7itdZmqsM\niVQFBOK8KTXjOzARM9p5PrEAjckf5884mOlOibumbYJLvuqohDyiqGW8jQKBgCie\ncxgZqKnQQPrDz1sg1UM3R6Yy2ak8H2ebIkjaqwur1HEMcAtGVZIVpfgLBNO/30lU\nzzPehPSU7p98umME+kpoPT99SoVQIB1WWUjLJVwm9fyttx5etCua2c1BcSTc/1ut\nVDDBgCPvAAbuPW15gWdrNiO+qsZnQ8H2OP6E4ltxAoGBAIMCvwxYxjCLqfn2C/nk\nj2lOWYLIYkKAMO/xgE/koYGf1G7IpGgVjHmARwanFP7PIlSf/s5CpO2sgS9xr0kH\nwz3qYprGgVm6NWZi/a3vkO3CbvhJLb0vIMupLYpBn1Pr5o1mmK1nh3YI/i7oYjbg\n/x7ekv8bh3ZQLhp//qu8gYPA\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-fbsvc@essay-room-rental.iam.gserviceaccount.com",
+  "client_id": "101684100841712626898",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40essay-room-rental.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
