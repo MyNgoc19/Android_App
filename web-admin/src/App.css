@@ -1750,3 +1750,92 @@ a:focus-visible {
     width: 100%;
   }
 }
+
+
+/* FINAL LAYOUT & UI IMPROVEMENTS */
+
+/* Prevent layout overflow */
+
+* {
+  box-sizing: border-box;
+}
+
+.main-area,
+.page-content,
+.page-container,
+.content-card {
+  min-width: 0;
+}
+
+.page-content {
+  width: 100%;
+}
+
+/* Better button states */
+
+.primary-button:disabled,
+.secondary-button:disabled,
+.danger-button:disabled,
+.success-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Better input disabled states */
+
+.form-group input:disabled,
+.form-group select:disabled,
+.form-group textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Consistent text wrapping */
+
+.page-header h1,
+.page-header p,
+.placeholder-note p,
+.form-placeholder-notice,
+.empty-state p {
+  overflow-wrap: anywhere;
+}
+
+/* Better table scrolling */
+
+.table-wrapper {
+  max-width: 100%;
+  overscroll-behavior-x: contain;
+}
+
+/* Sidebar navigation accessibility */
+
+.nav-item.disabled {
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Responsive improvements */
+
+@media (max-width: 600px) {
+  .page-header h1 {
+    font-size: 22px;
+  }
+
+  .page-content {
+    overflow-x: hidden;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+
+  .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

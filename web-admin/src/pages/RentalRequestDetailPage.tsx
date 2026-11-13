@@ -9,6 +9,7 @@ import {
     Clock,
     CheckCircle,
     XCircle,
+    FilePlus,
 } from "lucide-react";
 
 export default function RentalRequestDetailPage() {
@@ -138,6 +139,44 @@ export default function RentalRequestDetailPage() {
                         These actions are placeholders and are not functional.
                         According to the API contract, only requests with
                         PENDING status can be approved or rejected.
+                    </p>
+                </section>
+
+                <section className="content-card request-review-card">
+                    <div className="form-section-heading">
+                        <h2>Contract Creation</h2>
+                        <p>
+                            Create a rental contract after the request
+                            has been approved.
+                        </p>
+                    </div>
+
+                    <div className="request-review-status">
+                        <FilePlus size={20} />
+
+                        <div>
+                            <strong>Approval required</strong>
+                            <span>
+                                Only an APPROVED request without an existing
+                                contract can be used to create a contract.
+                            </span>
+                        </div>
+                    </div>
+
+                    <button
+                        className="primary-button"
+                        disabled
+                        style={{ width: "100%" }}
+                    >
+                        <FilePlus size={17} />
+                        Create Contract
+                    </button>
+
+                    <p className="request-review-note">
+                        This action is a placeholder. When connected to the API,
+                        it will open the contract creation flow using this
+                        approved request. Tenant ID and Room ID must be
+                        derived by the backend.
                     </p>
                 </section>
             </div>

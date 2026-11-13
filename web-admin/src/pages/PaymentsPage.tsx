@@ -73,7 +73,7 @@ export default function PaymentsPage() {
 
                     <button
                         className="secondary-button"
-                        onClick={() => navigate("/payments/preview/edit")}
+                        onClick={() => navigate("/payments/new")}
                     >
                         <Plus size={16} />
                         Preview Create

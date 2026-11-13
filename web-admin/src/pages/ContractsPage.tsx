@@ -69,7 +69,7 @@ export default function ContractsPage() {
 
                     <button
                         className="secondary-button"
-                        onClick={() => navigate("/contracts/preview/edit")}
+                        onClick={() => navigate("/contracts/new")}
                     >
                         <Plus size={16} />
                         Preview Create

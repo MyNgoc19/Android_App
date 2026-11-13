@@ -84,6 +84,7 @@ export default function Sidebar() {
                                 key={item.path}
                                 to={item.path}
                                 end={item.path === "/"}
+                                title={item.label}
                                 className={({ isActive }) =>
                                     `nav-item ${isActive ? "active" : ""}`
                                 }
