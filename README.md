@@ -63,7 +63,7 @@ Các chức năng chưa triển khai trong MVP:
 
 | Thành phần | Công nghệ |
 |---|---|
-| Android User | Kotlin, Android Studio |
+| Android User | Java, Android Studio |
 | Web Admin | React, TypeScript, Vite |
 | Backend | Python, FastAPI |
 | ORM | SQLAlchemy |
