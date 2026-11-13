@@ -161,57 +161,76 @@ Khi thay đổi API hoặc database, thành viên phụ trách cần cập nhậ
 
 Dự án gồm hai ứng dụng frontend và một Backend dùng chung.
 
-| Thành viên / Nhóm | Phạm vi phụ trách |
+| Thành phần | Phạm vi phụ trách |
 |---|---|
-| Android Developer | Xây dựng ứng dụng Android dành cho User |
-| Web Developer | Xây dựng website quản trị dành cho Admin |
-| Backend Developer | Xây dựng FastAPI, database, authentication và API dùng chung |
+| Android User | Phát triển ứng dụng Android dành cho người thuê |
+| Web Admin | Phát triển website quản trị dành cho Admin |
+| Shared Backend | Xây dựng API, xử lý nghiệp vụ, xác thực và truy cập database cho cả hai ứng dụng |
 
-### Android Developer
+### Android User
 
 - Phát triển giao diện và chức năng dành cho User.
 - Tích hợp Firebase Authentication.
-- Gọi API từ Backend.
-- Xử lý và hiển thị dữ liệu nhận được từ API.
+- Gọi API từ FastAPI Backend.
+- Hiển thị danh sách phòng, chi tiết phòng và chức năng tìm kiếm.
+- Xây dựng chức năng yêu thích, gửi yêu cầu thuê và theo dõi trạng thái yêu cầu.
+- Hiển thị thông tin hợp đồng và lịch sử thanh toán.
+- Quản lý thông tin cá nhân.
 
-### Web Developer
+### Web Admin
 
 - Phát triển giao diện quản trị Admin.
 - Tích hợp Firebase Authentication.
-- Gọi API từ Backend.
-- Xây dựng các chức năng quản lý trong phạm vi MVP.
+- Gọi API từ FastAPI Backend.
+- Xây dựng Dashboard tổng quan.
+- Quản lý phòng và hình ảnh phòng.
+- Quản lý tài khoản người dùng.
+- Quản lý yêu cầu thuê phòng.
+- Quản lý hợp đồng và thông tin thanh toán.
 
-### Backend Developer
+### Shared Backend
 
 - Xây dựng REST API bằng FastAPI.
 - Thiết kế và quản lý PostgreSQL bằng SQLAlchemy.
-- Xử lý nghiệp vụ trong Service.
+- Xây dựng các lớp Router, Service, Model và Schema.
+- Xử lý nghiệp vụ dùng chung cho Android và Web Admin.
 - Xác thực Firebase ID Token.
 - Kiểm tra quyền USER và ADMIN.
-- Cung cấp API cho Android và Web Admin.
+- Quản lý transaction và truy cập database an toàn.
 
 ### Quy ước phối hợp
 
-- Backend là thành phần dùng chung của hai ứng dụng.
-- Các thay đổi liên quan đến API hoặc database phải được trao đổi với những thành viên liên quan.
-- Không tự ý thay đổi cấu trúc database hoặc API đã thống nhất mà chưa thông báo cho nhóm.
+- Backend là thành phần dùng chung, phục vụ cả Android User và Web Admin.
+- Việc phân công người phụ trách Backend cần được nhóm thống nhất.
+- Hai frontend phải sử dụng đúng API Contract trong `docs/api.md`.
+- Không tự ý thay đổi cấu trúc database hoặc API đã thống nhất mà chưa trao đổi với các thành viên liên quan.
 - Khi API hoặc database thay đổi, cần cập nhật tài liệu tương ứng.
+- Các chức năng chưa thuộc MVP không được tự ý mở rộng vào phạm vi triển khai.
 
 ## 8. Quy ước Git
 
 ### Branch chính
 
-- `master`: Chứa phiên bản ổn định và các phần chung đã được nhóm thống nhất.
+- `master`: Chứa tài liệu chung và phiên bản ổn định của dự án.
 
 ### Branch phát triển
 
+Các branch dự kiến:
+
 - `feature/android-user`: Phát triển ứng dụng Android User.
 - `feature/web-admin`: Phát triển Web Admin.
-- `feature/backend`: Phát triển Backend dùng chung (nếu nhóm phân công riêng).
+- `feature/backend`: Phát triển Backend dùng chung, nếu nhóm phân công người phụ trách riêng.
+
+Tên branch có thể được điều chỉnh theo từng chức năng, ví dụ:
+
+- `feature/authentication`
+- `feature/room-management`
+- `feature/rental-requests`
+- `feature/contract-management`
 
 ### Quy trình làm việc
 
-1. Cập nhật branch từ `master`.
+1. Cập nhật branch `master` mới nhất.
 2. Tạo hoặc chuyển sang branch phụ trách.
 3. Thực hiện công việc trong phạm vi được phân công.
 4. Commit với nội dung rõ ràng.
@@ -219,70 +238,98 @@ Dự án gồm hai ứng dụng frontend và một Backend dùng chung.
 6. Tạo Pull Request về `master`.
 7. Review và kiểm tra trước khi merge.
 
-Không tự ý sửa các file dùng chung như `docs/api.md`, `docs/database.md`, `schema.sql` mà không trao đổi với các thành viên liên quan.
+### Quy ước khi làm việc chung
+
+- Không tự ý sửa các file dùng chung như `docs/api.md`, `docs/database.md` và `backend/schemas/schema.sql` mà không trao đổi với thành viên liên quan.
+- Khi có thay đổi API hoặc database, cần thông báo cho các thành viên đang tích hợp.
+- Không commit file `.env`, Firebase Service Account JSON hoặc thông tin bí mật.
+- Không push trực tiếp các thay đổi chưa kiểm tra lên branch chính.
 
 ## 9. Cài đặt và chạy dự án
 
-Các hướng dẫn chạy chi tiết sẽ được bổ sung sau khi nhóm hoàn tất cấu hình môi trường.
+Các hướng dẫn dưới đây là quy trình dự kiến. Chi tiết cấu hình và lệnh chạy sẽ được cập nhật sau khi nhóm hoàn thiện cấu trúc và kiểm thử từng thành phần.
 
 ### Backend
 
-Các bước dự kiến:
-
-1. Cài Python và PostgreSQL.
-2. Tạo database PostgreSQL.
+1. Cài đặt Python và PostgreSQL.
+2. Tạo database PostgreSQL cho dự án.
 3. Sao chép `backend/.env.example` thành `backend/.env`.
-4. Điền thông tin cấu hình thực tế.
-5. Cài thư viện từ `requirements.txt`.
-6. Khởi tạo database bằng `schema.sql`.
-7. Chạy FastAPI bằng Uvicorn.
+4. Điền các thông tin cấu hình cần thiết.
+5. Tạo môi trường ảo Python.
+6. Cài đặt thư viện từ `backend/requirements.txt`.
+7. Khởi tạo database bằng `backend/schemas/schema.sql`.
+8. Cấu hình Firebase Admin SDK và thông tin xác thực cần thiết.
+9. Chạy FastAPI bằng Uvicorn.
 
 ### Android User
 
-1. Mở thư mục `android-user/` bằng Android Studio.
-2. Cấu hình SDK và các thông tin cần thiết.
-3. Cấu hình địa chỉ Backend API.
-4. Build và chạy ứng dụng.
+1. Cài đặt Android Studio và Android SDK.
+2. Mở project trong thư mục `android-user/`.
+3. Cấu hình Firebase cho ứng dụng Android.
+4. Cấu hình địa chỉ Backend API.
+5. Kết nối Android với Backend.
+6. Build và chạy ứng dụng trên Emulator hoặc thiết bị thật.
+
+Đối với Android Emulator sử dụng địa chỉ Backend:
+
+`http://10.0.2.2:8000/api/v1`
 
 ### Web Admin
 
-1. Mở thư mục `web-admin/`.
-2. Cài các dependencies.
-3. Cấu hình địa chỉ Backend API.
-4. Chạy ứng dụng theo script trong `package.json`.
+1. Cài đặt Node.js và npm.
+2. Mở project trong thư mục `web-admin/`.
+3. Cài đặt các dependencies.
+4. Cấu hình Firebase cho Web Admin.
+5. Cấu hình địa chỉ Backend API.
+6. Chạy ứng dụng bằng script được khai báo trong `package.json`.
 
-**Lưu ý:** Các bước trên là hướng dẫn dự kiến, chưa phải hướng dẫn chạy đã được kiểm thử.
+**Lưu ý:** Các bước trên chưa được kiểm thử trên project hoàn chỉnh. Không xem đây là hướng dẫn chạy chính thức cho đến khi nhóm hoàn tất cấu hình và kiểm tra thực tế.
 
 ## 10. Quy tắc bảo mật
 
 - Không commit file `.env` lên GitHub.
 - Không commit Firebase Service Account JSON.
-- Không đưa thông tin mật khẩu hoặc API key vào source code.
-- Backend phải xác thực Firebase ID Token.
-- Backend phải kiểm tra quyền `USER` và `ADMIN`.
+- Không đưa mật khẩu hoặc API key vào source code.
+- Backend phải xác thực Firebase ID Token trước khi xử lý các API được bảo vệ.
+- Backend phải kiểm tra quyền `USER` và `ADMIN` dựa trên dữ liệu trong PostgreSQL.
 - Không tin tưởng role hoặc user ID do frontend tự gửi lên.
 - Không để Android hoặc Web Admin kết nối trực tiếp PostgreSQL.
+- Không trả về thông tin nhạy cảm của người dùng trong API response.
 
 ## 11. Trạng thái dự án
 
-Dự án hiện đang trong giai đoạn chuẩn bị trước khi triển khai.
+Dự án hiện đang trong giai đoạn chuẩn bị và hoàn thiện cấu trúc trước khi triển khai chức năng.
 
-Các nội dung đã được thống nhất:
+### 11.1. Các nội dung đã thống nhất
 
 - Kiến trúc tổng thể của hệ thống.
-- Công nghệ sử dụng.
-- PostgreSQL database schema.
-- API specification.
+- Công nghệ sử dụng cho Android, Web và Backend.
+- PostgreSQL là hệ quản trị cơ sở dữ liệu chung.
+- Database schema gồm 8 bảng.
+- API Contract giữa Android, Web và Backend.
 - Phạm vi chức năng MVP.
+- Các chức năng định hướng phát triển trong tương lai.
 - Cấu trúc thư mục mục tiêu.
-- Quy trình làm việc trên GitHub.
+- Quy ước làm việc trên GitHub.
 
-Các công việc tiếp theo:
+### 11.2. Các nội dung đang chuẩn bị triển khai
 
-1. Hoàn thiện và xác nhận tài liệu chung.
-2. Kiểm tra cấu trúc project của Android, Web và Backend.
-3. Phân chia công việc cho từng thành viên.
-4. Tạo branch riêng để phát triển.
-5. Triển khai và tích hợp các chức năng MVP.
+- Hoàn thiện cấu trúc project Android User.
+- Hoàn thiện cấu trúc project Web Admin.
+- Hoàn thiện cấu trúc FastAPI Backend.
+- Cấu hình môi trường phát triển.
+- Kết nối Firebase Authentication.
+- Kết nối PostgreSQL.
+- Phân chia công việc và tạo branch riêng cho từng phần.
+- Triển khai, kiểm thử và tích hợp các chức năng MVP.
 
-Các chức năng Utility Billing và Reports & Analytics được giữ lại làm định hướng phát triển trong tương lai, chưa thuộc phạm vi MVP.
+### 11.3. Phạm vi phát triển trong tương lai
+
+Các chức năng sau được giữ lại trong thiết kế Figma để định hướng mở rộng:
+
+- Utility Billing – Quản lý hóa đơn điện, nước và chi phí tiện ích.
+- Reports & Analytics – Báo cáo và phân tích dữ liệu nâng cao.
+
+Hai chức năng trên chưa thuộc phạm vi MVP, chưa yêu cầu API, database schema hoặc business logic riêng.
+
+**Lưu ý:** Cấu trúc thư mục và các tài liệu hiện tại là nền tảng chuẩn bị cho quá trình phát triển. Không đồng nghĩa với việc các ứng dụng đã hoàn thiện hoặc có thể chạy được.
