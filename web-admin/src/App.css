@@ -3827,3 +3827,52 @@ a:focus-visible {
     padding: 0 0 18px;
   }
 }
+
+
+/* Final user detail layout corrections */
+
+.user-profile-card > .user-profile-header {
+  min-width: 0;
+  padding: 0 0 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.user-profile-card .user-avatar-large {
+  overflow: hidden;
+}
+
+.user-profile-card .user-avatar-large img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-status-card .form-section-heading h2 {
+  margin: 0 0 6px;
+  color: var(--text-primary);
+  font-size: 15px;
+}
+
+.user-status-card .form-section-heading p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.user-status-card .primary-button {
+  width: 100%;
+  justify-content: center;
+}
+
+@media (max-width: 600px) {
+  .user-profile-card > .user-profile-header {
+    gap: 12px;
+    padding-bottom: 18px;
+  }
+
+  .user-profile-card .user-profile-heading {
+    overflow-wrap: anywhere;
+  }
+}
