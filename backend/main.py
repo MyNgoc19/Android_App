@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from routers.auth import router as auth_router
-from routers.rooms import router as rooms_router
+from routers.rooms import router as rooms_router, user_router
 from routers.admin import router as admin_router
 
 load_dotenv()
@@ -47,6 +47,11 @@ app.include_router(
 
 app.include_router(
     rooms_router,
+    prefix=API_PREFIX,
+)
+
+app.include_router(
+    user_router,
     prefix=API_PREFIX,
 )
 
