@@ -1937,6 +1937,56 @@ def create_payment(
                 detail="payment_period is required for RENT payments.",
             )
 
+        # Prevent duplicate active rent charges for the same contract and month.
+        if body.payment_type == "RENT":
+            existing_payment = db.execute(
+                text("""
+                    SELECT id, status
+                    FROM payments
+                    WHERE contract_id = :contract_id
+                      AND payment_type = 'RENT'
+                      AND payment_period = :payment_period
+                      AND status IN ('PENDING', 'PAID')
+                    LIMIT 1
+                """),
+                {
+                    "contract_id": contract_id,
+                    "payment_period": body.payment_period,
+                },
+            ).mappings().one_or_none()
+
+            if existing_payment is not None:
+                raise HTTPException(
+                    status_code=409,
+                    detail=(
+                        "A pending or paid rent payment already exists "
+                        "for this contract and payment period."
+                    ),
+                )
+
+        # Prevent multiple active deposit charges for one contract.
+        if body.payment_type == "DEPOSIT":
+            existing_deposit = db.execute(
+                text("""
+                    SELECT id, status
+                    FROM payments
+                    WHERE contract_id = :contract_id
+                      AND payment_type = 'DEPOSIT'
+                      AND status IN ('PENDING', 'PAID')
+                    LIMIT 1
+                """),
+                {"contract_id": contract_id},
+            ).mappings().one_or_none()
+
+            if existing_deposit is not None:
+                raise HTTPException(
+                    status_code=409,
+                    detail=(
+                        "A pending or paid deposit payment already exists "
+                        "for this contract."
+                    ),
+                )
+
         result = db.execute(
             text("""
                 INSERT INTO payments (
