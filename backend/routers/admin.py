@@ -1845,6 +1845,50 @@ def get_admin_payments(
     }
 
 
+# GET /admin/payments/{payment_id}
+# Get one payment with its tenant and room summary
+
+@router.get("/payments/{payment_id}")
+def get_admin_payment(
+    payment_id: int,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(require_admin),
+):
+    payment = db.execute(
+        text("""
+            SELECT
+                p.id,
+                p.contract_id,
+                p.amount,
+                p.payment_type,
+                p.payment_period,
+                p.status,
+                p.paid_at,
+                p.note,
+                p.created_at,
+                c.tenant_id,
+                c.room_id,
+                u.full_name AS tenant_name,
+                u.email AS tenant_email,
+                r.title AS room_title
+            FROM payments p
+            JOIN rental_contracts c ON c.id = p.contract_id
+            JOIN users u ON u.id = c.tenant_id
+            JOIN rooms r ON r.id = c.room_id
+            WHERE p.id = :payment_id
+        """),
+        {"payment_id": payment_id},
+    ).mappings().one_or_none()
+
+    if payment is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Payment not found.",
+        )
+
+    return dict(payment)
+
+
 # POST /admin/contracts/{contract_id}/payments
 # Record a payment for a contract
 
