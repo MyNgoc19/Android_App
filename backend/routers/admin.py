@@ -109,7 +109,22 @@ ROOM_SELECT = """
                 WHERE ri.room_id = r.id
             ),
             '[]'::json
-        ) AS images
+        ) AS images,
+        COALESCE(
+            (
+                SELECT json_agg(
+                    json_build_object(
+                        'id', ri.id,
+                        'image_url', ri.image_url,
+                        'sort_order', ri.sort_order
+                    )
+                    ORDER BY ri.sort_order, ri.id
+                )
+                FROM room_images ri
+                WHERE ri.room_id = r.id
+            ),
+            '[]'::json
+        ) AS image_records
     FROM rooms r
 """
 

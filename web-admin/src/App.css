@@ -3225,3 +3225,482 @@ a:focus-visible {
     flex-wrap: wrap;
   }
 }
+
+
+/* ==============================
+   PAYMENTS PAGE
+================================ */
+
+.payments-toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) 150px 130px auto auto;
+  gap: 12px;
+  width: 100%;
+}
+
+.payments-search {
+  width: 100%;
+  min-width: 0;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 9px;
+  background: var(--bg-card);
+  color: var(--text-secondary);
+}
+
+.payments-search input {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.payments-search input::placeholder {
+  color: var(--text-muted);
+}
+
+.payments-filter {
+  width: 100%;
+  min-width: 0;
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 9px;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 13px;
+  outline: none;
+  cursor: pointer;
+}
+
+.payments-filter:focus,
+.payments-search:focus-within {
+  border-color: var(--accent);
+}
+
+.payments-card {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.payments-table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.payments-table {
+  width: 100%;
+  min-width: 1050px;
+  border-collapse: collapse;
+}
+
+.payments-table th,
+.payments-table td {
+  padding: 15px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+}
+
+.payments-table th {
+  background: var(--bg-hover);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.payments-table td {
+  color: var(--text-primary);
+  font-size: 13px;
+}
+
+.payments-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.payments-table tbody tr:hover {
+  background: var(--bg-hover);
+}
+
+.payment-tenant {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.payment-tenant strong {
+  color: var(--text-primary);
+  font-size: 13px;
+}
+
+.payment-tenant small {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.payment-amount {
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.payments-table .table-empty {
+  height: 190px;
+  padding: 24px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.payments-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}
+
+.payments-empty-icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 3px;
+  border-radius: 12px;
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+.payments-empty strong {
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.payments-empty span {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.payments-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 66px;
+  padding: 12px 18px;
+  border-top: 1px solid var(--border-color);
+}
+
+.payments-pagination-info {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.payments-pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.payments-pagination-controls>span {
+  color: var(--text-secondary);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.payments-pagination-controls .secondary-button {
+  min-width: 82px;
+  padding: 9px 12px;
+}
+
+.payments-error {
+  margin-top: -8px;
+}
+
+@media (max-width: 1100px) {
+  .payments-toolbar {
+    grid-template-columns: minmax(200px, 1fr) 1fr 1fr;
+  }
+
+  .payments-search {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 600px) {
+  .payments-toolbar {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .payments-search {
+    grid-column: 1 / -1;
+  }
+
+  .payments-toolbar>button {
+    width: 100%;
+  }
+
+  .payments-pagination {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .payments-pagination-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+
+/* ==============================
+   MANAGEMENT LIST PAGES
+   Rooms, Users, Rental Requests, Contracts
+================================ */
+
+.page-container>.content-card:has(.table-responsive) {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-container>.content-card:has(.table-responsive)>.section-heading {
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.page-container>.content-card:has(.table-responsive)>.section-heading h2 {
+  margin: 0 0 5px;
+  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.page-container>.content-card:has(.table-responsive)>.section-heading p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.page-container>.content-card:has(.table-responsive) .table-responsive {
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.page-container>.content-card:has(.table-responsive) .dashboard-table {
+  width: 100%;
+  min-width: 850px;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+
+.page-container>.content-card:has(.table-responsive) .dashboard-table th {
+  padding: 15px 16px;
+  background: var(--bg-hover);
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-color);
+  text-align: left;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.page-container>.content-card:has(.table-responsive) .dashboard-table td {
+  padding: 15px 16px;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.page-container>.content-card:has(.table-responsive) .dashboard-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.page-container>.content-card:has(.table-responsive) .dashboard-table tbody tr:hover {
+  background: var(--bg-hover);
+}
+
+/* Empty and loading table rows */
+
+.page-container>.content-card:has(.table-responsive) .dashboard-table tbody td[colspan] {
+  height: 180px;
+  padding: 30px 20px;
+  text-align: center;
+  vertical-align: middle;
+  color: var(--text-muted);
+  white-space: normal;
+}
+
+/* Pagination */
+
+.page-container>.content-card:has(.table-responsive)>.rooms-pagination {
+  width: 100%;
+  min-height: 66px;
+  margin: 0;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-sizing: border-box;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.page-container>.content-card:has(.table-responsive)>.rooms-pagination>div {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.page-container>.content-card:has(.table-responsive)>.rooms-pagination button {
+  min-width: 82px;
+  padding: 9px 12px;
+}
+
+.page-container>.content-card:has(.table-responsive)>.rooms-pagination button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+
+@media (max-width: 700px) {
+  .page-container>.content-card:has(.table-responsive)>.rooms-pagination {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .page-container>.content-card:has(.table-responsive)>.rooms-pagination>div {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+
+.room-image-management {
+  min-width: 0;
+}
+
+.room-image-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px dashed var(--accent);
+  border-radius: 9px;
+  background: var(--accent-light);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.room-image-upload:hover {
+  background: var(--bg-hover);
+}
+
+.room-image-upload input {
+  display: none;
+}
+
+.room-image-upload:has(input:disabled) {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.room-image-hint {
+  display: block;
+  margin: 9px 0 16px;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.room-image-item {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 9px;
+  background: var(--bg-hover);
+}
+
+.room-image-item img {
+  display: block;
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
+
+.room-image-overlay {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
+  color: #ffffff;
+  font-size: 11px;
+}
+
+.room-image-delete {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.room-image-delete:hover {
+  background: #dc3545;
+}
+
+.room-image-delete:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.room-image-message {
+  margin-bottom: 14px;
+}
+
+.room-image-success {
+  margin-bottom: 14px;
+  padding: 12px 15px;
+  border: 1px solid #a7dfbd;
+  border-radius: 9px;
+  background: #edfaf2;
+  color: #18794e;
+  font-size: 13px;
+}
+
+.room-image-spinner {
+  animation: room-image-spin 1s linear infinite;
+}
+
+@keyframes room-image-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

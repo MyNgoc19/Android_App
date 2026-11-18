@@ -1,8 +1,29 @@
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type ChangeEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Pencil, Image as ImageIcon } from "lucide-react";
-import { apiGet } from "../services/api";
+import {
+    ArrowLeft,
+    Pencil,
+    Image as ImageIcon,
+    Upload,
+    Trash2,
+    LoaderCircle,
+} from "lucide-react";
+import { getApp } from "firebase/app";
+import {
+    getDownloadURL,
+    getStorage,
+    ref,
+    uploadBytes,
+} from "firebase/storage";
+import { apiDelete, apiGet, apiPost } from "../services/api";
+import { auth, firebaseConfigured } from "../config/firebase";
+
+type RoomImage = {
+    id: number;
+    image_url: string;
+    sort_order: number;
+};
 
 type Room = {
     id: number;
@@ -18,31 +39,152 @@ type Room = {
     amenities: string[];
     status: string;
     images: string[];
+    image_records: RoomImage[];
 };
 
 export default function RoomDetailPage() {
     const navigate = useNavigate();
     const { roomId } = useParams();
+
     const [room, setRoom] = useState<Room | null>(null);
     const [loading, setLoading] = useState(true);
+    const [uploading, setUploading] = useState(false);
+    const [deletingImageId, setDeletingImageId] = useState<number | null>(null);
     const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
 
-    useEffect(() => {
+    const loadRoom = useCallback(async () => {
         if (!roomId) return;
 
-        apiGet<Room>(`admin/rooms/${roomId}`)
-            .then(setRoom)
-            .catch((err: unknown) => {
-                setError(err instanceof Error ? err.message : "Unable to load room.");
-            })
-            .finally(() => setLoading(false));
+        const data = await apiGet<Room>(`admin/rooms/${roomId}`);
+        setRoom(data);
     }, [roomId]);
 
-    if (loading) return <div className="page-container">Loading room details...</div>;
-    if (error || !room) {
+    useEffect(() => {
+        let active = true;
+
+        const fetchRoom = async () => {
+            try {
+                const data = await apiGet<Room>(`admin/rooms/${roomId}`);
+                if (active) setRoom(data);
+            } catch (err) {
+                if (active) {
+                    setError(err instanceof Error ? err.message : "Unable to load room.");
+                }
+            } finally {
+                if (active) setLoading(false);
+            }
+        };
+
+        if (roomId) void fetchRoom();
+
+        return () => {
+            active = false;
+        };
+    }, [roomId]);
+
+    const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+        const files = Array.from(event.target.files ?? []);
+        event.target.value = "";
+
+        if (!files.length || !room || !roomId) return;
+
+        setError("");
+        setSuccess("");
+
+        if (!firebaseConfigured || !auth?.currentUser) {
+            setError("Firebase Authentication is not available. Please sign in again.");
+            return;
+        }
+
+        const invalidFile = files.find(
+            (file) =>
+                !file.type.startsWith("image/") ||
+                file.size > 5 * 1024 * 1024,
+        );
+
+        if (invalidFile) {
+            setError("Only image files up to 5 MB are allowed.");
+            return;
+        }
+
+        setUploading(true);
+
+        try {
+            const storage = getStorage(getApp());
+            const existingImages = room.image_records ?? [];
+
+            for (const [index, file] of files.entries()) {
+                const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+                const storagePath =
+                    `rooms/${roomId}/${Date.now()}_${index}_${safeName}`;
+
+                const storageRef = ref(storage, storagePath);
+
+                await uploadBytes(storageRef, file, {
+                    contentType: file.type,
+                });
+
+                const imageUrl = await getDownloadURL(storageRef);
+
+                await apiPost(`admin/rooms/${roomId}/images`, {
+                    image_url: imageUrl,
+                    sort_order: existingImages.length + index,
+                });
+            }
+
+            await loadRoom();
+            setSuccess("Room images uploaded successfully.");
+        } catch (err) {
+            setError(
+                err instanceof Error
+                    ? err.message
+                    : "Unable to upload room images.",
+            );
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    const handleDeleteImage = async (image: RoomImage) => {
+        if (!roomId) return;
+
+        const confirmed = window.confirm(
+            "Are you sure you want to remove this image?",
+        );
+
+        if (!confirmed) return;
+
+        setError("");
+        setSuccess("");
+        setDeletingImageId(image.id);
+
+        try {
+            await apiDelete(
+                `admin/rooms/${roomId}/images/${image.id}`,
+            );
+
+            await loadRoom();
+            setSuccess("Room image removed successfully.");
+        } catch (err) {
+            setError(
+                err instanceof Error
+                    ? err.message
+                    : "Unable to remove room image.",
+            );
+        } finally {
+            setDeletingImageId(null);
+        }
+    };
+
+    if (loading) {
+        return <div className="page-container">Loading room details...</div>;
+    }
+
+    if (error && !room) {
         return (
             <div className="page-container">
-                <div className="dashboard-error">{error || "Room not found."}</div>
+                <div className="dashboard-error">{error}</div>
                 <button className="secondary-button" onClick={() => navigate("/rooms")}>
                     <ArrowLeft size={17} /> Back to Rooms
                 </button>
@@ -50,23 +192,35 @@ export default function RoomDetailPage() {
         );
     }
 
+    if (!room) {
+        return <div className="page-container">Room not found.</div>;
+    }
+
+    const roomImages = room.image_records ?? [];
+
     return (
         <div className="page-container">
             <div className="page-header">
                 <div>
                     <h1>Room Details</h1>
-                    <p>View room information, amenities and images.</p>
+                    <p>View and manage room information, amenities and images.</p>
                 </div>
+
                 <div className="detail-header-actions">
                     <button className="secondary-button" onClick={() => navigate("/rooms")}>
                         <ArrowLeft size={17} /> Back
                     </button>
-                    <button className="primary-button"
-                        onClick={() => navigate(`/rooms/${room.id}/edit`)}>
+                    <button
+                        className="primary-button"
+                        onClick={() => navigate(`/rooms/${room.id}/edit`)}
+                    >
                         <Pencil size={17} /> Edit Room
                     </button>
                 </div>
             </div>
+
+            {error && <div className="dashboard-error room-image-message">{error}</div>}
+            {success && <div className="room-image-success">{success}</div>}
 
             <div className="room-detail-grid">
                 <section className="content-card room-detail-main">
@@ -84,26 +238,37 @@ export default function RoomDetailPage() {
                         <div className="detail-info-grid">
                             <div className="detail-info-item">
                                 <span>Monthly Price</span>
-                                <strong>{Number(room.monthly_price).toLocaleString("en-US")} VND</strong>
+                                <strong>
+                                    {Number(room.monthly_price).toLocaleString("en-US")} VND
+                                </strong>
                             </div>
+
                             <div className="detail-info-item">
                                 <span>Area</span>
-                                <strong>{room.area_m2 ? `${room.area_m2} m²` : "—"}</strong>
+                                <strong>
+                                    {room.area_m2 ? `${room.area_m2} m²` : "—"}
+                                </strong>
                             </div>
+
                             <div className="detail-info-item">
                                 <span>Capacity</span>
                                 <strong>{room.capacity} people</strong>
                             </div>
+
                             <div className="detail-info-item full-width">
                                 <span>Address</span>
                                 <strong>
                                     {[room.address, room.ward, room.district, room.city]
-                                        .filter(Boolean).join(", ")}
+                                        .filter(Boolean)
+                                        .join(", ")}
                                 </strong>
                             </div>
+
                             <div className="detail-info-item full-width">
                                 <span>Description</span>
-                                <strong>{room.description || "No description provided."}</strong>
+                                <strong>
+                                    {room.description || "No description provided."}
+                                </strong>
                             </div>
                         </div>
                     </div>
@@ -115,23 +280,78 @@ export default function RoomDetailPage() {
                             <h2>Amenities</h2>
                             <p>Room facilities and services.</p>
                         </div>
+
                         {room.amenities?.length ? (
                             <ul className="room-amenities">
-                                {room.amenities.map((item) => <li key={item}>{item}</li>)}
+                                {room.amenities.map((item) => (
+                                    <li key={item}>{item}</li>
+                                ))}
                             </ul>
-                        ) : <p>No amenities available.</p>}
+                        ) : (
+                            <p>No amenities available.</p>
+                        )}
                     </section>
 
-                    <section className="content-card room-detail-side">
+                    <section className="content-card room-detail-side room-image-management">
                         <div className="form-section-heading">
                             <h2>Room Images</h2>
-                            <p>Images associated with this room.</p>
+                            <p>
+                                {roomImages.length} image{roomImages.length === 1 ? "" : "s"} uploaded.
+                            </p>
                         </div>
-                        {room.images?.length ? (
+
+                        <label className="room-image-upload">
+                            {uploading ? (
+                                <>
+                                    <LoaderCircle size={19} className="room-image-spinner" />
+                                    <span>Uploading images...</span>
+                                </>
+                            ) : (
+                                <>
+                                    <Upload size={19} />
+                                    <span>Upload Images</span>
+                                </>
+                            )}
+
+                            <input
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                disabled={uploading}
+                                onChange={handleUpload}
+                            />
+                        </label>
+
+                        <small className="room-image-hint">
+                            Image files only. Maximum size: 5 MB per image.
+                        </small>
+
+                        {roomImages.length ? (
                             <div className="room-images-grid">
-                                {room.images.map((url, index) => (
-                                    <img key={`${url}-${index}`} src={url}
-                                        alt={`${room.title} ${index + 1}`} />
+                                {roomImages.map((image, index) => (
+                                    <div className="room-image-item" key={image.id}>
+                                        <img
+                                            src={image.image_url}
+                                            alt={`${room.title} ${index + 1}`}
+                                        />
+
+                                        <div className="room-image-overlay">
+                                            <span>Image {index + 1}</span>
+                                            <button
+                                                type="button"
+                                                className="room-image-delete"
+                                                title="Remove image"
+                                                disabled={deletingImageId === image.id}
+                                                onClick={() => void handleDeleteImage(image)}
+                                            >
+                                                {deletingImageId === image.id ? (
+                                                    <LoaderCircle size={16} />
+                                                ) : (
+                                                    <Trash2 size={16} />
+                                                )}
+                                            </button>
+                                        </div>
+                                    </div>
                                 ))}
                             </div>
                         ) : (

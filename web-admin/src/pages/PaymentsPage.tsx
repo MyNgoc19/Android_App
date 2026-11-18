@@ -1,4 +1,5 @@
-import { useEffect, useState, type FormEvent } from "react";
+
+import { useCallback, useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, Eye, RefreshCw, Plus } from "lucide-react";
 
@@ -27,6 +28,8 @@ interface PaymentResponse {
     limit: number;
 }
 
+const LIMIT = 10;
+
 const formatCurrency = (value: number | string) =>
     `${Number(value).toLocaleString("vi-VN")} VND`;
 
@@ -45,6 +48,7 @@ export default function PaymentsPage() {
 
     const [payments, setPayments] = useState<Payment[]>([]);
     const [keyword, setKeyword] = useState("");
+    const [appliedKeyword, setAppliedKeyword] = useState("");
     const [status, setStatus] = useState("");
     const [paymentType, setPaymentType] = useState("");
     const [page, setPage] = useState(1);
@@ -52,19 +56,19 @@ export default function PaymentsPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
-    const limit = 10;
+    const totalPages = Math.max(1, Math.ceil(total / LIMIT));
 
-    const loadPayments = async () => {
+    const loadPayments = useCallback(async () => {
         setLoading(true);
         setError("");
 
         try {
             const params = new URLSearchParams({
                 page: String(page),
-                limit: String(limit),
+                limit: String(LIMIT),
             });
 
-            if (keyword.trim()) params.set("keyword", keyword.trim());
+            if (appliedKeyword) params.set("keyword", appliedKeyword);
             if (status) params.set("status", status);
             if (paymentType) params.set("payment_type", paymentType);
 
@@ -73,26 +77,42 @@ export default function PaymentsPage() {
             );
 
             setPayments(result.items ?? []);
-            setTotal(result.total ?? 0);
+            setTotal(Number(result.total ?? 0));
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Failed to load payments.");
+            setPayments([]);
+            setTotal(0);
+            setError(
+                err instanceof Error
+                    ? err.message
+                    : "Failed to load payment records.",
+            );
         } finally {
             setLoading(false);
         }
-    };
+    }, [page, appliedKeyword, status, paymentType]);
 
     useEffect(() => {
         void loadPayments();
-    }, [page, status, paymentType]);
+    }, [loadPayments]);
 
     const handleSearch = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setPage(1);
-        void loadPayments();
+        setAppliedKeyword(keyword.trim());
+    };
+
+    const handleStatusChange = (value: string) => {
+        setPage(1);
+        setStatus(value);
+    };
+
+    const handleTypeChange = (value: string) => {
+        setPage(1);
+        setPaymentType(value);
     };
 
     return (
-        <div className="page-container">
+        <div className="page-container payments-page">
             <PageHeader
                 title="Payments"
                 description="Manage payment records and payment statuses."
@@ -100,8 +120,8 @@ export default function PaymentsPage() {
                 onAction={() => navigate("/payments/new")}
             />
 
-            <form className="toolbar" onSubmit={handleSearch}>
-                <div className="search-input-wrapper">
+            <form className="toolbar payments-toolbar" onSubmit={handleSearch}>
+                <div className="search-input-wrapper payments-search">
                     <Search size={18} />
                     <input
                         value={keyword}
@@ -111,11 +131,10 @@ export default function PaymentsPage() {
                 </div>
 
                 <select
+                    className="payments-filter"
                     value={status}
-                    onChange={(event) => {
-                        setStatus(event.target.value);
-                        setPage(1);
-                    }}
+                    onChange={(event) => handleStatusChange(event.target.value)}
+                    aria-label="Filter by payment status"
                 >
                     <option value="">All statuses</option>
                     <option value="PENDING">Pending</option>
@@ -125,11 +144,10 @@ export default function PaymentsPage() {
                 </select>
 
                 <select
+                    className="payments-filter"
                     value={paymentType}
-                    onChange={(event) => {
-                        setPaymentType(event.target.value);
-                        setPage(1);
-                    }}
+                    onChange={(event) => handleTypeChange(event.target.value)}
+                    aria-label="Filter by payment type"
                 >
                     <option value="">All types</option>
                     <option value="DEPOSIT">Deposit</option>
@@ -153,11 +171,15 @@ export default function PaymentsPage() {
                 </button>
             </form>
 
-            {error && <div className="form-error">{error}</div>}
+            {error && (
+                <div className="form-error payments-error">
+                    {error}
+                </div>
+            )}
 
-            <section className="content-card">
-                <div className="table-container">
-                    <table className="data-table">
+            <section className="content-card payments-card">
+                <div className="table-container payments-table-container">
+                    <table className="data-table payments-table">
                         <thead>
                             <tr>
                                 <th>Payment ID</th>
@@ -171,6 +193,7 @@ export default function PaymentsPage() {
                                 <th>Actions</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             {loading ? (
                                 <tr>
@@ -181,7 +204,17 @@ export default function PaymentsPage() {
                             ) : payments.length === 0 ? (
                                 <tr>
                                     <td colSpan={9} className="table-empty">
-                                        No payment records found.
+                                        <div className="payments-empty">
+                                            <div className="payments-empty-icon">
+                                                <Search size={22} />
+                                            </div>
+                                            <strong>No payment records found</strong>
+                                            <span>
+                                                {appliedKeyword || status || paymentType
+                                                    ? "Try changing your search or filters."
+                                                    : "Payment records will appear here after they are created."}
+                                            </span>
+                                        </div>
                                     </td>
                                 </tr>
                             ) : (
@@ -189,15 +222,21 @@ export default function PaymentsPage() {
                                     <tr key={payment.id}>
                                         <td>#{payment.id}</td>
                                         <td>
-                                            <strong>{payment.tenant_name || "Unknown"}</strong>
-                                            <small>{payment.tenant_email}</small>
+                                            <div className="payment-tenant">
+                                                <strong>{payment.tenant_name || "Unknown"}</strong>
+                                                <small>{payment.tenant_email || "—"}</small>
+                                            </div>
                                         </td>
                                         <td>{payment.room_title || "—"}</td>
-                                        <td>{formatCurrency(payment.amount)}</td>
+                                        <td className="payment-amount">
+                                            {formatCurrency(payment.amount)}
+                                        </td>
                                         <td>{payment.payment_type}</td>
                                         <td>{payment.payment_period || "—"}</td>
                                         <td>
-                                            <span className={`status-badge status-${payment.status.toLowerCase()}`}>
+                                            <span
+                                                className={`status-badge status-${payment.status.toLowerCase()}`}
+                                            >
                                                 {statusLabel[payment.status]}
                                             </span>
                                         </td>
@@ -219,22 +258,32 @@ export default function PaymentsPage() {
                     </table>
                 </div>
 
-                <div className="pagination">
-                    <span>
-                        Showing {payments.length} of {total} payments
+                <div className="payments-pagination">
+                    <span className="payments-pagination-info">
+                        Showing {payments.length === 0 ? 0 : (page - 1) * LIMIT + 1}
+                        {"–"}
+                        {Math.min((page - 1) * LIMIT + payments.length, total)}
+                        {" "}of {total} payments
                     </span>
-                    <div>
+
+                    <div className="payments-pagination-controls">
                         <button
+                            type="button"
                             className="secondary-button"
                             disabled={page <= 1 || loading}
                             onClick={() => setPage((current) => current - 1)}
                         >
                             Previous
                         </button>
-                        <span>Page {page} of {Math.max(1, Math.ceil(total / limit))}</span>
+
+                        <span>
+                            Page {page} of {totalPages}
+                        </span>
+
                         <button
+                            type="button"
                             className="secondary-button"
-                            disabled={page >= Math.ceil(total / limit) || loading}
+                            disabled={page >= totalPages || loading}
                             onClick={() => setPage((current) => current + 1)}
                         >
                             Next
@@ -251,7 +300,9 @@ export default function PaymentsPage() {
                         Online payment gateway integration is not included in the MVP.
                     </p>
                 </div>
+
                 <button
+                    type="button"
                     className="secondary-button"
                     onClick={() => navigate("/payments/new")}
                 >
