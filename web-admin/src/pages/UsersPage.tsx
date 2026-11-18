@@ -172,7 +172,10 @@ export default function UsersPage() {
                                     <td>
                                         <div className="user-list-identity">
                                             <div className="user-avatar-thumb">
-                                                {user.avatar_url ? (
+                                                <span aria-hidden="true">
+                                                    {(user.full_name || user.email || "U").charAt(0).toUpperCase()}
+                                                </span>
+                                                {user.avatar_url && (
                                                     <img
                                                         src={user.avatar_url}
                                                         alt=""
@@ -181,10 +184,6 @@ export default function UsersPage() {
                                                             event.currentTarget.style.display = "none";
                                                         }}
                                                     />
-                                                ) : (
-                                                    <span aria-hidden="true">
-                                                        {(user.full_name || user.email || "U").charAt(0).toUpperCase()}
-                                                    </span>
                                                 )}
                                             </div>
                                             <div>
