@@ -12,7 +12,7 @@ Base URL:
 Backend: FastAPI  
 Database: PostgreSQL  
 Authentication: Firebase Authentication ID Token  
-Image Storage: Firebase Storage
+Image Storage: Cloudinary
 
 ---
 
@@ -252,6 +252,7 @@ Dashboard counts should be calculated from current database records, with clearl
 | GET | `/admin/rooms/{room_id}` | Get room details |
 | PATCH | `/admin/rooms/{room_id}` | Update room information |
 | PATCH | `/admin/rooms/{room_id}/status` | Set AVAILABLE/INACTIVE |
+| POST | `/admin/rooms/{room_id}/images/signature` | Create a signed Cloudinary upload payload |
 | POST | `/admin/rooms/{room_id}/images` | Add image URL |
 | DELETE | `/admin/rooms/{room_id}/images/{image_id}` | Remove image |
 
@@ -286,11 +287,12 @@ A room with an active contract cannot be changed to `AVAILABLE` or `INACTIVE` wi
 
 ### Room Images
 
-- Admin uploads image files to Firebase Storage.
-- The API receives and stores the resulting download URL in `room_images.image_url`.
-- The API does not store binary image data in PostgreSQL.
-- Backend must validate that the URL belongs to the configured storage provider.
-- Removing a database image record and deleting the actual Storage object are separate operations; implement cleanup deliberately.
+- Admin requests a signed upload payload from `POST /admin/rooms/{room_id}/images/signature`.
+- The browser uploads the image directly to the configured Cloudinary cloud using that signature.
+- The API stores the resulting HTTPS Cloudinary URL in `room_images.image_url`.
+- PostgreSQL stores image URLs and metadata, not binary image data.
+- Backend validates that submitted image URLs belong to the configured Cloudinary cloud.
+- Deleting a room image removes the Cloudinary asset and its database record.
 
 Add image body:
 
@@ -306,6 +308,7 @@ Add image body:
 | GET | `/admin/users` | Search/list users |
 | GET | `/admin/users/{user_id}` | Get user details |
 | PATCH | `/admin/users/{user_id}/status` | Block/unblock user |
+| PATCH | `/admin/users/{user_id}/role` | Grant/revoke administrator role |
 
 Status body:
 
@@ -384,6 +387,7 @@ When a contract ends or is cancelled, backend must update room availability acco
 | Method | Endpoint | Purpose |
 |---|---|---|
 | GET | `/admin/payments` | List payments |
+| GET | `/admin/payments/{payment_id}` | Get payment details |
 | POST | `/admin/contracts/{contract_id}/payments` | Record payment |
 | PATCH | `/admin/payments/{payment_id}/status` | Update payment status |
 
