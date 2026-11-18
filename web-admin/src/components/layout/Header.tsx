@@ -5,12 +5,15 @@ import {
     Moon,
     Bell,
     ChevronDown,
+    LogOut,
 } from "lucide-react";
 
 import { useTheme } from "../../contexts/useTheme";
+import { useAuth } from "../../contexts/useAuth";
 
 export default function Header() {
     const { theme, toggleTheme } = useTheme();
+    const { account, logout } = useAuth();
 
     return (
         <header className="header">
@@ -59,13 +62,27 @@ export default function Header() {
                 </button>
 
                 <div className="header-profile">
-                    <div className="profile-avatar">A</div>
-                    <div className="profile-text">
-                        <strong>Administrator</strong>
-                        <span>Admin</span>
+                    <div className="profile-avatar">
+                        {account?.full_name?.charAt(0).toUpperCase() || "A"}
                     </div>
+
+                    <div className="profile-text">
+                        <strong>{account?.full_name || "Administrator"}</strong>
+                        <span>{account?.email || "Admin"}</span>
+                    </div>
+
                     <ChevronDown size={15} />
                 </div>
+
+                <button
+                    type="button"
+                    className="theme-toggle"
+                    onClick={() => void logout()}
+                    title="Sign out"
+                    aria-label="Sign out"
+                >
+                    <LogOut size={19} />
+                </button>
             </div>
         </header>
     );

@@ -4,101 +4,105 @@ import {
   Routes,
   Route,
   Navigate,
+  Outlet,
 } from "react-router-dom";
 
 import AdminLayout from "./components/layout/AdminLayout";
+import LoginPage from "./pages/LoginPage";
+import { useAuth } from "./contexts/useAuth";
 
-// Dashboard
 import DashboardPage from "./pages/DashboardPage";
 
-// Rooms
 import RoomsPage from "./pages/RoomsPage";
 import RoomFormPage from "./pages/RoomFormPage";
 import RoomDetailPage from "./pages/RoomDetailPage";
 
-// Users
 import UsersPage from "./pages/UsersPage";
 import UserDetailPage from "./pages/UserDetailPage";
 
-// Rental Requests
 import RentalRequestsPage from "./pages/RentalRequestsPage";
 import RentalRequestDetailPage from "./pages/RentalRequestDetailPage";
 
-// Contracts
 import ContractsPage from "./pages/ContractsPage";
 import ContractFormPage from "./pages/ContractFormPage";
 import ContractDetailPage from "./pages/ContractDetailPage";
 
-// Payments
 import PaymentsPage from "./pages/PaymentsPage";
 import PaymentFormPage from "./pages/PaymentFormPage";
 import PaymentDetailPage from "./pages/PaymentDetailPage";
+
+function ProtectedRoute() {
+  const { account, loading } = useAuth();
+
+  if (loading) {
+    return <div className="auth-loading">Checking administrator access...</div>;
+  }
+
+  if (!account) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <Outlet />;
+}
+
+function LoginRoute() {
+  const { account, loading } = useAuth();
+
+  if (loading) {
+    return <div className="auth-loading">Checking login status...</div>;
+  }
+
+  if (account) {
+    return <Navigate to="/" replace />;
+  }
+
+  return <LoginPage />;
+}
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<AdminLayout />}>
-          {/* Dashboard */}
-          <Route path="/" element={<DashboardPage />} />
+        <Route path="/login" element={<LoginRoute />} />
 
-          {/* Rooms */}
-          <Route path="/rooms" element={<RoomsPage />} />
-          <Route path="/rooms/new" element={<RoomFormPage />} />
-          <Route
-            path="/rooms/preview"
-            element={<RoomDetailPage />}
-          />
-          <Route
-            path="/rooms/preview/edit"
-            element={<RoomFormPage />}
-          />
+        <Route element={<ProtectedRoute />}>
+          <Route element={<AdminLayout />}>
+            <Route path="/" element={<DashboardPage />} />
 
-          {/* Users */}
-          <Route path="/users" element={<UsersPage />} />
-          <Route
-            path="/users/preview"
-            element={<UserDetailPage />}
-          />
+            <Route path="/rooms" element={<RoomsPage />} />
+            <Route path="/rooms/new" element={<RoomFormPage />} />
+            <Route path="/rooms/preview" element={<RoomDetailPage />} />
+            <Route path="/rooms/preview/edit" element={<RoomFormPage />} />
 
-          {/* Rental Requests */}
-          <Route
-            path="/rental-requests"
-            element={<RentalRequestsPage />}
-          />
-          <Route
-            path="/rental-requests/preview"
-            element={<RentalRequestDetailPage />}
-          />
+            <Route path="/users" element={<UsersPage />} />
+            <Route path="/users/preview" element={<UserDetailPage />} />
 
-          {/* Contracts */}
-          <Route path="/contracts" element={<ContractsPage />} />
-          <Route
-            path="/contracts/new"
-            element={<ContractFormPage />}
-          />
-          <Route
-            path="/contracts/preview"
-            element={<ContractDetailPage />}
-          />
+            <Route
+              path="/rental-requests"
+              element={<RentalRequestsPage />}
+            />
+            <Route
+              path="/rental-requests/preview"
+              element={<RentalRequestDetailPage />}
+            />
 
-          {/* Payments */}
-          <Route path="/payments" element={<PaymentsPage />} />
-          <Route
-            path="/payments/new"
-            element={<PaymentFormPage />}
-          />
-          <Route
-            path="/payments/preview"
-            element={<PaymentDetailPage />}
-          />
+            <Route path="/contracts" element={<ContractsPage />} />
+            <Route path="/contracts/new" element={<ContractFormPage />} />
+            <Route
+              path="/contracts/preview"
+              element={<ContractDetailPage />}
+            />
 
-          {/* Fallback */}
-          <Route
-            path="*"
-            element={<Navigate to="/" replace />}
-          />
+            <Route path="/payments" element={<PaymentsPage />} />
+            <Route path="/payments/new" element={<PaymentFormPage />} />
+            <Route
+              path="/payments/preview"
+              element={<PaymentDetailPage />}
+            />
+          </Route>
         </Route>
+
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );
