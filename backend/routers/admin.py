@@ -1257,6 +1257,52 @@ def update_rental_request_status(
                 detail="Cannot approve a request for an unavailable room.",
             )
 
+        if body.status == "APPROVED":
+            active_contract = db.execute(
+                text("""
+                    SELECT id
+                    FROM rental_contracts
+                    WHERE room_id = :room_id
+                      AND status = 'ACTIVE'
+                    LIMIT 1
+                """),
+                {"room_id": request["room_id"]},
+            ).scalar_one_or_none()
+
+            if active_contract is not None:
+                raise HTTPException(
+                    status_code=409,
+                    detail="This room already has an active rental contract.",
+                )
+
+            other_approved_request = db.execute(
+                text("""
+                    SELECT rr.id
+                    FROM rental_requests rr
+                    LEFT JOIN rental_contracts rc
+                        ON rc.request_id = rr.id
+                    WHERE rr.room_id = :room_id
+                      AND rr.status = 'APPROVED'
+                      AND rr.id <> :request_id
+                      AND rc.id IS NULL
+                    LIMIT 1
+                """),
+                {
+                    "room_id": request["room_id"],
+                    "request_id": request_id,
+                },
+            ).scalar_one_or_none()
+
+            if other_approved_request is not None:
+                raise HTTPException(
+                    status_code=409,
+                    detail=(
+                        "Another approved request for this room is still "
+                        "waiting for a contract. Complete or reject that "
+                        "request before approving another one."
+                    ),
+                )
+
         db.execute(
             text("""
                 UPDATE rental_requests
