@@ -1659,6 +1659,22 @@ def create_contract(
             {"room_id": room["id"]},
         )
 
+        # Close other pending requests because the room is no longer available.
+        db.execute(
+            text("""
+                UPDATE rental_requests
+                SET status = 'REJECTED',
+                    updated_at = CURRENT_TIMESTAMP
+                WHERE room_id = :room_id
+                  AND id <> :request_id
+                  AND status = 'PENDING'
+            """),
+            {
+                "room_id": room["id"],
+                "request_id": body.request_id,
+            },
+        )
+
         db.commit()
 
         return {
