@@ -58,7 +58,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     useEffect(() => {
         if (!auth) {
-            setError("Firebase Web chưa được cấu hình.");
+            setError("Firebase Web is not configured.");
             setLoading(false);
             return;
         }
@@ -74,7 +74,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
         const unsubscribe = onAuthStateChanged(
             firebaseAuth,
             async (firebaseUser) => {
+                setUser(firebaseUser);
+                setLoading(true);
+
                 if (!firebaseUser) {
+                    setUser(null);
                     setAccount(null);
                     setLoading(false);
                     return;
@@ -91,7 +95,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                         currentAccount.status !== "ACTIVE"
                     ) {
                         throw new Error(
-                            "Tài khoản không có quyền truy cập Admin."
+                            "This account does not have administrator access."
                         );
                     }
 
@@ -102,7 +106,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     setError(
                         error instanceof Error
                             ? error.message
-                            : "Không thể xác thực tài khoản."
+                            : "Unable to authenticate this account."
                     );
 
                     await signOut(firebaseAuth);
@@ -112,14 +116,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
             }
         );
 
-        return unsubscribe;
+        return () => {
+            unsubscribe();
+            setAccessTokenProvider(null);
+        };
     }, []);
 
 
     const signInWithEmail = useCallback(
         async (email: string, password: string) => {
             if (!auth) {
-                throw new Error("Firebase Web chưa được cấu hình.");
+                throw new Error("Firebase Web is not configured.");
             }
 
             setError(null);
