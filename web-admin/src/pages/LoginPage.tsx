@@ -16,24 +16,24 @@ function getLoginError(error: unknown): string {
         case "auth/invalid-credential":
         case "auth/wrong-password":
         case "auth/user-not-found":
-            return "Email hoặc mật khẩu không chính xác.";
+            return "The email or password is incorrect.";
 
         case "auth/invalid-email":
-            return "Địa chỉ email không hợp lệ.";
+            return "The email address is invalid.";
 
         case "auth/popup-closed-by-user":
-            return "Bạn đã đóng cửa sổ đăng nhập Google.";
+            return "The Google sign-in window was closed.";
 
         case "auth/popup-blocked":
-            return "Trình duyệt đã chặn cửa sổ đăng nhập. Hãy cho phép popup.";
+            return "The browser blocked the sign-in popup. Allow popups and try again.";
 
         case "auth/too-many-requests":
-            return "Bạn đã thử đăng nhập quá nhiều lần. Vui lòng thử lại sau.";
+            return "Too many sign-in attempts. Please try again later.";
 
         default:
             return error instanceof Error
                 ? error.message
-                : "Đăng nhập thất bại. Vui lòng thử lại.";
+                : "Sign-in failed. Please try again.";
     }
 }
 
