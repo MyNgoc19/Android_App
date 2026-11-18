@@ -40,10 +40,13 @@ def sync_user(db: Session, firebase_user: dict) -> dict:
             ON CONFLICT (firebase_uid)
             DO UPDATE SET
                 email = EXCLUDED.email,
-                full_name = EXCLUDED.full_name,
+                full_name = COALESCE(
+                    NULLIF(users.full_name, ''),
+                    EXCLUDED.full_name
+                ),
                 avatar_url = COALESCE(
-                    EXCLUDED.avatar_url,
-                    users.avatar_url
+                    users.avatar_url,
+                    EXCLUDED.avatar_url
                 )
             RETURNING
                 id,
