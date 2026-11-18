@@ -371,7 +371,8 @@ Contract creation must execute in one database transaction:
 3. Verify the room is still available.
 4. Insert the contract.
 5. Update room status to `RENTED`.
-6. Commit the transaction.
+6. Reject any other pending requests for the same room because it is no longer available.
+7. Commit the transaction.
 
 If any step fails, roll back the whole transaction.
 
