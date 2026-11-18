@@ -1,4 +1,3 @@
-
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -13,6 +12,7 @@ import {
     RefreshCw,
 } from "lucide-react";
 import { apiGet, apiPatch } from "../services/api";
+import { useAuth } from "../contexts/useAuth";
 
 type UserDetail = {
     id: number;
@@ -34,6 +34,8 @@ export default function UserDetailPage() {
     const navigate = useNavigate();
     const { userId } = useParams();
 
+    const { account } = useAuth();
+    const [selectedRole, setSelectedRole] = useState<"USER" | "ADMIN">("USER");
     const [user, setUser] = useState<UserDetail | null>(null);
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState(false);
@@ -48,6 +50,7 @@ export default function UserDetailPage() {
         try {
             const result = await apiGet<UserDetail>(`admin/users/${userId}`);
             setUser(result);
+            setSelectedRole(result.role);
         } catch (err) {
             setError(err instanceof Error ? err.message : "Unable to load user.");
         } finally {
@@ -79,6 +82,43 @@ export default function UserDetailPage() {
             await loadUser();
         } catch (err) {
             setError(err instanceof Error ? err.message : "Unable to update account.");
+        } finally {
+            setUpdating(false);
+        }
+    };
+
+    const updateRole = async () => {
+        if (!user || selectedRole === user.role) return;
+
+        if (account?.id === user.id) {
+            setError("You cannot change your own administrator role.");
+            return;
+        }
+
+        const action =
+            selectedRole === "ADMIN"
+                ? "grant administrator privileges to"
+                : "remove administrator privileges from";
+
+        if (!window.confirm(`Are you sure you want to ${action} this user?`)) {
+            return;
+        }
+
+        setUpdating(true);
+        setError("");
+
+        try {
+            await apiPatch(`admin/users/${user.id}/role`, {
+                role: selectedRole,
+            });
+
+            await loadUser();
+        } catch (err) {
+            setError(
+                err instanceof Error
+                    ? err.message
+                    : "Unable to update user role."
+            );
         } finally {
             setUpdating(false);
         }
@@ -215,7 +255,55 @@ export default function UserDetailPage() {
                                     : "Unblock Account"}
                         </button>
                     </section>
+                    <section className="content-card user-status-card">
+                        <div className="form-section-heading">
+                            <h2>Role Management</h2>
+                            <p>Manage this user's system permissions.</p>
+                        </div>
 
+                        <label htmlFor="user-role">Account Role</label>
+
+                        <select
+                            id="user-role"
+                            value={selectedRole}
+                            onChange={(event) => {
+                                setSelectedRole(event.target.value as "USER" | "ADMIN");
+                            }}
+                            disabled={updating || account?.id === user.id}
+                            style={{
+                                display: "block",
+                                width: "100%",
+                                minHeight: "42px",
+                                padding: "8px 12px",
+                                marginTop: "10px",
+                                marginBottom: "16px",
+                                position: "relative",
+                                zIndex: 2,
+                                pointerEvents: "auto",
+                                cursor: "pointer",
+                            }}
+                        >
+                            <option value="USER">User</option>
+                            <option value="ADMIN">Administrator</option>
+                        </select>
+
+                        {account?.id === user.id && (
+                            <p>You cannot change your own administrator role.</p>
+                        )}
+
+                        <button
+                            type="button"
+                            className="primary-button"
+                            onClick={() => void updateRole()}
+                            disabled={
+                                updating ||
+                                selectedRole === user.role ||
+                                account?.id === user.id
+                            }
+                        >
+                            {updating ? "Updating..." : "Save Role"}
+                        </button>
+                    </section>
                     <section className="content-card user-status-card">
                         <div className="form-section-heading">
                             <h2>Activity Overview</h2>

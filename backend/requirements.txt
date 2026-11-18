@@ -18,3 +18,5 @@ pydantic-settings
 
 # Redis (optional)
 redis
+
+cloudinary

@@ -1,19 +1,28 @@
 import json
 from urllib.parse import urlparse
+import os
+import time
+import cloudinary
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel, Field
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 from datetime import date
+from urllib.parse import unquote, urlparse
+from cloudinary import uploader
 
 from database import get_db
-from firebase_config import FIREBASE_STORAGE_BUCKET
 from routers.auth import require_admin
 
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET")
+)
 
 # REQUEST MODELS
 
@@ -53,6 +62,9 @@ class RoomImageCreate(BaseModel):
 
 class UserStatusUpdate(BaseModel):
     status: str = Field(pattern="^(ACTIVE|BLOCKED)$")
+
+class UserRoleUpdate(BaseModel):
+    role: str = Field(pattern="^(USER|ADMIN)$")
 
 class RentalRequestStatusUpdate(BaseModel):
     status: str = Field(pattern="^(APPROVED|REJECTED)$")
@@ -431,13 +443,13 @@ def update_room_status(
     }
 
 
-# IMAGE URL VALIDATION
+def validate_cloudinary_url(image_url: str) -> bool:
+    cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME")
 
-def validate_firebase_storage_url(image_url: str) -> bool:
-    if not FIREBASE_STORAGE_BUCKET:
+    if not cloud_name:
         raise HTTPException(
             status_code=500,
-            detail="Firebase Storage bucket is not configured.",
+            detail="Cloudinary is not configured.",
         )
 
     parsed = urlparse(image_url)
@@ -445,18 +457,62 @@ def validate_firebase_storage_url(image_url: str) -> bool:
     if parsed.scheme != "https":
         return False
 
-    bucket = FIREBASE_STORAGE_BUCKET.strip()
+    expected_prefix = f"/{cloud_name}/image/upload/"
 
-    if parsed.hostname == "firebasestorage.googleapis.com":
-        expected_prefix = f"/v0/b/{bucket}/o/"
-        return parsed.path.startswith(expected_prefix)
+    return (
+        parsed.hostname == "res.cloudinary.com"
+        and parsed.path.startswith(expected_prefix)
+    )
 
-    if parsed.hostname == "storage.googleapis.com":
-        expected_prefix = f"/{bucket}/"
-        return parsed.path.startswith(expected_prefix)
+# CLOUDINARY IMAGE UPLOAD
 
-    return False
+@router.post("/rooms/{room_id}/images/signature")
+def create_cloudinary_signature(
+    room_id: int,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(require_admin),
+):
+    room_exists = db.execute(
+        text("SELECT id FROM rooms WHERE id = :room_id"),
+        {"room_id": room_id},
+    ).scalar_one_or_none()
 
+    if room_exists is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Room not found.",
+        )
+
+    cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME")
+    api_key = os.getenv("CLOUDINARY_API_KEY")
+    api_secret = os.getenv("CLOUDINARY_API_SECRET")
+
+    if not cloud_name or not api_key or not api_secret:
+        raise HTTPException(
+            status_code=500,
+            detail="Cloudinary configuration is incomplete.",
+        )
+
+    timestamp = int(time.time())
+    folder = f"rooms/{room_id}"
+
+    params = {
+        "timestamp": timestamp,
+        "folder": folder,
+    }
+
+    signature = cloudinary.utils.api_sign_request(
+        params,
+        api_secret,
+    )
+
+    return {
+        "cloud_name": cloud_name,
+        "api_key": api_key,
+        "timestamp": timestamp,
+        "folder": folder,
+        "signature": signature,
+    }
 
 # POST /admin/rooms/{room_id}/images
 # Add an image URL to a room
@@ -468,11 +524,11 @@ def add_room_image(
     db: Session = Depends(get_db),
     current_user: dict = Depends(require_admin),
 ):
-    if not validate_firebase_storage_url(body.image_url):
+    if not validate_cloudinary_url(body.image_url):
         raise HTTPException(
-            status_code=422,
-            detail="Image URL must belong to the configured Firebase Storage bucket.",
-        )
+                status_code=422,
+                detail="Image URL must belong to the configured Cloudinary cloud.",
+            )
 
     room_exists = db.execute(
         text("SELECT id FROM rooms WHERE id = :room_id"),
@@ -521,6 +577,9 @@ def add_room_image(
 # DELETE /admin/rooms/{room_id}/images/{image_id}
 # Remove an image record from database
 
+# DELETE /admin/rooms/{room_id}/images/{image_id}
+# Delete an image from Cloudinary and database
+
 @router.delete(
     "/rooms/{room_id}/images/{image_id}",
     status_code=204,
@@ -531,9 +590,10 @@ def delete_room_image(
     db: Session = Depends(get_db),
     current_user: dict = Depends(require_admin),
 ):
-    result = db.execute(
+    image = db.execute(
         text("""
-            DELETE FROM room_images
+            SELECT id, image_url
+            FROM room_images
             WHERE id = :image_id
               AND room_id = :room_id
         """),
@@ -541,16 +601,105 @@ def delete_room_image(
             "image_id": image_id,
             "room_id": room_id,
         },
-    )
+    ).mappings().one_or_none()
 
-    if result.rowcount == 0:
-        db.rollback()
+    if image is None:
         raise HTTPException(
             status_code=404,
             detail="Room image not found.",
         )
 
-    db.commit()
+    cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME")
+    api_key = os.getenv("CLOUDINARY_API_KEY")
+    api_secret = os.getenv("CLOUDINARY_API_SECRET")
+
+    if not cloud_name or not api_key or not api_secret:
+        raise HTTPException(
+            status_code=500,
+            detail="Cloudinary configuration is incomplete.",
+        )
+
+    parsed = urlparse(image["image_url"])
+
+    if (
+        parsed.hostname != "res.cloudinary.com"
+        or parsed.scheme != "https"
+    ):
+        raise HTTPException(
+            status_code=422,
+            detail="Invalid Cloudinary image URL.",
+        )
+
+    path_parts = parsed.path.split("/image/upload/", 1)
+
+    if len(path_parts) != 2:
+        raise HTTPException(
+            status_code=422,
+            detail="Invalid Cloudinary image URL.",
+        )
+
+    public_id_parts = path_parts[1].split("/")
+
+    if (
+        public_id_parts
+        and public_id_parts[0].startswith("v")
+        and public_id_parts[0][1:].isdigit()
+    ):
+        public_id_parts.pop(0)
+
+    if not public_id_parts:
+        raise HTTPException(
+            status_code=422,
+            detail="Unable to identify Cloudinary image.",
+        )
+
+    public_id_parts[-1] = public_id_parts[-1].rsplit(".", 1)[0]
+    public_id = unquote("/".join(public_id_parts))
+
+    cloudinary.config(
+        cloud_name=cloud_name,
+        api_key=api_key,
+        api_secret=api_secret,
+        secure=True,
+    )
+
+    try:
+        result = uploader.destroy(
+            public_id,
+            resource_type="image",
+            invalidate=True,
+        )       
+    except Exception as exc:
+        print(f"Cloudinary deletion error: {repr(exc)}")
+
+        raise HTTPException(
+            status_code=502,
+            detail=f"Cloudinary deletion failed: {str(exc)}",
+        ) from exc
+
+    if result.get("result") not in ("ok", "not found"):
+        raise HTTPException(
+            status_code=502,
+            detail="Cloudinary could not delete the image.",
+        )
+
+    try:
+        db.execute(
+            text("""
+                DELETE FROM room_images
+                WHERE id = :image_id
+                  AND room_id = :room_id
+            """),
+            {
+                "image_id": image_id,
+                "room_id": room_id,
+            },
+        )
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+
     return None
 
 
@@ -789,6 +938,99 @@ def update_user_status(
             "user_id": user_id,
             "old_status": user["status"],
             "new_status": body.status,
+        }
+
+    except Exception:
+        db.rollback()
+        raise
+# PATCH /admin/users/{user_id}/role
+# Change a user's role
+
+@router.patch("/users/{user_id}/role")
+def update_user_role(
+    user_id: int,
+    body: UserRoleUpdate,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(require_admin),
+):
+    try:
+        # Lock active administrators to prevent concurrent
+        # operations from removing the last administrator.
+        active_admins = db.execute(
+            text("""
+                SELECT id
+                FROM users
+                WHERE role = 'ADMIN'
+                  AND status = 'ACTIVE'
+                ORDER BY id
+                FOR UPDATE
+            """)
+        ).scalars().all()
+
+        user = db.execute(
+            text("""
+                SELECT id, role, status
+                FROM users
+                WHERE id = :user_id
+                FOR UPDATE
+            """),
+            {"user_id": user_id},
+        ).mappings().one_or_none()
+
+        if user is None:
+            raise HTTPException(
+                status_code=404,
+                detail="User not found.",
+            )
+
+        if user["role"] == body.role:
+            return {
+                "message": "User role is unchanged.",
+                "user_id": user_id,
+                "role": user["role"],
+            }
+
+        # Prevent administrators from removing their own privileges.
+        if (
+            user_id == current_user["id"]
+            and body.role == "USER"
+        ):
+            raise HTTPException(
+                status_code=400,
+                detail="You cannot remove your own administrator privileges.",
+            )
+
+        # Never demote the last active administrator.
+        if (
+            user["role"] == "ADMIN"
+            and user["status"] == "ACTIVE"
+            and body.role == "USER"
+            and len(active_admins) <= 1
+        ):
+            raise HTTPException(
+                status_code=409,
+                detail="Cannot demote the last active administrator.",
+            )
+
+        db.execute(
+            text("""
+                UPDATE users
+                SET role = :role
+                WHERE id = :user_id
+            """),
+            {
+                "role": body.role,
+                "user_id": user_id,
+            },
+        )
+
+        db.commit()
+
+        return {
+            "message": "User role updated successfully.",
+            "user_id": user_id,
+            "old_role": user["role"],
+            "new_role": body.role,
         }
 
     except Exception:

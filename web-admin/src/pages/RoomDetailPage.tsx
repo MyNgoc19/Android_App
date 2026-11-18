@@ -1,4 +1,3 @@
-
 import { useCallback, useEffect, useState, type ChangeEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -9,16 +8,21 @@ import {
     Trash2,
     LoaderCircle,
 } from "lucide-react";
-import { getApp } from "firebase/app";
-import {
-    getDownloadURL,
-    getStorage,
-    ref,
-    uploadBytes,
-} from "firebase/storage";
-import { apiDelete, apiGet, apiPost } from "../services/api";
-import { auth, firebaseConfigured } from "../config/firebase";
 
+import { apiDelete, apiGet, apiPost } from "../services/api";
+
+type CloudinarySignature = {
+    cloud_name: string;
+    api_key: string;
+    timestamp: number;
+    folder: string;
+    signature: string;
+};
+
+type CloudinaryUploadResponse = {
+    secure_url: string;
+    public_id: string;
+};
 type RoomImage = {
     id: number;
     image_url: string;
@@ -92,11 +96,6 @@ export default function RoomDetailPage() {
         setError("");
         setSuccess("");
 
-        if (!firebaseConfigured || !auth?.currentUser) {
-            setError("Firebase Authentication is not available. Please sign in again.");
-            return;
-        }
-
         const invalidFile = files.find(
             (file) =>
                 !file.type.startsWith("image/") ||
@@ -111,24 +110,42 @@ export default function RoomDetailPage() {
         setUploading(true);
 
         try {
-            const storage = getStorage(getApp());
             const existingImages = room.image_records ?? [];
 
             for (const [index, file] of files.entries()) {
-                const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-                const storagePath =
-                    `rooms/${roomId}/${Date.now()}_${index}_${safeName}`;
+                const signature = await apiPost<CloudinarySignature>(
+                    `admin/rooms/${roomId}/images/signature`,
+                    {},
+                );
 
-                const storageRef = ref(storage, storagePath);
+                const formData = new FormData();
 
-                await uploadBytes(storageRef, file, {
-                    contentType: file.type,
-                });
+                formData.append("file", file);
+                formData.append("api_key", signature.api_key);
+                formData.append("timestamp", String(signature.timestamp));
+                formData.append("folder", signature.folder);
+                formData.append("signature", signature.signature);
 
-                const imageUrl = await getDownloadURL(storageRef);
+                const uploadResponse = await fetch(
+                    `https://api.cloudinary.com/v1_1/${signature.cloud_name}/image/upload`,
+                    {
+                        method: "POST",
+                        body: formData,
+                    },
+                );
+
+                const uploadData = await uploadResponse.json();
+
+                if (!uploadResponse.ok) {
+                    throw new Error(
+                        uploadData.error?.message || "Cloudinary upload failed.",
+                    );
+                }
+
+                const imageData = uploadData as CloudinaryUploadResponse;
 
                 await apiPost(`admin/rooms/${roomId}/images`, {
-                    image_url: imageUrl,
+                    image_url: imageData.secure_url,
                     sort_order: existingImages.length + index,
                 });
             }
