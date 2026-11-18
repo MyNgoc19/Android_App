@@ -36,6 +36,7 @@ export default function UserDetailPage() {
 
     const { account } = useAuth();
     const [selectedRole, setSelectedRole] = useState<"USER" | "ADMIN">("USER");
+    const [avatarFailed, setAvatarFailed] = useState(false);
     const [user, setUser] = useState<UserDetail | null>(null);
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState(false);
@@ -51,6 +52,7 @@ export default function UserDetailPage() {
             const result = await apiGet<UserDetail>(`admin/users/${userId}`);
             setUser(result);
             setSelectedRole(result.role);
+            setAvatarFailed(false);
         } catch (err) {
             setError(err instanceof Error ? err.message : "Unable to load user.");
         } finally {
@@ -148,7 +150,7 @@ export default function UserDetailPage() {
             <div className="page-header">
                 <div>
                     <h1>User Details</h1>
-                    <p>View account information and manage account status.</p>
+                    <p>View account information, manage access and assign administrator roles.</p>
                 </div>
 
                 <button
@@ -166,8 +168,12 @@ export default function UserDetailPage() {
                 <section className="content-card user-profile-card">
                     <div className="user-profile-header">
                         <div className="user-avatar-large">
-                            {user.avatar_url ? (
-                                <img src={user.avatar_url} alt="User avatar" />
+                            {user.avatar_url && !avatarFailed ? (
+                                <img
+                                    src={user.avatar_url}
+                                    alt="User avatar"
+                                    onError={() => setAvatarFailed(true)}
+                                />
                             ) : (
                                 <UserRound size={34} />
                             )}
