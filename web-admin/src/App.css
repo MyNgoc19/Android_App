@@ -3876,3 +3876,23 @@ a:focus-visible {
     overflow-wrap: anywhere;
   }
 }
+
+
+.user-avatar-thumb {
+  position: relative;
+}
+
+.user-avatar-thumb > span {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.user-avatar-thumb > img {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
