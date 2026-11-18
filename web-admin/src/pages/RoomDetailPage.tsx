@@ -1,15 +1,54 @@
 
-import { useNavigate } from "react-router-dom";
-import {
-    ArrowLeft,
-    Pencil,
-    Image as ImageIcon,
-} from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { ArrowLeft, Pencil, Image as ImageIcon } from "lucide-react";
+import { apiGet } from "../services/api";
 
-import EmptyState from "../components/common/EmptyState";
+type Room = {
+    id: number;
+    title: string;
+    description: string | null;
+    address: string;
+    ward: string | null;
+    district: string | null;
+    city: string;
+    monthly_price: number;
+    area_m2: number | null;
+    capacity: number;
+    amenities: string[];
+    status: string;
+    images: string[];
+};
 
 export default function RoomDetailPage() {
     const navigate = useNavigate();
+    const { roomId } = useParams();
+    const [room, setRoom] = useState<Room | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+        if (!roomId) return;
+
+        apiGet<Room>(`admin/rooms/${roomId}`)
+            .then(setRoom)
+            .catch((err: unknown) => {
+                setError(err instanceof Error ? err.message : "Unable to load room.");
+            })
+            .finally(() => setLoading(false));
+    }, [roomId]);
+
+    if (loading) return <div className="page-container">Loading room details...</div>;
+    if (error || !room) {
+        return (
+            <div className="page-container">
+                <div className="dashboard-error">{error || "Room not found."}</div>
+                <button className="secondary-button" onClick={() => navigate("/rooms")}>
+                    <ArrowLeft size={17} /> Back to Rooms
+                </button>
+            </div>
+        );
+    }
 
     return (
         <div className="page-container">
@@ -18,113 +57,69 @@ export default function RoomDetailPage() {
                     <h1>Room Details</h1>
                     <p>View room information, amenities and images.</p>
                 </div>
-
                 <div className="detail-header-actions">
-                    <button
-                        type="button"
-                        className="secondary-button"
-                        onClick={() => navigate("/rooms")}
-                    >
-                        <ArrowLeft size={17} aria-hidden="true" />
-                        Back
+                    <button className="secondary-button" onClick={() => navigate("/rooms")}>
+                        <ArrowLeft size={17} /> Back
                     </button>
-
-                    <button
-                        type="button"
-                        className="primary-button"
-                        onClick={() => navigate("/rooms/preview/edit")}
-                    >
-                        <Pencil size={17} aria-hidden="true" />
-                        Edit Room
+                    <button className="primary-button"
+                        onClick={() => navigate(`/rooms/${room.id}/edit`)}>
+                        <Pencil size={17} /> Edit Room
                     </button>
                 </div>
             </div>
 
-            <div className="form-placeholder-notice">
-                This is a preview screen. No actual room record is loaded.
-            </div>
-
             <div className="room-detail-grid">
-                {/* MAIN ROOM INFORMATION */}
                 <section className="content-card room-detail-main">
-                    <div className="room-detail-image">
-                        <ImageIcon size={42} aria-hidden="true" />
-                        <span>Room image placeholder</span>
-                    </div>
-
                     <div className="room-detail-content">
                         <div className="room-detail-title">
                             <div>
-                                <h2>Room Information</h2>
-                                <p>Room details will appear here.</p>
+                                <h2>{room.title}</h2>
+                                <p>Room ID: {room.id}</p>
                             </div>
-
-                            <span className="status-placeholder">
-                                Status placeholder
+                            <span className={`dashboard-status ${room.status.toLowerCase()}`}>
+                                {room.status}
                             </span>
                         </div>
 
                         <div className="detail-info-grid">
                             <div className="detail-info-item">
-                                <span>Room Name (title)</span>
-                                <strong>Not available</strong>
-                            </div>
-
-                            <div className="detail-info-item">
                                 <span>Monthly Price</span>
-                                <strong>Not available</strong>
+                                <strong>{Number(room.monthly_price).toLocaleString("en-US")} VND</strong>
                             </div>
-
                             <div className="detail-info-item">
                                 <span>Area</span>
-                                <strong>Not available</strong>
+                                <strong>{room.area_m2 ? `${room.area_m2} m²` : "—"}</strong>
                             </div>
-
                             <div className="detail-info-item">
                                 <span>Capacity</span>
-                                <strong>Not available</strong>
+                                <strong>{room.capacity} people</strong>
                             </div>
-
                             <div className="detail-info-item full-width">
-                                <span>Street Address</span>
-                                <strong>Not available</strong>
+                                <span>Address</span>
+                                <strong>
+                                    {[room.address, room.ward, room.district, room.city]
+                                        .filter(Boolean).join(", ")}
+                                </strong>
                             </div>
-
-                            <div className="detail-info-item">
-                                <span>Ward</span>
-                                <strong>Not available</strong>
-                            </div>
-
-                            <div className="detail-info-item">
-                                <span>District</span>
-                                <strong>Not available</strong>
-                            </div>
-
-                            <div className="detail-info-item full-width">
-                                <span>City</span>
-                                <strong>Not available</strong>
-                            </div>
-
                             <div className="detail-info-item full-width">
                                 <span>Description</span>
-                                <strong>Not available</strong>
+                                <strong>{room.description || "No description provided."}</strong>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                {/* RIGHT SIDEBAR */}
                 <div className="room-detail-sidebar">
                     <section className="content-card room-detail-side">
                         <div className="form-section-heading">
                             <h2>Amenities</h2>
                             <p>Room facilities and services.</p>
                         </div>
-
-                        <EmptyState
-                            title="No amenities available"
-                            description="Amenities will appear here when room data is connected."
-                        />
+                        {room.amenities?.length ? (
+                            <ul className="room-amenities">
+                                {room.amenities.map((item) => <li key={item}>{item}</li>)}
+                            </ul>
+                        ) : <p>No amenities available.</p>}
                     </section>
 
                     <section className="content-card room-detail-side">
@@ -132,19 +127,21 @@ export default function RoomDetailPage() {
                             <h2>Room Images</h2>
                             <p>Images associated with this room.</p>
                         </div>
-
-                        <EmptyState
-                            title="No images available"
-                            description="Room images will appear here after connecting Firebase Storage and the room images API."
-                        />
+                        {room.images?.length ? (
+                            <div className="room-images-grid">
+                                {room.images.map((url, index) => (
+                                    <img key={`${url}-${index}`} src={url}
+                                        alt={`${room.title} ${index + 1}`} />
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="room-no-images">
+                                <ImageIcon size={30} />
+                                <span>No images available.</span>
+                            </div>
+                        )}
                     </section>
                 </div>
-            </div>
-
-            <div className="form-placeholder-notice">
-                Room images are stored in Firebase Storage.
-                The backend stores image URLs and related image records,
-                not the image binary files.
             </div>
         </div>
     );

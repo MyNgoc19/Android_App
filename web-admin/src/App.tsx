@@ -1,4 +1,3 @@
-
 import {
   BrowserRouter,
   Routes,
@@ -71,34 +70,28 @@ function App() {
 
             <Route path="/rooms" element={<RoomsPage />} />
             <Route path="/rooms/new" element={<RoomFormPage />} />
-            <Route path="/rooms/preview" element={<RoomDetailPage />} />
-            <Route path="/rooms/preview/edit" element={<RoomFormPage />} />
+            <Route path="/rooms/:roomId" element={<RoomDetailPage />} />
+            <Route path="/rooms/:roomId/edit" element={<RoomFormPage />} />
 
             <Route path="/users" element={<UsersPage />} />
-            <Route path="/users/preview" element={<UserDetailPage />} />
+            <Route path="/users/:userId" element={<UserDetailPage />} />
 
             <Route
               path="/rental-requests"
               element={<RentalRequestsPage />}
             />
             <Route
-              path="/rental-requests/preview"
+              path="/rental-requests/:requestId"
               element={<RentalRequestDetailPage />}
             />
 
             <Route path="/contracts" element={<ContractsPage />} />
             <Route path="/contracts/new" element={<ContractFormPage />} />
-            <Route
-              path="/contracts/preview"
-              element={<ContractDetailPage />}
-            />
+            <Route path="/contracts/:contractId" element={<ContractDetailPage />} />
 
             <Route path="/payments" element={<PaymentsPage />} />
             <Route path="/payments/new" element={<PaymentFormPage />} />
-            <Route
-              path="/payments/preview"
-              element={<PaymentDetailPage />}
-            />
+            <Route path="/payments/:paymentId" element={<PaymentDetailPage />} />
           </Route>
         </Route>
 

@@ -1,5 +1,6 @@
 
-import { useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
     ArrowLeft,
     UserRound,
@@ -9,14 +10,101 @@ import {
     CalendarDays,
     Ban,
     CheckCircle,
+    RefreshCw,
 } from "lucide-react";
+import { apiGet, apiPatch } from "../services/api";
+
+type UserDetail = {
+    id: number;
+    email: string;
+    full_name: string | null;
+    phone: string | null;
+    avatar_url: string | null;
+    role: "USER" | "ADMIN";
+    status: "ACTIVE" | "BLOCKED";
+    created_at: string;
+    updated_at: string;
+    statistics: {
+        rental_requests: number;
+        contracts: number;
+    };
+};
 
 export default function UserDetailPage() {
     const navigate = useNavigate();
+    const { userId } = useParams();
+
+    const [user, setUser] = useState<UserDetail | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [updating, setUpdating] = useState(false);
+    const [error, setError] = useState("");
+
+    const loadUser = useCallback(async () => {
+        if (!userId) return;
+
+        setLoading(true);
+        setError("");
+
+        try {
+            const result = await apiGet<UserDetail>(`admin/users/${userId}`);
+            setUser(result);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Unable to load user.");
+        } finally {
+            setLoading(false);
+        }
+    }, [userId]);
+
+    useEffect(() => {
+        void loadUser();
+    }, [loadUser]);
+
+    const updateStatus = async () => {
+        if (!user) return;
+
+        const nextStatus = user.status === "ACTIVE" ? "BLOCKED" : "ACTIVE";
+        const action = nextStatus === "BLOCKED" ? "block" : "unblock";
+
+        if (!window.confirm(`Are you sure you want to ${action} this account?`)) {
+            return;
+        }
+
+        setUpdating(true);
+        setError("");
+
+        try {
+            await apiPatch(`admin/users/${user.id}/status`, {
+                status: nextStatus,
+            });
+            await loadUser();
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Unable to update account.");
+        } finally {
+            setUpdating(false);
+        }
+    };
+
+    if (loading) {
+        return <div className="page-container">Loading user details...</div>;
+    }
+
+    if (error && !user) {
+        return (
+            <div className="page-container">
+                <div className="dashboard-error">{error}</div>
+                <button className="secondary-button" onClick={() => navigate("/users")}>
+                    <ArrowLeft size={17} /> Back to Users
+                </button>
+            </div>
+        );
+    }
+
+    if (!user) {
+        return <div className="page-container">User not found.</div>;
+    }
 
     return (
         <div className="page-container">
-            {/* PAGE HEADER */}
             <div className="page-header">
                 <div>
                     <h1>User Details</h1>
@@ -28,146 +116,128 @@ export default function UserDetailPage() {
                     className="secondary-button"
                     onClick={() => navigate("/users")}
                 >
-                    <ArrowLeft size={17} />
-                    Back to Users
+                    <ArrowLeft size={17} /> Back to Users
                 </button>
             </div>
 
-            <div className="form-placeholder-notice">
-                This is a UI preview. No actual user account is loaded.
-            </div>
+            {error && <div className="dashboard-error">{error}</div>}
 
             <div className="user-detail-layout">
-                {/* USER PROFILE */}
                 <section className="content-card user-profile-card">
                     <div className="user-profile-header">
                         <div className="user-avatar-large">
-                            <UserRound size={34} />
+                            {user.avatar_url ? (
+                                <img src={user.avatar_url} alt="User avatar" />
+                            ) : (
+                                <UserRound size={34} />
+                            )}
                         </div>
 
                         <div className="user-profile-heading">
-                            <h2>User Information</h2>
-                            <p>Account details will appear here.</p>
+                            <h2>{user.full_name || "Unnamed User"}</h2>
+                            <p>User ID: {user.id}</p>
                         </div>
 
-                        <span className="status-placeholder">
-                            Status placeholder
+                        <span className={`dashboard-status ${user.status.toLowerCase()}`}>
+                            {user.status}
                         </span>
                     </div>
 
                     <div className="user-info-list">
                         <div className="user-info-item">
-                            <div className="user-info-icon">
-                                <UserRound size={18} />
-                            </div>
-
-                            <div>
-                                <span>Full Name</span>
-                                <strong>Not available</strong>
-                            </div>
-                        </div>
-
-                        <div className="user-info-item">
-                            <div className="user-info-icon">
-                                <Mail size={18} />
-                            </div>
-
+                            <div className="user-info-icon"><Mail size={18} /></div>
                             <div>
                                 <span>Email Address</span>
-                                <strong>Not available</strong>
+                                <strong>{user.email}</strong>
                             </div>
                         </div>
 
                         <div className="user-info-item">
-                            <div className="user-info-icon">
-                                <Phone size={18} />
-                            </div>
-
+                            <div className="user-info-icon"><Phone size={18} /></div>
                             <div>
                                 <span>Phone Number</span>
-                                <strong>Not available</strong>
+                                <strong>{user.phone || "Not provided"}</strong>
                             </div>
                         </div>
 
                         <div className="user-info-item">
-                            <div className="user-info-icon">
-                                <Shield size={18} />
-                            </div>
-
+                            <div className="user-info-icon"><Shield size={18} /></div>
                             <div>
                                 <span>Role</span>
-                                <strong>Not available</strong>
+                                <strong>{user.role}</strong>
                             </div>
                         </div>
 
                         <div className="user-info-item">
-                            <div className="user-info-icon">
-                                <CalendarDays size={18} />
-                            </div>
-
+                            <div className="user-info-icon"><CalendarDays size={18} /></div>
                             <div>
                                 <span>Created At</span>
-                                <strong>Not available</strong>
+                                <strong>{new Date(user.created_at).toLocaleString("en-GB")}</strong>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                {/* ACCOUNT STATUS */}
-                <section className="content-card user-status-card">
-                    <div className="form-section-heading">
-                        <h2>Account Status</h2>
-                        <p>
-                            Manage whether this account can access the system.
-                        </p>
-                    </div>
+                <div className="user-detail-sidebar">
+                    <section className="content-card user-status-card">
+                        <div className="form-section-heading">
+                            <h2>Account Status</h2>
+                            <p>Manage this user's access to the system.</p>
+                        </div>
 
-                    <div className="user-status-preview">
-                        <span className="status-placeholder">
-                            Current status placeholder
+                        <span className={`dashboard-status ${user.status.toLowerCase()}`}>
+                            {user.status}
                         </span>
 
                         <p>
-                            The actual account status will be displayed here
-                            when user data is connected.
+                            {user.status === "ACTIVE"
+                                ? "This account can currently access the system."
+                                : "This account is currently blocked."}
                         </p>
-                    </div>
-
-                    <div className="user-status-actions">
-                        <button
-                            type="button"
-                            className="danger-button"
-                            disabled
-                            title="Available after connecting the block user API"
-                        >
-                            <Ban size={17} />
-                            Block Account
-                        </button>
 
                         <button
                             type="button"
-                            className="success-button"
-                            disabled
-                            title="Available after connecting the unblock user API"
+                            className={user.status === "ACTIVE" ? "danger-button" : "success-button"}
+                            onClick={() => void updateStatus()}
+                            disabled={updating}
                         >
-                            <CheckCircle size={17} />
-                            Unblock Account
+                            {updating ? (
+                                <RefreshCw size={17} />
+                            ) : user.status === "ACTIVE" ? (
+                                <Ban size={17} />
+                            ) : (
+                                <CheckCircle size={17} />
+                            )}
+                            {updating
+                                ? "Updating..."
+                                : user.status === "ACTIVE"
+                                    ? "Block Account"
+                                    : "Unblock Account"}
                         </button>
-                    </div>
+                    </section>
 
-                    <p className="user-status-note">
-                        Block and Unblock actions will be connected to
-                        the backend API later. Only the appropriate action
-                        will be enabled according to the account's current
-                        status.
-                    </p>
-                </section>
+                    <section className="content-card user-status-card">
+                        <div className="form-section-heading">
+                            <h2>Activity Overview</h2>
+                            <p>User activity statistics.</p>
+                        </div>
+
+                        <div className="user-stat-row">
+                            <span>Rental Requests</span>
+                            <strong>{user.statistics.rental_requests}</strong>
+                        </div>
+
+                        <div className="user-stat-row">
+                            <span>Contracts</span>
+                            <strong>{user.statistics.contracts}</strong>
+                        </div>
+                    </section>
+                </div>
             </div>
 
             <div className="form-placeholder-notice">
-                User role and account status are determined by backend data.
-                The frontend must not treat Firebase authentication alone
-                as proof of ADMIN authorization.
+                User roles are managed through a trusted administrative process.
+                This page only manages account status.
             </div>
         </div>
     );
