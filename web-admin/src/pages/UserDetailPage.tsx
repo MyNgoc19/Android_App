@@ -328,11 +328,7 @@ export default function UserDetailPage() {
                     </section>
                 </div>
             </div>
-
-            <div className="form-placeholder-notice">
-                User roles are managed through a trusted administrative process.
-                This page only manages account status.
-            </div>
+ 
         </div>
     );
 }
