@@ -170,8 +170,28 @@ export default function UsersPage() {
                             ) : users.map((user) => (
                                 <tr key={user.id}>
                                     <td>
-                                        <strong>{user.full_name || "Unnamed User"}</strong>
-                                        <small className="room-id">ID: {user.id}</small>
+                                        <div className="user-list-identity">
+                                            <div className="user-avatar-thumb">
+                                                {user.avatar_url ? (
+                                                    <img
+                                                        src={user.avatar_url}
+                                                        alt=""
+                                                        loading="lazy"
+                                                        onError={(event) => {
+                                                            event.currentTarget.style.display = "none";
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <span aria-hidden="true">
+                                                        {(user.full_name || user.email || "U").charAt(0).toUpperCase()}
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div>
+                                                <strong>{user.full_name || "Unnamed User"}</strong>
+                                                <small className="room-id">ID: {user.id}</small>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td>{user.email}</td>
                                     <td>{user.phone || "—"}</td>
