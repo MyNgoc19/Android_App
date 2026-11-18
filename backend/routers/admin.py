@@ -1306,7 +1306,8 @@ def update_rental_request_status(
         db.execute(
             text("""
                 UPDATE rental_requests
-                SET status = :status
+                SET status = :status,
+                    updated_at = CURRENT_TIMESTAMP
                 WHERE id = :request_id
             """),
             {
@@ -1651,7 +1652,8 @@ def create_contract(
         db.execute(
             text("""
                 UPDATE rooms
-                SET status = 'RENTED'
+                SET status = 'RENTED',
+                    updated_at = CURRENT_TIMESTAMP
                 WHERE id = :room_id
             """),
             {"room_id": room["id"]},
@@ -1731,7 +1733,8 @@ def update_contract_status(
         db.execute(
             text("""
                 UPDATE rental_contracts
-                SET status = :status
+                SET status = :status,
+                    updated_at = CURRENT_TIMESTAMP
                 WHERE id = :contract_id
             """),
             {
@@ -1760,7 +1763,8 @@ def update_contract_status(
             db.execute(
                 text("""
                     UPDATE rooms
-                    SET status = 'AVAILABLE'
+                    SET status = 'AVAILABLE',
+                        updated_at = CURRENT_TIMESTAMP
                     WHERE id = :room_id
                 """),
                 {"room_id": contract["room_id"]},
