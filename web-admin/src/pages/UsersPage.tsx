@@ -247,7 +247,7 @@ export default function UsersPage() {
                 <strong>Account security</strong>
                 <p>
                     New accounts receive the USER role by default.
-                    Administrator privileges must be assigned through a trusted process.
+                    Active administrators can grant or revoke administrator access from a user's detail page.
                 </p>
             </div>
         </div>
