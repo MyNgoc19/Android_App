@@ -69,7 +69,7 @@ Các chức năng chưa triển khai trong MVP:
 | ORM | SQLAlchemy |
 | Database | PostgreSQL |
 | Authentication | Firebase Authentication |
-| Image Storage | Firebase Storage (dự kiến) |
+| Image Storage | Cloudinary |
 | API Communication | REST API, JSON |
 
 Lưu ý:
@@ -77,6 +77,7 @@ Lưu ý:
 - PostgreSQL là hệ quản trị cơ sở dữ liệu được nhóm thống nhất sử dụng.
 - Redis không nằm trong phạm vi MVP.
 - Firebase Authentication được sử dụng để xác thực người dùng.
+- Cloudinary lưu trữ hình ảnh phòng; Backend ký upload và xác thực URL ảnh.
 - Backend chịu trách nhiệm kiểm tra token và phân quyền theo dữ liệu lưu trong PostgreSQL.
 
 ## 4. Cấu trúc dự án
