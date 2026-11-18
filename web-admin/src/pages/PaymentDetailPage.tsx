@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
     ArrowLeft,
@@ -29,13 +29,6 @@ interface Payment {
     tenant_name: string;
     tenant_email: string;
     room_title: string;
-}
-
-interface PaymentResponse {
-    items: Payment[];
-    total: number;
-    page: number;
-    limit: number;
 }
 
 interface ContractDetail {
@@ -78,7 +71,7 @@ export default function PaymentDetailPage() {
     const [updating, setUpdating] = useState(false);
     const [error, setError] = useState("");
 
-    const loadPayment = async () => {
+    const loadPayment = useCallback(async () => {
         if (!paymentId || !/^\d+$/.test(paymentId)) {
             setError("Invalid payment ID.");
             setLoading(false);
@@ -89,46 +82,25 @@ export default function PaymentDetailPage() {
         setError("");
 
         try {
-            let foundPayment: Payment | undefined;
-            let currentPage = 1;
-            let total = 0;
-            const limit = 100;
-
-            do {
-                const result = await apiGet<PaymentResponse>(
-                    `admin/payments?page=${currentPage}&limit=${limit}`,
-                );
-
-                total = result.total ?? 0;
-                foundPayment = result.items?.find(
-                    (item) => item.id === Number(paymentId),
-                );
-
-                if (foundPayment) break;
-                currentPage += 1;
-            } while ((currentPage - 1) * limit < total);
-
-            if (!foundPayment) {
-                throw new Error("Payment not found.");
-            }
-
-            setPayment(foundPayment);
+            const paymentResult = await apiGet<Payment>(
+                `admin/payments/${paymentId}`,
+            );
+            setPayment(paymentResult);
 
             const contractResult = await apiGet<ContractDetail>(
-                `admin/contracts/${foundPayment.contract_id}`,
+                `admin/contracts/${paymentResult.contract_id}`,
             );
-
             setContract(contractResult);
         } catch (err) {
             setError(err instanceof Error ? err.message : "Failed to load payment details.");
         } finally {
             setLoading(false);
         }
-    };
+    }, [paymentId]);
 
     useEffect(() => {
         void loadPayment();
-    }, [paymentId]);
+    }, [loadPayment]);
 
     const updateStatus = async (nextStatus: "PAID" | "FAILED" | "REFUNDED") => {
         if (!payment) return;
