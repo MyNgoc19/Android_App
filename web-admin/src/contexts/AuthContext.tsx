@@ -142,7 +142,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     const signInWithGoogle = useCallback(async () => {
         if (!auth) {
-            throw new Error("Firebase Web chưa được cấu hình.");
+            throw new Error("Firebase Web is not configured.");
         }
 
         setError(null);
