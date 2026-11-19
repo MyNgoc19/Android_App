@@ -1,4 +1,3 @@
-
 import os
 
 from dotenv import load_dotenv
@@ -8,6 +7,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from routers.auth import router as auth_router
 from routers.rooms import router as rooms_router, user_router
 from routers.admin import router as admin_router
+from routers.maintenance import (
+    router as maintenance_router,
+    admin_router as admin_maintenance_router,
+)
+from routers.move_out import (
+    router as move_out_router,
+    admin_router as admin_move_out_router,
+)
 
 load_dotenv()
 
@@ -57,6 +64,28 @@ app.include_router(
 
 app.include_router(
     admin_router,
+    prefix=API_PREFIX,
+)
+
+# Yêu cầu sửa chữa (người thuê + admin)
+app.include_router(
+    maintenance_router,
+    prefix=API_PREFIX,
+)
+
+app.include_router(
+    admin_maintenance_router,
+    prefix=API_PREFIX,
+)
+
+# Yêu cầu trả phòng (người thuê + admin)
+app.include_router(
+    move_out_router,
+    prefix=API_PREFIX,
+)
+
+app.include_router(
+    admin_move_out_router,
     prefix=API_PREFIX,
 )
 

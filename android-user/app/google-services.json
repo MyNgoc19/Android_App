@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "911148332136",
+    "project_id": "room-rental-management-dff3d",
+    "storage_bucket": "room-rental-management-dff3d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:911148332136:android:411a1e8f9b4281abdcb7dd",
+        "android_client_info": {
+          "package_name": "com.example.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "911148332136-39nk8aoss3n3keg9m5fvtm9h89aob6j8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.user",
+            "certificate_hash": "5976fd37778f99d2e6fab6e233c55f7ce59c8547"
+          }
+        },
+        {
+          "client_id": "911148332136-doqmg1emquue1vcr7m1qgrtt2rq62q3p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANrJhK9AEscyH80Gxc0OPXsL91zsbrLFM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "911148332136-doqmg1emquue1vcr7m1qgrtt2rq62q3p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

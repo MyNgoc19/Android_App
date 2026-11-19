@@ -7,6 +7,8 @@ import {
     ClipboardList,
     FileText,
     CreditCard,
+    Wrench,
+    LogOut,
     Zap,
     BarChart3,
     Home,
@@ -42,6 +44,16 @@ const mainMenu = [
         label: "Payments",
         path: "/payments",
         icon: CreditCard,
+    },
+    {
+        label: "Maintenance",
+        path: "/maintenance-requests",
+        icon: Wrench,
+    },
+    {
+        label: "Move-out Requests",
+        path: "/move-out-requests",
+        icon: LogOut,
     },
 ];
 

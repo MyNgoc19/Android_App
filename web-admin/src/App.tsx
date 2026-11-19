@@ -30,6 +30,12 @@ import PaymentsPage from "./pages/PaymentsPage";
 import PaymentFormPage from "./pages/PaymentFormPage";
 import PaymentDetailPage from "./pages/PaymentDetailPage";
 
+import MaintenanceRequestsPage from "./pages/MaintenanceRequestsPage";
+import MaintenanceRequestDetailPage from "./pages/MaintenanceRequestDetailPage";
+
+import MoveOutRequestsPage from "./pages/MoveOutRequestsPage";
+import MoveOutRequestDetailPage from "./pages/MoveOutRequestDetailPage";
+
 function ProtectedRoute() {
   const { account, loading } = useAuth();
 
@@ -92,6 +98,24 @@ function App() {
             <Route path="/payments" element={<PaymentsPage />} />
             <Route path="/payments/new" element={<PaymentFormPage />} />
             <Route path="/payments/:paymentId" element={<PaymentDetailPage />} />
+
+            <Route
+              path="/maintenance-requests"
+              element={<MaintenanceRequestsPage />}
+            />
+            <Route
+              path="/maintenance-requests/:requestId"
+              element={<MaintenanceRequestDetailPage />}
+            />
+
+            <Route
+              path="/move-out-requests"
+              element={<MoveOutRequestsPage />}
+            />
+            <Route
+              path="/move-out-requests/:requestId"
+              element={<MoveOutRequestDetailPage />}
+            />
           </Route>
         </Route>
 
