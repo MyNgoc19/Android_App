@@ -17,15 +17,15 @@ import com.example.user.utils.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Danh sách phòng: dùng ở Home, Tìm kiếm, Yêu thích.
- */
+
+
+
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder> {
 
     public interface Listener {
         void onRoomClick(Room room);
 
-        /** Bấm trái tim. Không bắt buộc override. */
+
         default void onFavoriteClick(Room room, int position) {
         }
     }
@@ -79,7 +79,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
             if (pos == RecyclerView.NO_POSITION) {
                 return;
             }
-            // Đổi icon ngay cho mượt, Activity sẽ gọi API
+
             room.setFavorite(!room.isFavorite());
             notifyItemChanged(pos);
             listener.onFavoriteClick(room, pos);
