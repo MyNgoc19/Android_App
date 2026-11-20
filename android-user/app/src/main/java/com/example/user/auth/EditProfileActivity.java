@@ -39,7 +39,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    // Thông tin giao diện
+
     private TextView btnBack;
     private TextView btnChangeAvatar;
     private ImageView imgEditAvatar;
@@ -58,14 +58,14 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private MaterialButton btnSaveProfile;
 
-    // Dữ liệu mẫu lưu trên thiết bị
+
     private SharedPreferences preferences;
     private String avatarUri = "";
 
     private final AuthRepository authRepository = new AuthRepository();
     private final ExecutorService avatarExecutor = Executors.newSingleThreadExecutor();
 
-    // Chọn ảnh đại diện
+
     private final ActivityResultLauncher<Intent> imagePicker =
             registerForActivityResult(
                     new ActivityResultContracts.StartActivityForResult(),
@@ -111,7 +111,7 @@ public class EditProfileActivity extends AppCompatActivity {
         setupEvents();
     }
 
-    // Ánh xạ các thành phần giao diện
+
     private void initViews() {
 
         btnBack = findViewById(R.id.btnBack);
@@ -133,14 +133,14 @@ public class EditProfileActivity extends AppCompatActivity {
         btnSaveProfile = findViewById(R.id.btnSaveProfile);
     }
 
-    // Hiển thị thông tin cá nhân đã lưu
+
     private void loadProfile() {
 
-        // Hiện ngay thông tin đã lưu trong phiên đăng nhập
+
         SessionManager session = SessionManager.getInstance();
         bindUser(session.getFullName(), session.getEmail(), session.getPhone(), session.getGender());
 
-        // Ảnh đại diện chỉ lưu trên máy
+
         avatarUri = preferences.getString("avatar_uri", "");
         if (!avatarUri.isEmpty()) {
             showAvatar(Uri.parse(avatarUri));
@@ -148,7 +148,7 @@ public class EditProfileActivity extends AppCompatActivity {
             showDefaultAvatar();
         }
 
-        // Lấy bản mới nhất từ server
+
         authRepository.getProfile(new ApiCallback<User>() {
             @Override
             public void onSuccess(User user) {
@@ -171,8 +171,8 @@ public class EditProfileActivity extends AppCompatActivity {
             gender = "";
         }
 
-        // Backend stores gender as MALE, FEMALE, or OTHER.
-        // Convert to the existing localized radio labels without changing the UI.
+
+
         if ("FEMALE".equalsIgnoreCase(gender)) {
             gender = "Nữ";
         } else if ("MALE".equalsIgnoreCase(gender)) {
@@ -181,10 +181,10 @@ public class EditProfileActivity extends AppCompatActivity {
             gender = "Khác";
         }
 
-        // Không cho chỉnh sửa email
+
         edtEmail.setEnabled(false);
 
-        // Hiển thị giới tính
+
         if (gender.equals("Nữ")) {
             radioFemale.setChecked(true);
         } else if (gender.equals("Nam")) {
@@ -197,22 +197,22 @@ public class EditProfileActivity extends AppCompatActivity {
 
     }
 
-    // Xử lý sự kiện
+
     private void setupEvents() {
 
-        // Quay lại Profile
+
         btnBack.setOnClickListener(v -> finish());
 
-        // Thay đổi ảnh đại diện
+
         btnChangeAvatar.setOnClickListener(v -> selectAvatar());
 
         imgEditAvatar.setOnClickListener(v -> selectAvatar());
 
-        // Lưu thông tin
+
         btnSaveProfile.setOnClickListener(v -> saveProfile());
     }
 
-    // Mở thư viện ảnh
+
     private void selectAvatar() {
 
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
@@ -226,7 +226,7 @@ public class EditProfileActivity extends AppCompatActivity {
         imagePicker.launch(intent);
     }
 
-    // Hiển thị ảnh đại diện đã chọn
+
     private void showAvatar(Uri uri) {
 
         try {
@@ -241,7 +241,7 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
-    // Hiển thị ảnh mặc định
+
     private void showDefaultAvatar() {
 
         imgEditAvatar.setImageResource(R.drawable.ic_user);
@@ -254,7 +254,7 @@ public class EditProfileActivity extends AppCompatActivity {
         );
     }
 
-    // Kiểm tra và lưu thông tin
+
     private void saveProfile() {
 
         String fullName = getText(edtFullName);
@@ -263,7 +263,7 @@ public class EditProfileActivity extends AppCompatActivity {
         layoutFullName.setError(null);
         layoutPhone.setError(null);
 
-        // Kiểm tra họ tên
+
         if (fullName.isEmpty()) {
 
             layoutFullName.setError("Vui lòng nhập họ và tên");
@@ -271,7 +271,7 @@ public class EditProfileActivity extends AppCompatActivity {
             return;
         }
 
-        // Kiểm tra số điện thoại
+
         if (!phone.matches("0[0-9]{9}")) {
 
             layoutPhone.setError(
@@ -282,7 +282,7 @@ public class EditProfileActivity extends AppCompatActivity {
             return;
         }
 
-        // Kiểm tra giới tính
+
         int selectedGenderId =
                 radioGroupGender.getCheckedRadioButtonId();
 
@@ -412,7 +412,7 @@ public class EditProfileActivity extends AppCompatActivity {
         Toast.makeText(EditProfileActivity.this, message, Toast.LENGTH_LONG).show();
     }
 
-    // Lấy nội dung ô nhập
+
     private String getText(TextInputEditText editText) {
 
         if (editText.getText() == null) {
