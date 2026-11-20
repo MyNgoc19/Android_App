@@ -17,9 +17,9 @@ import com.example.user.utils.StatusUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Danh sách khoản thanh toán (GET users/me/payments), dùng layout item_invoice.xml.
- */
+
+
+
 public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.ViewHolder> {
 
     public interface Listener {
