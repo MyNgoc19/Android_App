@@ -113,6 +113,10 @@ Dự án sử dụng kiến trúc **Modular Monolith**: một Backend FastAPI du
 
 ```text
 Android_App/
+├── setup.bat                     # Windows setup
+├── setup.ps1                     # PowerShell setup
+├── setup.sh                      # macOS/Linux setup
+├── .github/workflows/ci.yml      # Automated build and database checks
 ├── android-user/                 # Android User (Java)
 │   ├── app/src/main/java/        # Activities, models, repositories, API
 │   ├── app/src/main/res/         # Layouts, drawables, menus, resources
