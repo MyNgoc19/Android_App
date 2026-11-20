@@ -4,9 +4,9 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.widget.TextView;
 
-/**
- * Đổi mã trạng thái từ backend sang chữ tiếng Việt + màu để hiển thị dạng "chip".
- */
+
+
+
 public final class StatusUtil {
 
     private static final String GREEN = "#1E9E5A";
@@ -24,7 +24,7 @@ public final class StatusUtil {
             return "";
         }
         switch (status) {
-            // phòng
+
             case "AVAILABLE": return "Còn trống";
             case "RESERVED": return "Đang giữ chỗ";
             case "RENTED": return "Đã cho thuê";
@@ -32,7 +32,7 @@ public final class StatusUtil {
             case "FAILED": return "Thất bại";
             case "REFUNDED": return "Đã hoàn tiền";
             case "BLOCKED": return "Bị khóa";
-            // lịch hẹn / sửa chữa / trả phòng
+
             case "PENDING": return "Chờ xử lý";
             case "CONFIRMED": return "Đã xác nhận";
             case "REJECTED": return "Bị từ chối";
@@ -41,12 +41,12 @@ public final class StatusUtil {
             case "IN_PROGRESS": return "Đang xử lý";
             case "APPROVED": return "Đã duyệt";
             case "COMPLETED": return "Đã hoàn tất";
-            // hợp đồng
+
             case "PENDING_SIGN": return "Chờ bạn xác nhận";
             case "SIGNED": return "Chờ đặt cọc";
             case "ACTIVE": return "Đang thuê";
             case "ENDED": return "Đã kết thúc";
-            // cọc / hóa đơn
+
             case "UNPAID": return "Chưa thanh toán";
             case "PENDING_CONFIRM": return "Chờ chủ nhà xác nhận";
             case "PAID": return "Đã thanh toán";
@@ -88,7 +88,7 @@ public final class StatusUtil {
         }
     }
 
-    /** Tô chữ + nền nhạt cho TextView trạng thái */
+
     public static void apply(TextView view, String status) {
         int c = Color.parseColor(color(status));
         view.setText(label(status));
@@ -97,14 +97,14 @@ public final class StatusUtil {
                 Color.argb(32, Color.red(c), Color.green(c), Color.blue(c))));
     }
 
-    /** priority: LOW | MEDIUM | HIGH */
+
     public static String priority(String p) {
         if ("HIGH".equals(p)) return "Khẩn cấp";
         if ("LOW".equals(p)) return "Thấp";
         return "Bình thường";
     }
 
-    /** payment_type: DEPOSIT | RENT | OTHER */
+
     public static String paymentType(String t) {
         if ("DEPOSIT".equals(t)) return "Tiền cọc";
         if ("RENT".equals(t)) return "Tiền thuê";
