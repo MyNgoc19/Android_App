@@ -21,11 +21,11 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
 
-/**
- * Gửi yêu cầu sửa chữa + theo dõi trạng thái các yêu cầu đã gửi.
- * API: GET/POST users/me/maintenance-requests (backend routers/maintenance.py).
- * Admin đổi trạng thái: PENDING -> IN_PROGRESS -> DONE (hoặc REJECTED) kèm ghi chú.
- */
+
+
+
+
+
 public class MaintenanceActivity extends AppCompatActivity {
 
     private TextInputLayout layoutTitle;
