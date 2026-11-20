@@ -169,16 +169,23 @@ public class RentalActivity extends AppCompatActivity {
 
         androidx.appcompat.app.AlertDialog dialog = new MaterialAlertDialogBuilder(this)
                 .setView(content)
-                .setNegativeButton("Chỉnh sửa", null)
-                .setPositiveButton("Gửi yêu cầu", (d, w) -> createRental())
                 .create();
+
+        MaterialButton editButton = content.findViewById(R.id.dialogEditButton);
+        MaterialButton sendButton = content.findViewById(R.id.dialogSendButton);
+        editButton.setOnClickListener(v -> dialog.dismiss());
+        sendButton.setOnClickListener(v -> {
+            dialog.dismiss();
+            createRental();
+        });
+
         dialog.show();
-        dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(android.graphics.Color.parseColor("#E85D93"));
-        dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE)
-                .setTextColor(android.graphics.Color.parseColor("#77717A"));
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialog.getWindow().setLayout(
+                    android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                    android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+            );
         }
     }
 
