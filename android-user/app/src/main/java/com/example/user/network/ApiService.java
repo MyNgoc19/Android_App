@@ -20,6 +20,11 @@ import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
+import retrofit2.http.Multipart;
+import retrofit2.http.Part;
+import retrofit2.http.Url;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * API của Backend FastAPI chung (xem file bàn giao ANDROID – BACKEND INTEGRATION HANDOFF).
@@ -48,6 +53,20 @@ public interface ApiService {
     // Chỉ gửi full_name, phone, avatar_url (không gửi role/status)
     @PATCH("users/me")
     Call<User> updateProfile(@Body Map<String, Object> body);
+
+    @GET("users/me/avatar/signature")
+    Call<JsonElement> getAvatarUploadSignature();
+
+    @Multipart
+    @POST
+    Call<JsonElement> uploadAvatar(
+            @Url String uploadUrl,
+            @Part MultipartBody.Part file,
+            @Part("api_key") RequestBody apiKey,
+            @Part("timestamp") RequestBody timestamp,
+            @Part("folder") RequestBody folder,
+            @Part("signature") RequestBody signature
+    );
 
     // ===== Rooms (công khai) =====
     // query: keyword, page, limit, status ...
