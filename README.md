@@ -1,336 +1,328 @@
-# Room Rental Management System
+# N&N Home — Room Rental Management System
 
-Hệ thống quản lý phòng cho thuê, gồm ứng dụng Android dành cho người thuê và trang Web dành cho quản trị viên.
+Hệ thống quản lý phòng cho thuê, gồm ứng dụng Android dành cho người tìm thuê và website Web Admin dành cho quản trị viên. Hai ứng dụng sử dụng chung một Backend FastAPI và cơ sở dữ liệu PostgreSQL.
 
-## 1. Giới thiệu dự án
+## 1. Tổng quan
 
-Room Rental Management System là hệ thống hỗ trợ quản lý hoạt động cho thuê phòng, gồm hai ứng dụng:
+**N&N Home** hỗ trợ quy trình quản lý phòng cho thuê từ lúc đăng tin, tìm kiếm phòng, gửi yêu cầu thuê, tạo hợp đồng đến theo dõi thanh toán và xử lý các yêu cầu trong thời gian thuê.
 
-- **Android User:** Dành cho người có nhu cầu tìm kiếm và thuê phòng.
-- **Web Admin:** Dành cho quản trị viên quản lý phòng, người thuê và hoạt động cho thuê.
+### Thành phần hệ thống
 
-Hệ thống sử dụng FastAPI làm Backend trung gian, PostgreSQL để lưu trữ dữ liệu và Firebase Authentication để xác thực tài khoản.
+| Thành phần | Mô tả | Công nghệ chính |
+|---|---|---|
+| Android User | Ứng dụng dành cho người thuê phòng | Java, Android Studio |
+| Web Admin | Website quản trị dành cho Admin | React, TypeScript, Vite |
+| Backend | API và xử lý nghiệp vụ dùng chung | Python, FastAPI |
+| Database | Lưu trữ dữ liệu hệ thống | PostgreSQL, SQLAlchemy |
+| Authentication | Đăng nhập và xác thực danh tính | Firebase Authentication |
+| Image hosting | Lưu trữ hình ảnh phòng và ảnh đại diện | Cloudinary |
 
-Mục tiêu của phiên bản MVP là xây dựng các chức năng cốt lõi phục vụ quy trình tìm phòng, gửi yêu cầu thuê, quản lý hợp đồng và theo dõi thanh toán.
+## 2. Chức năng chính
 
-## 2. Phạm vi chức năng
+### 2.1. Android User
 
-### 2.1. MVP – Các chức năng triển khai
+Ứng dụng Android dành cho người thuê, hiện có các nhóm chức năng:
 
-**Android User**
+- **Tài khoản:** đăng ký, đăng nhập, đăng nhập Google, xem và cập nhật hồ sơ.
+- **Khám phá phòng:** xem danh sách phòng, xem chi tiết, tìm kiếm và lọc phòng.
+- **Yêu thích:** thêm và quản lý danh sách phòng yêu thích.
+- **Lịch hẹn xem phòng:** tạo và theo dõi lịch hẹn.
+- **Yêu cầu thuê:** gửi yêu cầu thuê, chọn ngày dự kiến bắt đầu và thời hạn thuê, theo dõi trạng thái xử lý.
+- **Phòng và hợp đồng của tôi:** xem thông tin phòng đang thuê và hợp đồng.
+- **Thanh toán:** xem các khoản thanh toán, tiền cọc và lịch sử thanh toán.
+- **Yêu cầu sửa chữa:** gửi yêu cầu bảo trì/sửa chữa trong thời gian có hợp đồng hiệu lực.
+- **Yêu cầu trả phòng:** gửi và theo dõi yêu cầu trả phòng.
+- **Hồ sơ cá nhân:** cập nhật thông tin và ảnh đại diện.
 
-- Đăng nhập và xác thực tài khoản.
-- Xem danh sách phòng và thông tin chi tiết phòng.
-- Tìm kiếm và lọc phòng.
-- Quản lý danh sách phòng yêu thích.
-- Gửi yêu cầu thuê phòng.
-- Theo dõi trạng thái yêu cầu thuê phòng.
-- Xem thông tin hợp đồng.
-- Xem lịch sử thanh toán.
-- Xem và cập nhật thông tin cá nhân.
+### 2.2. Web Admin
 
-**Web Admin**
+Website dành cho quản trị viên, gồm:
 
-- Đăng nhập và xác thực quyền Admin.
-- Xem Dashboard tổng quan.
-- Quản lý phòng (thêm, xem, chỉnh sửa và cập nhật trạng thái).
-- Quản lý hình ảnh phòng.
-- Quản lý tài khoản người dùng.
-- Quản lý yêu cầu thuê phòng.
-- Duyệt hoặc từ chối yêu cầu thuê phòng.
-- Quản lý hợp đồng thuê.
-- Quản lý thông tin và trạng thái thanh toán.
+- **Dashboard:** xem thông tin tổng quan.
+- **Quản lý phòng:** xem danh sách, thêm, chỉnh sửa, cập nhật trạng thái và quản lý hình ảnh phòng.
+- **Quản lý người dùng:** xem thông tin, quản lý trạng thái và quyền tài khoản.
+- **Quản lý yêu cầu thuê:** xem chi tiết, duyệt hoặc từ chối yêu cầu.
+- **Quản lý hợp đồng:** tạo hợp đồng từ yêu cầu thuê đã được duyệt, xem và cập nhật trạng thái hợp đồng.
+- **Quản lý thanh toán:** tạo và theo dõi các bản ghi thanh toán.
+- **Quản lý yêu cầu sửa chữa:** xem và cập nhật trạng thái xử lý.
+- **Quản lý yêu cầu trả phòng:** xem, duyệt/từ chối và hoàn tất quy trình trả phòng.
 
-### 2.2. Future Features – Định hướng phát triển tương lai
+> **Lưu ý về nghiệp vụ thuê phòng:** Duyệt yêu cầu thuê không tự động làm phòng chuyển sang trạng thái đang thuê. Admin cần tạo hợp đồng riêng. Khi tạo hợp đồng thành công, Backend cập nhật phòng sang `RENTED`. Khi yêu cầu trả phòng được hoàn tất theo nghiệp vụ, hợp đồng được kết thúc và phòng có thể trở lại `AVAILABLE`.
 
-Một số giao diện trong thiết kế Figma được sử dụng để định hướng mở rộng sản phẩm, không thuộc phạm vi triển khai của phiên bản MVP.
+> **Lưu ý về thanh toán:** Chức năng hiện tại quản lý và ghi nhận các khoản thanh toán trong hệ thống; không đồng nghĩa đã tích hợp cổng thanh toán trực tuyến hoặc xử lý giao dịch ngân hàng.
 
-Các chức năng chưa triển khai trong MVP:
+## 3. Kiến trúc hệ thống
 
-- **Utility Billing:** Quản lý hóa đơn điện, nước và các chi phí tiện ích.
-- **Reports & Analytics:** Báo cáo và phân tích dữ liệu nâng cao.
-
-Đối với các chức năng trên:
-
-- Chưa xây dựng nghiệp vụ thực tế.
-- Chưa yêu cầu API riêng.
-- Chưa bổ sung bảng database.
-- Có thể hiển thị giao diện giới thiệu hoặc trạng thái Coming Soon nếu cần.
-
-**Lưu ý:** Phạm vi triển khai MVP được xác định theo tài liệu API và Database đã thống nhất. Không tự ý mở rộng chức năng chỉ vì chức năng đó xuất hiện trong bản thiết kế Figma.
-
-## 3. Công nghệ sử dụng
-
-| Thành phần | Công nghệ |
-|---|---|
-| Android User | Java, Android Studio |
-| Web Admin | React, TypeScript, Vite |
-| Backend | Python, FastAPI |
-| ORM | SQLAlchemy |
-| Database | PostgreSQL |
-| Authentication | Firebase Authentication |
-| Image Storage | Cloudinary |
-| API Communication | REST API, JSON |
-
-Lưu ý:
-
-- PostgreSQL là hệ quản trị cơ sở dữ liệu được nhóm thống nhất sử dụng.
-- Redis không nằm trong phạm vi MVP.
-- Firebase Authentication được sử dụng để xác thực người dùng.
-- Cloudinary lưu trữ hình ảnh phòng; Backend ký upload và xác thực URL ảnh.
-- Backend chịu trách nhiệm kiểm tra token và phân quyền theo dữ liệu lưu trong PostgreSQL.
-
-## 4. Cấu trúc dự án
+Dự án sử dụng kiến trúc **Modular Monolith**: một Backend FastAPI duy nhất, chia thành các router/service theo nghiệp vụ. Không triển khai Microservices.
 
 ```text
-ROOM_RENTAL_MANAGEMENT_SYSTEM/
++------------------------+        +------------------------+
+|      Android User      |        |        Web Admin       |
+|       Java             |        |    React + TypeScript  |
++-----------+------------+        +------------+-----------+
+            |                                  |
+            |             REST API             |
+            +----------------+-----------------+
+                             |
+                             v
+                  +----------------------+
+                  |     FastAPI Backend  |
+                  | Authentication       |
+                  | Business Logic       |
+                  | Validation           |
+                  | Authorization        |
+                  +----------+-----------+
+                             |
+                 +-----------+-----------+
+                 |                       |
+                 v                       v
+        +------------------+    +-------------------+
+        |    PostgreSQL    |    |    Cloudinary     |
+        | Application data |    | Room/profile imgs |
+        +------------------+    +-------------------+
+
+                  Firebase Authentication
+                  Identity verification
+```
+
+### Nguyên tắc tích hợp
+
+- Android và Web Admin gọi chung REST API có prefix `/api/v1`.
+- Chỉ Backend được kết nối trực tiếp tới PostgreSQL.
+- Client gửi Firebase ID Token qua header `Authorization: Bearer <token>`.
+- Backend xác minh token, ánh xạ Firebase UID với tài khoản trong bảng `users`, sau đó kiểm tra role và trạng thái tài khoản.
+- Không tin tưởng `role`, `user_id` hoặc `tenant_id` do client tự gửi.
+- Backend dùng Cloudinary để tạo chữ ký upload; database lưu URL ảnh thay vì lưu file nhị phân.
+
+## 4. Công nghệ và thư viện
+
+| Phần | Công nghệ |
+|---|---|
+| Android | Java, Android SDK, AndroidX, Material Components |
+| Android networking | Retrofit, OkHttp, Gson |
+| Android image loading | Glide |
+| Android authentication | Firebase Authentication, Google Sign-In |
+| Web | React 19, TypeScript, Vite, React Router |
+| Web icons | lucide-react |
+| Backend | Python, FastAPI, Uvicorn |
+| Database access | SQLAlchemy, psycopg |
+| Database | PostgreSQL |
+| Authentication | Firebase Admin SDK |
+| Image storage | Cloudinary |
+
+## 5. Cấu trúc repository
+
+```text
+Android_App/
+├── android-user/                 # Android User (Java)
+│   ├── app/src/main/java/        # Activities, models, repositories, API
+│   ├── app/src/main/res/         # Layouts, drawables, menus, resources
+│   └── gradle/                   # Gradle wrapper và version catalog
 │
-├── android-user/                 # Android User Application
+├── web-admin/                    # Web Admin (React + TypeScript)
+│   ├── src/components/           # Layout và component dùng chung
+│   ├── src/contexts/             # Authentication, theme
+│   ├── src/pages/                # Các trang quản trị
+│   └── .env.example              # Mẫu cấu hình frontend
 │
-├── web-admin/                    # Web Admin Application
-│
-├── backend/                      # Shared FastAPI Backend
-│   ├── routers/                  # API endpoints
-│   ├── services/                 # Business logic
-│   ├── models/                   # SQLAlchemy models
-│   ├── schemas/                  # Pydantic schemas
-│   │   └── schema.sql            # PostgreSQL database schema
-│   ├── database.py               # Database connection
-│   ├── firebase_config.py        # Firebase configuration
-│   ├── main.py                   # FastAPI application entry point
+├── backend/                      # FastAPI Backend dùng chung
+│   ├── routers/                  # API theo nhóm nghiệp vụ
+│   ├── services/                 # Xử lý nghiệp vụ/tài khoản
+│   ├── schemas/schema.sql        # SQL khởi tạo cấu trúc database
+│   ├── database.py               # Kết nối PostgreSQL
+│   ├── firebase_config.py        # Firebase Admin SDK
+│   ├── main.py                   # Điểm khởi chạy FastAPI
 │   ├── requirements.txt
 │   └── .env.example
 │
 ├── docs/
-│   ├── api.md
-│   └── database.md
+│   ├── api.md                    # API contract
+│   └── database.md               # Tài liệu thiết kế database
 │
-├── .gitignore
 └── README.md
 ```
 
-Cấu trúc trên là cấu trúc mục tiêu của dự án. Một số thư mục và file có thể chưa được tạo hoặc hoàn thiện trong giai đoạn chuẩn bị.
+## 6. Database
 
-Các thành viên sẽ triển khai và hoàn thiện từng phần trong quá trình phát triển.
+PostgreSQL là database dùng chung cho cả Android và Web Admin. File khởi tạo schema hiện có các bảng:
 
-## 5. Kiến trúc hệ thống
+| Bảng | Vai trò |
+|---|---|
+| `users` | Tài khoản User và Admin |
+| `rooms` | Thông tin phòng cho thuê |
+| `room_images` | Hình ảnh phòng |
+| `favorites` | Danh sách phòng yêu thích |
+| `viewing_appointments` | Lịch hẹn xem phòng |
+| `rental_requests` | Yêu cầu thuê phòng |
+| `rental_contracts` | Hợp đồng thuê |
+| `payments` | Bản ghi thanh toán |
+| `meter_readings` | Chỉ số đồng hồ điện/nước |
+| `maintenance_requests` | Yêu cầu sửa chữa/bảo trì |
+| `move_out_requests` | Yêu cầu trả phòng |
+| `payment_accounts` | Thông tin tài khoản nhận thanh toán |
+| `activity_logs` | Nhật ký hoạt động |
 
-```text
-+-------------------+       +-------------------+
-|                   |       |                   |
-|   Android User    |       |    Web Admin      |
-|                   |       |                   |
-+---------+---------+       +---------+---------+
-          |                           |
-          |        REST API           |
-          +-------------+-------------+
-                        |
-                        v
-              +------------------+
-              |                  |
-              |  FastAPI Backend |
-              |                  |
-              +--------+---------+
-                       |
-                       v
-              +------------------+
-              |                  |
-              |   PostgreSQL     |
-              |                  |
-              +------------------+
+Nguồn schema để khởi tạo database là `backend/schemas/schema.sql`. Khi thay đổi cấu trúc bảng hoặc nghiệp vụ, cần cập nhật cả schema và tài liệu liên quan.
+
+## 7. Quy trình nghiệp vụ thuê phòng
+
+1. User đăng nhập và xem các phòng đang `AVAILABLE`.
+2. User gửi yêu cầu thuê phòng; Backend tạo `rental_requests` với trạng thái `PENDING`.
+3. Admin xem yêu cầu trên Web Admin và chuyển trạng thái thành `APPROVED` hoặc `REJECTED`.
+4. Với yêu cầu được duyệt, Admin tạo hợp đồng và thống nhất ngày bắt đầu, ngày kết thúc, giá thuê, tiền cọc.
+5. Backend tạo hợp đồng và cập nhật phòng thành `RENTED` trong cùng một quy trình giao dịch.
+6. Android hiển thị hợp đồng và phòng đang thuê của User.
+7. Trong thời gian thuê, User có thể gửi yêu cầu sửa chữa hoặc yêu cầu trả phòng theo điều kiện hợp đồng.
+8. Admin xử lý yêu cầu. Khi trả phòng được hoàn tất, hợp đồng kết thúc và trạng thái phòng được cập nhật theo nghiệp vụ.
+
+## 8. Cài đặt và chạy dự án
+
+### 8.1. Yêu cầu môi trường
+
+- Git
+- Python 3.11+ (nên dùng phiên bản tương thích với các package trong `backend/requirements.txt`)
+- PostgreSQL
+- Node.js và npm
+- Android Studio, Android SDK và JDK tương thích với Android Gradle Plugin trong dự án
+- Firebase project có bật phương thức đăng nhập mà ứng dụng sử dụng
+- Cloudinary account để upload ảnh
+
+### 8.2. Backend
+
+Mở terminal tại thư mục repository:
+
+```bash
+cd backend
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
-Nguyên tắc:
+Trên Windows, kích hoạt môi trường ảo bằng:
 
-- Android và Web Admin sử dụng chung FastAPI Backend.
-- Backend chịu trách nhiệm xử lý nghiệp vụ và phân quyền.
-- Chỉ Backend được phép truy cập trực tiếp PostgreSQL.
-- Hai frontend không kết nối database trực tiếp.
+```powershell
+.venv\Scripts\activate
+```
 
-## 6. Tài liệu dự án
+Tạo database PostgreSQL, sau đó cấu hình:
 
-| Tài liệu | Nội dung |
-|---|---|
-| `docs/api.md` | Danh sách API và quy tắc request/response |
-| `docs/database.md` | Thiết kế database và quan hệ giữa các bảng |
-| `backend/schemas/schema.sql` | SQL tạo cấu trúc PostgreSQL |
-| `backend/.env.example` | Danh sách biến môi trường cần cấu hình |
+1. Sao chép `backend/.env.example` thành `backend/.env`.
+2. Cập nhật `DATABASE_URL` theo PostgreSQL local.
+3. Điền `FIREBASE_PROJECT_ID` và đường dẫn Firebase Service Account JSON.
+4. Điền `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY` và `CLOUDINARY_API_SECRET`.
+5. Khởi tạo schema:
 
-Khi thay đổi API hoặc database, thành viên phụ trách cần cập nhật tài liệu tương ứng để các thành viên khác sử dụng thống nhất.
+```bash
+psql -U <postgres_user> -d <database_name> -f schemas/schema.sql
+```
 
-## 7. Phân chia công việc
+Khởi chạy Backend khi đang ở thư mục `backend/`:
 
-Dự án gồm hai ứng dụng frontend và một Backend dùng chung.
+```bash
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
 
-| Thành phần | Phạm vi phụ trách |
-|---|---|
-| Android User | Phát triển ứng dụng Android dành cho người thuê |
-| Web Admin | Phát triển website quản trị dành cho Admin |
-| Shared Backend | Xây dựng API, xử lý nghiệp vụ, xác thực và truy cập database cho cả hai ứng dụng |
+Địa chỉ kiểm tra:
 
-### Android User
+- Health check: `http://localhost:8000/health`
+- API documentation: `http://localhost:8000/docs`
+- API base URL: `http://localhost:8000/api/v1`
 
-- Phát triển giao diện và chức năng dành cho User.
-- Tích hợp Firebase Authentication.
-- Gọi API từ FastAPI Backend.
-- Hiển thị danh sách phòng, chi tiết phòng và chức năng tìm kiếm.
-- Xây dựng chức năng yêu thích, gửi yêu cầu thuê và theo dõi trạng thái yêu cầu.
-- Hiển thị thông tin hợp đồng và lịch sử thanh toán.
-- Quản lý thông tin cá nhân.
+### 8.3. Web Admin
 
-### Web Admin
+```bash
+cd web-admin
+cp .env.example .env
+npm install
+npm run dev
+```
 
-- Phát triển giao diện quản trị Admin.
-- Tích hợp Firebase Authentication.
-- Gọi API từ FastAPI Backend.
-- Xây dựng Dashboard tổng quan.
-- Quản lý phòng và hình ảnh phòng.
-- Quản lý tài khoản người dùng.
-- Quản lý yêu cầu thuê phòng.
-- Quản lý hợp đồng và thông tin thanh toán.
+Cập nhật các biến trong `web-admin/.env` theo Firebase Web App và Backend đang chạy:
 
-### Shared Backend
+- `VITE_API_BASE_URL`
+- `VITE_FIREBASE_API_KEY`
+- `VITE_FIREBASE_AUTH_DOMAIN`
+- `VITE_FIREBASE_PROJECT_ID`
+- `VITE_FIREBASE_STORAGE_BUCKET`
+- `VITE_FIREBASE_MESSAGING_SENDER_ID`
+- `VITE_FIREBASE_APP_ID`
 
-- Xây dựng REST API bằng FastAPI.
-- Thiết kế và quản lý PostgreSQL bằng SQLAlchemy.
-- Xây dựng các lớp Router, Service, Model và Schema.
-- Xử lý nghiệp vụ dùng chung cho Android và Web Admin.
-- Xác thực Firebase ID Token.
-- Kiểm tra quyền USER và ADMIN.
-- Quản lý transaction và truy cập database an toàn.
+Web Admin mặc định chạy tại địa chỉ Vite hiển thị trong terminal (thường là `http://localhost:5173`).
 
-### Quy ước phối hợp
+Build production:
 
-- Backend là thành phần dùng chung, phục vụ cả Android User và Web Admin.
-- Việc phân công người phụ trách Backend cần được nhóm thống nhất.
-- Hai frontend phải sử dụng đúng API Contract trong `docs/api.md`.
-- Không tự ý thay đổi cấu trúc database hoặc API đã thống nhất mà chưa trao đổi với các thành viên liên quan.
-- Khi API hoặc database thay đổi, cần cập nhật tài liệu tương ứng.
-- Các chức năng chưa thuộc MVP không được tự ý mở rộng vào phạm vi triển khai.
+```bash
+npm run build
+```
 
-## 8. Quy ước Git
+### 8.4. Android User
 
-### Branch chính
+1. Mở Android Studio.
+2. Chọn **Open** và trỏ đến thư mục `android-user/`.
+3. Chờ Gradle Sync hoàn tất.
+4. Kiểm tra cấu hình Firebase Android và thông tin Backend URL trong `android-user/app/build.gradle.kts`.
+5. Chạy ứng dụng trên Emulator hoặc thiết bị Android thật.
 
-- `master`: Chứa tài liệu chung và phiên bản ổn định của dự án.
+Backend URL được cấu hình trong `build.gradle.kts`:
 
-### Branch phát triển
+- Android Emulator tiêu chuẩn: `http://10.0.2.2:8000/api/v1/`
+- Điện thoại thật: thay bằng địa chỉ LAN của máy đang chạy Backend, ví dụ `http://192.168.1.5:8000/api/v1/`. Điện thoại và máy tính cần cùng mạng LAN.
 
-Các branch dự kiến:
+Build/cài đặt bằng terminal:
 
-- `feature/android-user`: Phát triển ứng dụng Android User.
-- `feature/web-admin`: Phát triển Web Admin.
-- `feature/backend`: Phát triển Backend dùng chung, nếu nhóm phân công người phụ trách riêng.
+```bash
+cd android-user
+./gradlew installDebug
+```
 
-Tên branch có thể được điều chỉnh theo từng chức năng, ví dụ:
+## 9. Tài liệu API và quy ước dữ liệu
 
-- `feature/authentication`
-- `feature/room-management`
-- `feature/rental-requests`
-- `feature/contract-management`
+Chi tiết endpoint, request/response và quy tắc phân quyền được mô tả trong `docs/api.md`.
 
-### Quy trình làm việc
+Các quy ước chung:
 
-1. Cập nhật branch `master` mới nhất.
-2. Tạo hoặc chuyển sang branch phụ trách.
-3. Thực hiện công việc trong phạm vi được phân công.
-4. Commit với nội dung rõ ràng.
-5. Push branch lên GitHub.
-6. Tạo Pull Request về `master`.
-7. Review và kiểm tra trước khi merge.
+- API prefix: `/api/v1`.
+- Dữ liệu trao đổi: JSON qua HTTP/HTTPS.
+- Tiền tệ: số nguyên VND.
+- Ngày: `YYYY-MM-DD`.
+- Timestamp: ISO 8601.
+- Pagination: `page` bắt đầu từ 1; mặc định `limit=20`.
+- Tài khoản mới mặc định có role `USER`; chỉ quy trình đáng tin cậy mới cấp role `ADMIN`.
 
-### Quy ước khi làm việc chung
+## 10. Git workflow và phối hợp nhóm
 
-- Không tự ý sửa các file dùng chung như `docs/api.md`, `docs/database.md` và `backend/schemas/schema.sql` mà không trao đổi với thành viên liên quan.
-- Khi có thay đổi API hoặc database, cần thông báo cho các thành viên đang tích hợp.
-- Không commit file `.env`, Firebase Service Account JSON hoặc thông tin bí mật.
-- Không push trực tiếp các thay đổi chưa kiểm tra lên branch chính.
+Các nhánh đang được sử dụng trong quá trình phát triển có thể gồm:
 
-## 9. Cài đặt và chạy dự án
+- `user`: Android User và các thay đổi tích hợp liên quan.
+- `web-admin` hoặc nhánh Web Admin tương ứng: giao diện quản trị.
+- `master`: nhánh chính/ổn định của repository.
 
-Các hướng dẫn dưới đây là quy trình dự kiến. Chi tiết cấu hình và lệnh chạy sẽ được cập nhật sau khi nhóm hoàn thiện cấu trúc và kiểm thử từng thành phần.
+Tên nhánh thực tế có thể thay đổi theo tiến độ. Trước khi làm việc, cần kiểm tra nhánh hiện tại và cập nhật code mới nhất.
 
-### Backend
+Quy ước phối hợp:
 
-1. Cài đặt Python và PostgreSQL.
-2. Tạo database PostgreSQL cho dự án.
-3. Sao chép `backend/.env.example` thành `backend/.env`.
-4. Điền các thông tin cấu hình cần thiết.
-5. Tạo môi trường ảo Python.
-6. Cài đặt thư viện từ `backend/requirements.txt`.
-7. Khởi tạo database bằng `backend/schemas/schema.sql`.
-8. Cấu hình Firebase Admin SDK và thông tin xác thực cần thiết.
-9. Chạy FastAPI bằng Uvicorn.
+- Android và Web Admin phải tuân theo API contract trong `docs/api.md`.
+- Không tự ý thay đổi endpoint, tên field, kiểu dữ liệu hoặc trạng thái nghiệp vụ mà không thông báo cho thành viên còn lại.
+- Khi sửa database, cập nhật `backend/schemas/schema.sql` và tài liệu database.
+- Backend là phần dùng chung; thay đổi API cần được kiểm tra trên cả hai client.
+- Dùng commit message mô tả rõ nội dung thay đổi; ưu tiên Pull Request khi tích hợp nhánh.
 
-### Android User
+## 11. Bảo mật
 
-1. Cài đặt Android Studio và Android SDK.
-2. Mở project trong thư mục `android-user/`.
-3. Cấu hình Firebase cho ứng dụng Android.
-4. Cấu hình địa chỉ Backend API.
-5. Kết nối Android với Backend.
-6. Build và chạy ứng dụng trên Emulator hoặc thiết bị thật.
+- Không commit `.env`, Firebase Service Account JSON, mật khẩu database hoặc Cloudinary API Secret.
+- Không đưa thông tin bí mật vào README, issue hoặc commit.
+- Cấu hình Firebase và Cloudinary bằng thông tin của môi trường triển khai tương ứng.
+- Không lưu mật khẩu người dùng dạng plaintext.
+- Backend phải xác minh Firebase ID Token và kiểm tra role/status từ PostgreSQL.
+- Không để client truy cập PostgreSQL trực tiếp.
+- Khi phát hành production, sử dụng HTTPS và cấu hình CORS theo domain thực tế.
 
-Đối với Android Emulator sử dụng địa chỉ Backend:
+## 12. Trạng thái và phạm vi
 
-`http://10.0.2.2:8000/api/v1`
+Repository hiện chứa mã nguồn cho ba thành phần Android User, Web Admin và FastAPI Backend, cùng tài liệu API và database. Các chức năng được liệt kê ở trên phản ánh những module/luồng đã có trong source code; mức độ hoàn thiện và khả năng chạy thực tế còn phụ thuộc cấu hình Firebase, Cloudinary, PostgreSQL, biến môi trường và kiểm thử tích hợp ở từng máy.
 
-### Web Admin
+Một số dữ liệu như chỉ số điện/nước và thông tin tài khoản thanh toán đã có cấu trúc trong database; không nên xem đó là bằng chứng rằng toàn bộ quy trình tiện ích hoặc thanh toán trực tuyến đã được triển khai hoàn chỉnh.
 
-1. Cài đặt Node.js và npm.
-2. Mở project trong thư mục `web-admin/`.
-3. Cài đặt các dependencies.
-4. Cấu hình Firebase cho Web Admin.
-5. Cấu hình địa chỉ Backend API.
-6. Chạy ứng dụng bằng script được khai báo trong `package.json`.
+---
 
-**Lưu ý:** Các bước trên chưa được kiểm thử trên project hoàn chỉnh. Không xem đây là hướng dẫn chạy chính thức cho đến khi nhóm hoàn tất cấu hình và kiểm tra thực tế.
-
-## 10. Quy tắc bảo mật
-
-- Không commit file `.env` lên GitHub.
-- Không commit Firebase Service Account JSON.
-- Không đưa mật khẩu hoặc API key vào source code.
-- Backend phải xác thực Firebase ID Token trước khi xử lý các API được bảo vệ.
-- Backend phải kiểm tra quyền `USER` và `ADMIN` dựa trên dữ liệu trong PostgreSQL.
-- Không tin tưởng role hoặc user ID do frontend tự gửi lên.
-- Không để Android hoặc Web Admin kết nối trực tiếp PostgreSQL.
-- Không trả về thông tin nhạy cảm của người dùng trong API response.
-
-## 11. Trạng thái dự án
-
-Dự án hiện đang trong giai đoạn chuẩn bị và hoàn thiện cấu trúc trước khi triển khai chức năng.
-
-### 11.1. Các nội dung đã thống nhất
-
-- Kiến trúc tổng thể của hệ thống.
-- Công nghệ sử dụng cho Android, Web và Backend.
-- PostgreSQL là hệ quản trị cơ sở dữ liệu chung.
-- Database schema gồm 8 bảng.
-- API Contract giữa Android, Web và Backend.
-- Phạm vi chức năng MVP.
-- Các chức năng định hướng phát triển trong tương lai.
-- Cấu trúc thư mục mục tiêu.
-- Quy ước làm việc trên GitHub.
-
-### 11.2. Các nội dung đang chuẩn bị triển khai
-
-- Hoàn thiện cấu trúc project Android User.
-- Hoàn thiện cấu trúc project Web Admin.
-- Hoàn thiện cấu trúc FastAPI Backend.
-- Cấu hình môi trường phát triển.
-- Kết nối Firebase Authentication.
-- Kết nối PostgreSQL.
-- Phân chia công việc và tạo branch riêng cho từng phần.
-- Triển khai, kiểm thử và tích hợp các chức năng MVP.
-
-### 11.3. Phạm vi phát triển trong tương lai
-
-Các chức năng sau được giữ lại trong thiết kế Figma để định hướng mở rộng:
-
-- Utility Billing – Quản lý hóa đơn điện, nước và chi phí tiện ích.
-- Reports & Analytics – Báo cáo và phân tích dữ liệu nâng cao.
-
-Hai chức năng trên chưa thuộc phạm vi MVP, chưa yêu cầu API, database schema hoặc business logic riêng.
-
-**Lưu ý:** Cấu trúc thư mục và các tài liệu hiện tại là nền tảng chuẩn bị cho quá trình phát triển. Không đồng nghĩa với việc các ứng dụng đã hoàn thiện hoặc có thể chạy được.
+**Repository:** [MyNgoc19/Android_App](https://github.com/MyNgoc19/Android_App)
