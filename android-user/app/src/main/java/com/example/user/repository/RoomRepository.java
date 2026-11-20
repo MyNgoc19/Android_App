@@ -17,15 +17,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Phòng (GET rooms, rooms/{id}) + Yêu thích (users/me/favorites).
- * Backend không trả "is_favorite" => app tự so với danh sách yêu thích.
- */
+
+
+
+
 public class RoomRepository {
 
     private final ApiService api = RetrofitClient.getApi();
 
-    /** query: keyword, page, limit... (lọc giá/quận/loại làm ở SearchActivity) */
+
     public void getRooms(Map<String, String> query, ApiCallback<List<Room>> callback) {
         ApiCaller.enqueue(api.getRooms(query), new ApiCallback<List<Room>>() {
             @Override
@@ -57,9 +57,9 @@ public class RoomRepository {
         });
     }
 
-    // ===== Yêu thích =====
 
-    /** Danh sách phòng yêu thích */
+
+
     public void getFavoriteRooms(ApiCallback<List<Room>> callback) {
         ApiCaller.enqueue(api.getFavorites(), new ApiCallback<JsonElement>() {
             @Override
@@ -80,7 +80,7 @@ public class RoomRepository {
                 for (Room r : rooms) {
                     r.setFavorite(true);
                 }
-                // Chỉ có room_id => tải chi tiết từng phòng
+
                 loadRooms(missingIds, 0, rooms, callback);
             }
 
@@ -108,7 +108,7 @@ public class RoomRepository {
 
             @Override
             public void onError(String message) {
-                loadRooms(ids, index + 1, result, callback); // bỏ qua phòng lỗi
+                loadRooms(ids, index + 1, result, callback);
             }
         });
     }
@@ -132,7 +132,7 @@ public class RoomRepository {
         }
     }
 
-    /** Đánh dấu room.isFavorite() theo danh sách yêu thích (bỏ qua nếu chưa đăng nhập) */
+
     private void markFavorites(List<Room> rooms, Runnable done) {
         if (!SessionManager.getInstance().isLoggedIn() || rooms.isEmpty()) {
             done.run();
@@ -161,12 +161,12 @@ public class RoomRepository {
 
             @Override
             public void onError(String message) {
-                done.run(); // không lấy được thì coi như chưa yêu thích
+                done.run();
             }
         });
     }
 
-    /** JSON có thể là [...] hoặc {"items": [...]} */
+
     private static JsonArray toArray(JsonElement json) {
         if (json == null || json.isJsonNull()) return new JsonArray();
         if (json.isJsonArray()) return json.getAsJsonArray();
@@ -179,7 +179,7 @@ public class RoomRepository {
         return new JsonArray();
     }
 
-    /** Tiện tạo query mặc định */
+
     public static Map<String, String> query(String keyword, int limit) {
         Map<String, String> q = new HashMap<>();
         q.put("page", "1");
