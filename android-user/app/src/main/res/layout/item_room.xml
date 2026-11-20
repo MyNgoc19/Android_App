@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- ==================== ẢNH PHÒNG ==================== -->
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="180dp">
@@ -32,7 +32,7 @@
                 android:contentDescription="Ảnh phòng"
                 android:scaleType="centerCrop" />
 
-            <!-- Loại phòng -->
+
             <TextView
                 android:id="@+id/txtRoomType"
                 android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
-            <!-- Nút yêu thích -->
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -74,14 +74,14 @@
 
         </FrameLayout>
 
-        <!-- ==================== THÔNG TIN PHÒNG ==================== -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Tên phòng -->
+
             <TextView
                 android:id="@+id/txtRoomTitle"
                 android:layout_width="match_parent"
@@ -93,7 +93,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <!-- Địa chỉ -->
+
             <TextView
                 android:id="@+id/txtRoomAddress"
                 android:layout_width="match_parent"
@@ -105,7 +105,7 @@
                 android:textColor="#929097"
                 android:textSize="13sp" />
 
-            <!-- Đường phân cách -->
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -113,7 +113,7 @@
                 android:layout_marginBottom="12dp"
                 android:background="#F1EDF0" />
 
-            <!-- Giá phòng và diện tích -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
