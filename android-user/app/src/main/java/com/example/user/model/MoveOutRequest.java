@@ -1,8 +1,8 @@
 package com.example.user.model;
 
-/**
- * Yêu cầu trả phòng (GET/POST users/me/move-out-requests). status: PENDING | APPROVED | REJECTED | CANCELLED | COMPLETED.
- */
+
+
+
 public class MoveOutRequest {
 
     private int id;
