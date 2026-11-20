@@ -178,7 +178,7 @@ Nguồn schema để khởi tạo database là `backend/schemas/schema.sql`. Khi
 7. Trong thời gian thuê, User có thể gửi yêu cầu sửa chữa hoặc yêu cầu trả phòng theo điều kiện hợp đồng.
 8. Admin xử lý yêu cầu. Khi trả phòng được hoàn tất, hợp đồng kết thúc và trạng thái phòng được cập nhật theo nghiệp vụ.
 
-## 8. Cài đặt và chạy dự án
+## 8. Cài đặt và khởi chạy dự án
 
 ### 8.1. Cài đặt tự động cho Backend và Web Admin
 
@@ -329,7 +329,7 @@ Các quy ước chung:
 - Pagination: `page` bắt đầu từ 1; mặc định `limit=20`.
 - Tài khoản mới mặc định có role `USER`; chỉ quy trình đáng tin cậy mới cấp role `ADMIN`.
 
-## 10. Git workflow và phối hợp nhóm
+## 10. Quy trình Git và phối hợp nhóm
 
 Các nhánh đang được sử dụng trong quá trình phát triển có thể gồm:
 
