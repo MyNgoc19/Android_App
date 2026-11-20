@@ -22,12 +22,12 @@ import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import java.util.List;
 
-/**
- * Xem hợp đồng (GET users/me/contracts/{id}).
- * Hợp đồng do chủ nhà tạo trên Web Admin sau khi duyệt yêu cầu thuê, người thuê chỉ xem.
- * - Có EXTRA_CONTRACT_ID => mở đúng hợp đồng đó
- * - Không có => mở hợp đồng đang hiệu lực (hoặc gần nhất)
- */
+
+
+
+
+
+
 public class ContractActivity extends AppCompatActivity {
 
     public static final String EXTRA_CONTRACT_ID = "contract_id";
@@ -92,7 +92,7 @@ public class ContractActivity extends AppCompatActivity {
             return;
         }
 
-        // Không truyền id => ưu tiên hợp đồng ACTIVE, nếu không có thì lấy cái gần nhất
+
         repository.getContracts(new ApiCallback<List<Contract>>() {
             @Override
             public void onSuccess(List<Contract> list) {
@@ -162,7 +162,7 @@ public class ContractActivity extends AppCompatActivity {
 
         txtTerms.setText(buildTerms());
 
-        // Người thuê chỉ xem; nút xem tiền cọc + lịch sử thanh toán
+
         layoutActions.setVisibility(View.VISIBLE);
         btnSecondary.setText("Thanh toán");
         btnSecondary.setOnClickListener(v -> startActivity(
@@ -175,7 +175,7 @@ public class ContractActivity extends AppCompatActivity {
         });
     }
 
-    // Điều khoản tạo từ dữ liệu hợp đồng
+
     private String buildTerms() {
         return "1. Bên cho thuê đồng ý cho Bên thuê thuê phòng \"" + Format.orEmpty(contract.getRoomTitle())
                 + "\" tại " + contract.getRoomFullAddress() + ".\n"
