@@ -7,7 +7,7 @@
     android:background="#FFF9FC"
     android:orientation="vertical">
 
-    <!-- Header -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
 
     </LinearLayout>
 
-    <!-- Loading -->
+
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
@@ -49,7 +49,7 @@
         app:indicatorColor="#FF69A6"
         app:trackColor="#FFE4EF" />
 
-    <!-- Thông báo khi chưa thuê phòng -->
+
     <TextView
         android:id="@+id/txtNoRoom"
         android:layout_width="match_parent"
@@ -61,7 +61,7 @@
         android:textSize="15sp"
         android:visibility="gone" />
 
-    <!-- Nội dung chính -->
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -76,7 +76,7 @@
             android:padding="20dp"
             android:visibility="visible">
 
-            <!-- Phòng đang thuê -->
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Yêu cầu đã gửi -->
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardExisting"
                 android:layout_width="match_parent"
@@ -205,7 +205,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Form gửi yêu cầu -->
+
             <LinearLayout
                 android:id="@+id/layoutForm"
                 android:layout_width="match_parent"
@@ -222,9 +222,9 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <!-- Ngày trả phòng -->
 
-                <!-- Ngày trả phòng -->
+
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/layoutMoveOutDate"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -251,7 +251,7 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Lý do -->
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/layoutReason"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -277,7 +277,7 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Lưu ý -->
+
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -297,7 +297,7 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Nút gửi -->
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSubmit"
                     android:layout_width="match_parent"
