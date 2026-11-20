@@ -1,32 +1,78 @@
-# React + TypeScript + Vite
+# N&N Home — Web Admin
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Web Admin là giao diện quản trị của hệ thống quản lý phòng cho thuê N&N Home. Ứng dụng được xây dựng bằng React, TypeScript và Vite, sử dụng chung FastAPI Backend với Android User.
 
-Currently, two official plugins are available:
+## Yêu cầu
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Node.js 20 trở lên và npm
+- Python 3.10 trở lên để cài Backend dùng chung
+- PostgreSQL
+- Firebase project đã bật Firebase Authentication
 
-## React Compiler
+## Cài đặt
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Nên chạy bộ cài tại thư mục gốc repository để cài đồng thời Backend và Web Admin:
 
-## Expanding the Oxlint configuration
+- Windows Command Prompt: `setup.bat`
+- Windows PowerShell: `./setup.ps1`
+- macOS/Linux: `bash ./setup.sh`
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+Bộ cài tạo `web-admin/.env` từ `.env.example` nếu file chưa tồn tại và cài dependencies bằng `npm ci`.
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+Cấu hình các biến trong `web-admin/.env`:
+
+- `VITE_API_BASE_URL`: URL API FastAPI, ví dụ `http://localhost:8000/api/v1`.
+- `VITE_FIREBASE_API_KEY`
+- `VITE_FIREBASE_AUTH_DOMAIN`
+- `VITE_FIREBASE_PROJECT_ID`
+- `VITE_FIREBASE_STORAGE_BUCKET`
+- `VITE_FIREBASE_MESSAGING_SENDER_ID`
+- `VITE_FIREBASE_APP_ID`
+
+Các giá trị Firebase phải thuộc cùng Firebase project mà Android User sử dụng. Không commit file `.env`.
+
+## Chạy ứng dụng
+
+Khởi động Backend trong terminal thứ nhất:
+
+```bash
+cd backend
+.venv/bin/python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Trên Windows PowerShell:
+
+```powershell
+cd backend
+.venv\Scripts\python.exe -m uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
+Khởi động Web Admin trong terminal thứ hai:
+
+```bash
+cd web-admin
+npm run dev
+```
+
+Mở địa chỉ Vite hiển thị trong terminal, mặc định là `http://localhost:5173`.
+
+## Kiểm tra và build
+
+```bash
+npm run lint
+npm run build
+npm run preview
+```
+
+## Các module quản trị
+
+- Dashboard
+- Quản lý phòng và hình ảnh
+- Quản lý người dùng và phân quyền
+- Quản lý yêu cầu thuê
+- Quản lý hợp đồng
+- Quản lý thanh toán
+- Quản lý yêu cầu sửa chữa
+- Quản lý yêu cầu trả phòng
+
+Web Admin không kết nối PostgreSQL trực tiếp. Mọi dữ liệu được truy cập thông qua FastAPI và Firebase ID Token.
