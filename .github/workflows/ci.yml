@@ -43,6 +43,21 @@ jobs:
         env:
           DATABASE_URL: postgresql://app:app@localhost:5432/room_rental_test
         run: psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f backend/schemas/schema.sql
+      - name: Smoke test FastAPI
+        working-directory: backend
+        env:
+          DATABASE_URL: postgresql+psycopg://app:app@localhost:5432/room_rental_test
+        run: |
+          uvicorn main:app --host 127.0.0.1 --port 8000 &
+          server_pid=$!
+          trap "kill $server_pid" EXIT
+          for attempt in $(seq 1 20); do
+            if curl --fail http://127.0.0.1:8000/health; then
+              exit 0
+            fi
+            sleep 1
+          done
+          exit 1
 
   web-admin:
     runs-on: ubuntu-latest
