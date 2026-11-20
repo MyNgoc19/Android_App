@@ -26,10 +26,10 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
 
-/**
- * "Đồng ý thuê": gửi YÊU CẦU THUÊ tới chủ nhà.
- * Chủ nhà duyệt trên Web Admin rồi tạo hợp đồng => hợp đồng hiện ở "Phòng của tôi".
- */
+
+
+
+
 public class RentalActivity extends AppCompatActivity {
 
     public static final String EXTRA_ROOM_ID = "room_id";
@@ -71,7 +71,7 @@ public class RentalActivity extends AppCompatActivity {
         btnSubmit = findViewById(R.id.btnSubmit);
         progressBar = findViewById(R.id.progressBar);
 
-        // Mặc định bắt đầu sau 3 ngày
+
         startDate = Calendar.getInstance();
         startDate.add(Calendar.DAY_OF_MONTH, 3);
         edtStartDate.setText(Format.date(Format.toApiDate(startDate)));
@@ -118,7 +118,7 @@ public class RentalActivity extends AppCompatActivity {
         return 12;
     }
 
-    // Giá thuê + thời gian dự kiến hiển thị ngay dưới tên phòng
+
     private void updateSummary() {
         if (room == null) {
             return;
@@ -127,7 +127,7 @@ public class RentalActivity extends AppCompatActivity {
                 + " • " + selectedMonths() + " tháng");
     }
 
-    // Tóm tắt toàn bộ chi phí trước khi gửi
+
     private String buildSummary() {
         int months = selectedMonths();
         String start = Format.toApiDate(startDate);
@@ -189,10 +189,10 @@ public class RentalActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Gửi Rental Request: POST rooms/{room_id}/rental-requests
-     * body: message + desired_move_in (ngày bắt đầu thuê)
-     */
+
+
+
+
     private void createRental() {
         btnSubmit.setEnabled(false);
         Ui.visible(progressBar, true);
@@ -206,7 +206,7 @@ public class RentalActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void data) {
                         Ui.toast(RentalActivity.this, "Đã gửi yêu cầu thuê, vui lòng chờ chủ nhà duyệt");
-                        // Xem danh sách yêu cầu thuê của tôi
+
                         startActivity(new Intent(RentalActivity.this,
                                 com.example.user.appointment.MyAppointmentsActivity.class));
                         finish();
