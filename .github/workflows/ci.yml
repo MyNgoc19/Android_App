@@ -91,4 +91,4 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - name: Assemble Android app
         working-directory: android-user
-        run: ./gradlew --no-daemon :app:assembleDebug
+        run: bash ./gradlew --no-daemon :app:assembleDebug
