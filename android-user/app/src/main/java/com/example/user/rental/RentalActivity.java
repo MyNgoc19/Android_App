@@ -5,7 +5,8 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import android.content.res.ColorStateList;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.user.R;
@@ -146,12 +147,20 @@ public class RentalActivity extends AppCompatActivity {
             return;
         }
 
-        new AlertDialog.Builder(this)
-                .setTitle("Xác nhận thuê phòng")
+        androidx.appcompat.app.AlertDialog dialog = new MaterialAlertDialogBuilder(this)
+                .setTitle("Xác nhận gửi yêu cầu")
                 .setMessage(buildSummary())
-                .setNegativeButton("Xem lại", null)
-                .setPositiveButton("Đồng ý thuê", (d, w) -> createRental())
-                .show();
+                .setNegativeButton("Chỉnh sửa", null)
+                .setPositiveButton("Gửi yêu cầu", (d, w) -> createRental())
+                .create();
+
+        dialog.setOnShowListener(ignored -> {
+            dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
+                    .setTextColor(android.graphics.Color.parseColor("#E85D93"));
+            dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE)
+                    .setTextColor(android.graphics.Color.parseColor("#77717A"));
+        });
+        dialog.show();
     }
 
     /**
