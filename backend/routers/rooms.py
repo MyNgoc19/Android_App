@@ -1,5 +1,5 @@
 
-from typing import Any
+from typing import Any, Literal
 from datetime import date
 
 from fastapi import APIRouter, HTTPException, Query
@@ -218,6 +218,7 @@ class UserProfileUpdate(BaseModel):
     full_name: str | None = Field(default=None, min_length=1, max_length=150)
     phone: str | None = Field(default=None, max_length=30)
     avatar_url: str | None = None
+    gender: Literal["MALE", "FEMALE", "OTHER"] | None = None
 
 
 class RentalRequestCreate(BaseModel):
@@ -232,7 +233,7 @@ def get_my_profile(
 ):
     profile = db.execute(
         text("""
-            SELECT id, firebase_uid, email, full_name, phone, avatar_url,
+            SELECT id, firebase_uid, email, full_name, phone, avatar_url, gender,
                    role, status, created_at, updated_at
             FROM users
             WHERE id = :user_id
