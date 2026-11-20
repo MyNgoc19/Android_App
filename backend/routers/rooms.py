@@ -290,7 +290,7 @@ def update_my_profile(
 
     profile = db.execute(
         text("""
-            SELECT id, firebase_uid, email, full_name, phone, avatar_url,
+            SELECT id, firebase_uid, email, full_name, phone, avatar_url, gender,
                    role, status, created_at, updated_at
             FROM users
             WHERE id = :user_id
