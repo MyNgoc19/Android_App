@@ -1,0 +1,75 @@
+name: Project CI
+
+on:
+  push:
+    branches:
+      - user
+  pull_request:
+    branches:
+      - user
+
+permissions:
+  contents: read
+
+jobs:
+  backend-and-database:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: app
+          POSTGRES_DB: room_rental_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U app -d room_rental_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install backend dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r backend/requirements.txt
+      - name: Compile backend
+        run: python -m compileall -q backend
+      - name: Apply database schema
+        env:
+          DATABASE_URL: postgresql://app:app@localhost:5432/room_rental_test
+        run: psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f backend/schemas/schema.sql
+
+  web-admin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: web-admin/package-lock.json
+      - name: Install web dependencies
+        run: npm ci --prefix web-admin
+      - name: Build Web Admin
+        run: npm run build --prefix web-admin
+
+  android-user:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: android-actions/setup-android@v3
+      - name: Install Android SDK platform
+        run: sdkmanager "platforms;android-37"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Assemble Android app
+        working-directory: android-user
+        run: ./gradlew --no-daemon :app:assembleDebug
