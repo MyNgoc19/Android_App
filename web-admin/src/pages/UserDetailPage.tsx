@@ -328,7 +328,7 @@ export default function UserDetailPage() {
                     </section>
                 </div>
             </div>
- 
+
         </div>
     );
 }
