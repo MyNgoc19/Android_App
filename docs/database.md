@@ -1,4 +1,4 @@
-# Database Design — N&N Home
+#Thiết kế cơ sở dữ liệu — N&N Home
 
 ## 1. Tổng quan
 
@@ -10,12 +10,12 @@ Schema khởi tạo và nâng cấp database nằm tại `backend/schemas/schema
 
 | Bảng | Mục đích |
 |---|---|
-| `users` | Tài khoản User/Admin được đồng bộ từ Firebase Authentication. |
+| `users` | Tài khoản người dùng/quản trị viên được đồng bộ từ Firebase Authentication. |
 | `rooms` | Thông tin phòng cho thuê, giá, sức chứa, tiện ích và trạng thái. |
 | `room_images` | URL ảnh phòng lưu trên Cloudinary và thứ tự hiển thị. |
-| `favorites` | Quan hệ User yêu thích phòng; khóa chính ghép user_id và room_id. |
-| `viewing_appointments` | Lịch hẹn xem phòng và trạng thái xử lý của Admin. |
-| `rental_requests` | Yêu cầu thuê phòng do User gửi và Admin duyệt. |
+| `favorites` | Quan hệ Người dùng đánh dấu phòng yêu thích; khóa chính ghép user_id và room_id. |
+| `viewing_appointments` | Lịch hẹn xem phòng và trạng thái xử lý của quản trị viên. |
+| `rental_requests` | Yêu cầu thuê phòng do người dùng gửi và quản trị viên duyệt. |
 | `rental_contracts` | Hợp đồng phát sinh từ yêu cầu thuê đã được duyệt. |
 | `payments` | Các khoản tiền cọc, tiền thuê và khoản thu khác. |
 | `meter_readings` | Chỉ số điện/nước theo kỳ gắn với hợp đồng và khoản thanh toán. |
@@ -28,7 +28,7 @@ Schema khởi tạo và nâng cấp database nằm tại `backend/schemas/schema
 
 ### `users`
 
-Tài khoản User/Admin được đồng bộ từ Firebase Authentication.
+Tài khoản người dùng/quản trị viên được đồng bộ từ Firebase Authentication.
 
 Cột: `id`, `firebase_uid`, `email`, `full_name`, `phone`, `avatar_url`, `gender`, `role`, `status`, `created_at`, `updated_at`.
 
@@ -168,4 +168,4 @@ psql -U <postgres_user> -d <database_name> -v ON_ERROR_STOP=1 -f backend/schemas
 ```
 
 Có thể chạy lại schema để tạo các bảng/index/trigger còn thiếu và áp dụng các bước nâng cấp đã khai báo. Trước khi chạy trên database đang có dữ liệu, cần sao lưu database.
-\n## 9. Tài khoản Admin mẫu\n\nBảng `users` lưu Firebase UID và quyền ứng dụng, không lưu mật khẩu. Tài khoản demo phải được tạo trong Firebase Authentication trước, sau đó đăng nhập Web Admin một lần để Backend đồng bộ Firebase UID vào bảng `users`.\n\nTài khoản demo local: `admin.demo@nn-home.test`, mật khẩu `DemoAdmin@12345`. Sau khi đồng bộ, chạy `backend/schemas/seed_admin.sql` từ thư mục gốc repository để nâng tài khoản này lên `ADMIN` và đặt trạng thái `ACTIVE`. Hướng dẫn đầy đủ nằm trong [docs/admin-account.md](admin-account.md). Không sử dụng thông tin này trên production.\n
+\n## 9. Tài khoản quản trị mẫu\n\nBảng `users` lưu Firebase UID và quyền ứng dụng, không lưu mật khẩu. Tài khoản demo phải được tạo trong Firebase Authentication trước, sau đó đăng nhập Web Admin một lần để Backend đồng bộ Firebase UID vào bảng `users`.\n\nTài khoản mẫu trên máy cá nhân: `admin.demo@nn-home.test`, mật khẩu `DemoAdmin@12345`. Sau khi đồng bộ, chạy `backend/schemas/seed_admin.sql` từ thư mục gốc repository để cấp quyền quản trị cho tài khoản này `ADMIN` và đặt trạng thái `ACTIVE`. Hướng dẫn đầy đủ nằm trong [docs/admin-account.md](admin-account.md). Không sử dụng thông tin này trên môi trường thật.\n
