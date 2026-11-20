@@ -37,7 +37,7 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- Trạng thái -->
+
             <com.google.android.material.card.MaterialCardView
                 style="@style/NN.Card"
                 android:layout_width="match_parent"
