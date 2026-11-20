@@ -27,8 +27,21 @@ if (-not (Get-Command node -ErrorAction SilentlyContinue) -or -not (Get-Command 
 }
 
 $PythonVersion = & $PythonCommand @PythonPrefix --version
+if ($PythonVersion -notmatch "Python (\d+)\.(\d+)") {
+    throw "Unable to detect the Python version."
+}
+if ([int]$Matches[1] -lt 3 -or ([int]$Matches[1] -eq 3 -and [int]$Matches[2] -lt 10)) {
+    throw "Python 3.10 or newer is required."
+}
+$NodeVersion = & node --version
+if ($NodeVersion -notmatch "v?(\d+)") {
+    throw "Unable to detect the Node.js version."
+}
+if ([int]$Matches[1] -lt 20) {
+    throw "Node.js 20 or newer is required."
+}
 Write-Host "Using $PythonVersion"
-Write-Host "Using Node.js $(& node --version)"
+Write-Host "Using Node.js $NodeVersion"
 
 $BackendEnv = Join-Path $Backend ".env"
 $WebEnv = Join-Path $Web ".env"
