@@ -67,7 +67,7 @@ app.include_router(
     prefix=API_PREFIX,
 )
 
-# Yêu cầu sửa chữa (người thuê + admin)
+
 app.include_router(
     maintenance_router,
     prefix=API_PREFIX,
@@ -78,7 +78,7 @@ app.include_router(
     prefix=API_PREFIX,
 )
 
-# Yêu cầu trả phòng (người thuê + admin)
+
 app.include_router(
     move_out_router,
     prefix=API_PREFIX,
