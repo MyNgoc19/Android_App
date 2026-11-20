@@ -60,10 +60,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void setupEvents() {
 
-        // Nút tạo tài khoản
+
         btnRegister.setOnClickListener(v -> register());
 
-        // Chuyển sang đăng nhập
+
         txtLogin.setOnClickListener(v -> {
             Intent intent = new Intent(
                     RegisterActivity.this,
@@ -74,10 +74,10 @@ public class RegisterActivity extends AppCompatActivity {
             finish();
         });
 
-        // Đăng ký bằng Google
+
         btnGoogle.setOnClickListener(v -> registerWithGoogle());
 
-        // Quay lại
+
         findViewById(R.id.btnBack)
                 .setOnClickListener(v -> finish());
     }
@@ -89,20 +89,20 @@ public class RegisterActivity extends AppCompatActivity {
         String password = getText(edtPassword);
         String confirmPassword = getText(edtConfirmPassword);
 
-        // Xóa thông báo lỗi cũ
+
         layoutFullName.setError(null);
         layoutEmail.setError(null);
         layoutPassword.setError(null);
         layoutConfirmPassword.setError(null);
 
-        // Kiểm tra họ tên
+
         if (TextUtils.isEmpty(fullName)) {
             layoutFullName.setError("Vui lòng nhập họ tên");
             edtFullName.requestFocus();
             return;
         }
 
-        // Kiểm tra Email
+
         if (TextUtils.isEmpty(email)) {
             layoutEmail.setError("Vui lòng nhập Email");
             edtEmail.requestFocus();
@@ -115,7 +115,7 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        // Kiểm tra mật khẩu
+
         if (TextUtils.isEmpty(password)) {
             layoutPassword.setError("Vui lòng nhập mật khẩu");
             edtPassword.requestFocus();
@@ -130,7 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        // Kiểm tra xác nhận mật khẩu
+
         if (TextUtils.isEmpty(confirmPassword)) {
             layoutConfirmPassword.setError(
                     "Vui lòng xác nhận mật khẩu"
@@ -147,11 +147,11 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        // Gọi API đăng ký => thành công thì đăng nhập luôn
+
         btnRegister.setEnabled(false);
         btnRegister.setText("Đang tạo tài khoản...");
 
-        // Firebase tạo tài khoản -> POST auth/session (tạo user trong PostgreSQL) -> GET auth/me
+
         authRepository.register(fullName, email, password, new ApiCallback<User>() {
             @Override
             public void onSuccess(User user) {
@@ -175,7 +175,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    // Tài khoản Google mới sẽ được backend tạo trong bảng users (auth/session)
+
     private void registerWithGoogle() {
         setGoogleLoading(true);
         GoogleSignInHelper.signIn(this, new GoogleSignInHelper.Listener() {
