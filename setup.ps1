@@ -62,7 +62,7 @@ Invoke-Checked $VenvPython @("-m", "pip", "install", "-r", (Join-Path $Backend "
 
 Push-Location $Web
 try {
-    Invoke-Checked "npm" @("install")
+    Invoke-Checked "npm" @("ci")
 } finally {
     Pop-Location
 }
