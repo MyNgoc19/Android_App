@@ -19,10 +19,10 @@ import com.example.user.utils.StatusUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Danh sách YÊU CẦU THUÊ / HẸN XEM PHÒNG của tôi (dùng layout item_appointment.xml).
- * Backend chung chỉ có Rental Requests nên lịch hẹn xem phòng cũng là 1 rental request.
- */
+
+
+
+
 public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.ViewHolder> {
 
     public interface Listener {
@@ -72,7 +72,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         StatusUtil.apply(h.txtStatus, r.getStatus());
         ImageLoader.load(h.img, r.getRoomImage());
 
-        // Chỉ hủy được yêu cầu đang chờ
+
         boolean canCancel = "PENDING".equalsIgnoreCase(r.getStatus());
         h.btnCancel.setVisibility(canCancel ? View.VISIBLE : View.GONE);
         h.btnCancel.setText("Hủy yêu cầu");
