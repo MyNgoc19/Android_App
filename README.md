@@ -145,7 +145,7 @@ Android_App/
 └── README.md
 ```
 
-## 6. Database
+## 6. Cơ sở dữ liệu
 
 PostgreSQL là database dùng chung cho cả Android và Web Admin. File khởi tạo schema hiện có các bảng:
 
@@ -217,17 +217,15 @@ Mở URL Vite hiển thị trong terminal, mặc định thường là `http://l
 
 ### 8.2. Yêu cầu môi trường
 
-### 8.2. Yêu cầu môi trường
-
 - Git
 - Python 3.11+ (nên dùng phiên bản tương thích với các package trong `backend/requirements.txt`)
 - PostgreSQL
 - Node.js và npm
 - Android Studio, Android SDK và JDK tương thích với Android Gradle Plugin trong dự án
-- Firebase project có bật phương thức đăng nhập mà ứng dụng sử dụng
-- Cloudinary account để upload ảnh
+- Dự án Firebase đã bật phương thức đăng nhập mà ứng dụng sử dụng
+- Tài khoản Cloudinary để tải ảnh lên
 
-### 8.3. Backend
+### 8.3. Máy chủ Backend
 
 Mở terminal tại thư mục repository:
 
@@ -268,7 +266,7 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 - API documentation: `http://localhost:8000/docs`
 - API base URL: `http://localhost:8000/api/v1`
 
-### 8.4. Web Admin
+### 8.4. Trang quản trị Web
 
 ```bash
 cd web-admin
@@ -295,7 +293,7 @@ Build production:
 npm run build
 ```
 
-### 8.5. Android User
+### 8.5. Ứng dụng Android cho người thuê
 
 1. Mở Android Studio.
 2. Chọn **Open** và trỏ đến thư mục `android-user/`.
