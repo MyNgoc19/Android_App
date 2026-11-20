@@ -13,10 +13,10 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Backend có API trả mảng [...], có API trả trang {"items": [...], "total": 10}.
- * Factory này cho phép khai báo List<T> trong ApiService mà nhận được cả 2 dạng.
- */
+
+
+
+
 public class ListOrItemsAdapterFactory implements TypeAdapterFactory {
 
     private static final String[] LIST_KEYS = {"items", "data", "results"};
