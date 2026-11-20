@@ -1,9 +1,9 @@
 package com.example.user.model;
 
-/**
- * Yêu cầu thuê (POST rooms/{id}/rental-requests, GET users/me/rental-requests).
- * JSON snake_case (monthly_price) được Gson tự map sang camelCase (monthlyPrice).
- */
+
+
+
+
 public class RentalRequest {
 
     private int id;
