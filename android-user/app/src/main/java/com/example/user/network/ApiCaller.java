@@ -14,14 +14,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Gọi API bất đồng bộ:
- * - 2xx                  -> callback.onSuccess(body)
- * - 4xx/5xx              -> callback.onError(thông báo tiếng Việt, ưu tiên "detail" của backend)
- * - 401 (token hỏng)     -> đăng xuất Firebase + mở màn đăng nhập
- * - 403 (BLOCKED / không có quyền) -> báo lỗi
- * - Không có mạng / sai IP -> "Không kết nối được máy chủ"
- */
+
+
+
+
+
+
+
+
 public class ApiCaller {
 
     private static Context appContext;
@@ -38,7 +38,7 @@ public class ApiCaller {
             @Override
             public void onResponse(Call<T> call, Response<T> response) {
                 if (response.isSuccessful()) {
-                    callback.onSuccess(response.body()); // 204 => null
+                    callback.onSuccess(response.body());
                     return;
                 }
                 String message = parseError(response);
@@ -58,7 +58,7 @@ public class ApiCaller {
         });
     }
 
-    /** FastAPI trả {"detail": "..."} hoặc {"detail": [{"msg": "..."}]} (lỗi validate 422) */
+
     public static String parseError(Response<?> response) {
         String detail = null;
         try {
@@ -80,7 +80,7 @@ public class ApiCaller {
                 }
             }
         } catch (Exception ignored) {
-            // body không phải JSON
+
         }
 
         detail = translate(detail);
@@ -98,7 +98,7 @@ public class ApiCaller {
         }
     }
 
-    /** Dịch một số thông báo tiếng Anh thường gặp của backend sang tiếng Việt */
+
     private static String translate(String detail) {
         if (detail == null) {
             return null;
