@@ -43,7 +43,7 @@ type MaintenanceDetail = {
 const formatDateTime = (value: string | null) =>
     value ? new Date(value).toLocaleString("en-GB") : "—";
 
-// Trạng thái được phép chuyển (khớp backend routers/maintenance.py)
+
 const NEXT_STATUSES: Record<MaintenanceStatus, NextStatus[]> = {
     PENDING: ["IN_PROGRESS", "DONE", "REJECTED"],
     IN_PROGRESS: ["DONE", "REJECTED"],
