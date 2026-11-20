@@ -17,22 +17,22 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
 
-/**
- * Các hàm giao diện dùng chung để code Activity ngắn gọn hơn.
- */
+
+
+
 public final class Ui {
 
     public interface OnDatePicked {
         void onPicked(Calendar calendar);
     }
 
-    /** Số điện thoại liên hệ chủ nhà (backend chưa có trường này) – đổi theo nhóm bạn */
+
     public static final String HOTLINE = "0909000000";
 
     private Ui() {
     }
 
-    /** Gắn tiêu đề + nút quay lại cho layout_header */
+
     public static void setupHeader(Activity activity, String title) {
         TextView txtTitle = activity.findViewById(R.id.txtHeaderTitle);
         View btnBack = activity.findViewById(R.id.btnBack);
@@ -44,7 +44,7 @@ public final class Ui {
         }
     }
 
-    /** Thêm 1 dòng "Nhãn : Giá trị" vào container */
+
     public static TextView addRow(LinearLayout container, String label, String value) {
         return addRow(container, label, value, false);
     }
@@ -53,7 +53,7 @@ public final class Ui {
         Context context = container.getContext();
         int pad = dp(context, 7);
 
-        // Tạo dòng bằng code => không cần thêm file layout
+
         LinearLayout row = new LinearLayout(context);
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setPadding(0, pad, 0, pad);
@@ -102,9 +102,9 @@ public final class Ui {
         return editText.getText() == null ? "" : editText.getText().toString().trim();
     }
 
-    /**
-     * Mở hộp chọn ngày, không cho chọn ngày trước minDaysFromToday.
-     */
+
+
+
     public static void pickDate(Context context, Calendar current, int minDaysFromToday,
                                 OnDatePicked listener) {
         DatePickerDialog dialog = new DatePickerDialog(
