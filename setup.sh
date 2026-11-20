@@ -45,7 +45,7 @@ fi
 "$BACKEND/.venv/bin/python" -m pip install -r "$BACKEND/requirements.txt"
 
 cd "$WEB"
-npm install
+npm ci
 
 printf '\n%s\n' "Setup completed."
 printf '%s\n' "Configure backend/.env and web-admin/.env before starting the applications."
