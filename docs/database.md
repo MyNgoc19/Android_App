@@ -1,4 +1,4 @@
-#Thiết kế cơ sở dữ liệu — N&N Home
+# Thiết kế cơ sở dữ liệu — N&N Home
 
 ## 1. Tổng quan
 
@@ -168,4 +168,9 @@ psql -U <postgres_user> -d <database_name> -v ON_ERROR_STOP=1 -f backend/schemas
 ```
 
 Có thể chạy lại schema để tạo các bảng/index/trigger còn thiếu và áp dụng các bước nâng cấp đã khai báo. Trước khi chạy trên database đang có dữ liệu, cần sao lưu database.
-\n## 9. Tài khoản quản trị mẫu\n\nBảng `users` lưu Firebase UID và quyền ứng dụng, không lưu mật khẩu. Tài khoản demo phải được tạo trong Firebase Authentication trước, sau đó đăng nhập Web Admin một lần để Backend đồng bộ Firebase UID vào bảng `users`.\n\nTài khoản mẫu trên máy cá nhân: `admin.demo@nn-home.test`, mật khẩu `DemoAdmin@12345`. Sau khi đồng bộ, chạy `backend/schemas/seed_admin.sql` từ thư mục gốc repository để cấp quyền quản trị cho tài khoản này `ADMIN` và đặt trạng thái `ACTIVE`. Hướng dẫn đầy đủ nằm trong [docs/admin-account.md](admin-account.md). Không sử dụng thông tin này trên môi trường thật.\n
+
+## 9. Tài khoản quản trị mẫu
+
+Bảng `users` lưu Firebase UID và quyền ứng dụng, không lưu mật khẩu. Tài khoản demo phải được tạo trong Firebase Authentication trước, sau đó đăng nhập Web Admin một lần để Backend đồng bộ Firebase UID vào bảng `users`.
+
+Tài khoản mẫu trên máy cá nhân: `admin.demo@nn-home.test`, mật khẩu `DemoAdmin@12345`. Sau khi đồng bộ, chạy `backend/schemas/seed_admin.sql` từ thư mục gốc repository để cấp quyền quản trị cho tài khoản này `ADMIN` và đặt trạng thái `ACTIVE`. Hướng dẫn đầy đủ nằm trong [docs/admin-account.md](admin-account.md). Không sử dụng thông tin này trên môi trường thật.
