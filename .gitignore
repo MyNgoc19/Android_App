@@ -1,20 +1,16 @@
 
-# Environment variables
 .env
 .env.*
 !.env.example
 
-# Firebase credentials
 firebase-service-account.json
 *-service-account.json
 
-# Python
 __pycache__/
 *.py[cod]
 .venv/
 venv/
 
-# Logs and generated caches
 *.log
 node_modules/
 .vite/
@@ -22,10 +18,8 @@ node_modules/
 .gradle/
 **/build/
 
-# IDE
 .idea/
 .vscode/
 
-# OS
 .DS_Store
 Thumbs.db
