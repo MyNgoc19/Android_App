@@ -3927,3 +3927,16 @@ a:focus-visible {
   transform: none;
   box-shadow: none;
 }
+
+
+/* Keep all admin select filters visually consistent with the Payments filters. */
+.toolbar select[class*="filter"],
+.toolbar select[class*="Filter"] {
+  height: 42px;
+  min-height: 42px;
+  padding: 0 12px;
+  border-radius: 9px;
+  font-size: 13px;
+  line-height: 1.2;
+  box-sizing: border-box;
+}
