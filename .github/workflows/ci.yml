@@ -70,7 +70,8 @@ jobs:
         with:
           packages: "platform-tools"
       - name: Install Android SDK platform
-        run: sdkmanager --channel=3 "platforms;android-37"
+        run: sdkmanager "platforms;android-36"
+          python -c "from pathlib import Path; p=Path('android-user/app/build.gradle.kts'); s=p.read_text(); s=s.replace('version = release(37)', 'version = release(36)').replace('targetSdk = 37', 'targetSdk = 36'); p.write_text(s)"
       - uses: gradle/actions/setup-gradle@v4
       - name: Assemble Android app
         working-directory: android-user
