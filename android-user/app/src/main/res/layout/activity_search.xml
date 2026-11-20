@@ -6,10 +6,10 @@
     android:background="@color/nn_background"
     android:orientation="vertical">
 
-    <!-- Màn TÌM KIẾM + LỌC (file cũ của bạn bị trùng y hệt activity_home.xml) -->
+
     <include layout="@layout/layout_header" />
 
-    <!-- Ô tìm kiếm -->
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layoutKeyword"
         style="@style/NN.Input"
@@ -31,7 +31,7 @@
             android:textSize="15sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Lọc theo loại -->
+
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
 
-    <!-- Lọc theo giá -->
+
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
 
-    <!-- Khu vực + sắp xếp -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
