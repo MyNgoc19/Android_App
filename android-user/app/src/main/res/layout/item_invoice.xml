@@ -20,7 +20,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Tháng hóa đơn và trạng thái -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
 
         </LinearLayout>
 
-        <!-- Tên phòng -->
+
         <TextView
             android:id="@+id/txtInvoiceRoom"
             android:layout_width="match_parent"
@@ -63,7 +63,7 @@
             android:textColor="#55545C"
             android:textSize="14sp" />
 
-        <!-- Điện nước và dịch vụ -->
+
         <TextView
             android:id="@+id/txtInvoiceUsage"
             android:layout_width="match_parent"
@@ -73,7 +73,7 @@
             android:textColor="#929097"
             android:textSize="12sp" />
 
-        <!-- Đường phân cách -->
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -81,7 +81,7 @@
             android:layout_marginBottom="12dp"
             android:background="#F1EDF0" />
 
-        <!-- Hạn thanh toán và tổng tiền -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
