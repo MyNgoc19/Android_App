@@ -22,6 +22,11 @@ fi
 "$PYTHON" -c 'import sys; raise SystemExit(0 if sys.version_info >= (3, 10) else "Python 3.10 or newer is required.")'
 printf 'Using Python: '
 "$PYTHON" --version
+node_major="$(node -p 'Number(process.versions.node.split(".")[0])')"
+if [ "$node_major" -lt 20 ]; then
+    printf '%s\n' "Node.js 20 or newer is required."
+    exit 1
+fi
 printf 'Using Node.js: '
 node --version
 
