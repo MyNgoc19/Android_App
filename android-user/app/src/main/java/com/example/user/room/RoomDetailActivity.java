@@ -26,16 +26,16 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
-/**
- * Chi tiết phòng: ảnh, giá, thông tin, tiện ích, chủ nhà.
- * Từ đây: Yêu thích, Đặt lịch xem, Thuê phòng.
- */
+
+
+
+
 public class RoomDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_ROOM_ID = "room_id";
 
     private ImageView imgRoom;
-    private TextView btnFavorite;      // ♡ / ♥ (TextView trong layout)
+    private TextView btnFavorite;
     private TextView txtRoomType;
     private TextView txtRoomStatus;
     private TextView txtRoomTitle;
@@ -75,7 +75,7 @@ public class RoomDetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Tải lại để cập nhật trạng thái phòng (vd vừa đặt thuê xong)
+
         loadRoom();
     }
 
@@ -118,7 +118,7 @@ public class RoomDetailActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Backend chưa có số điện thoại chủ nhà => nút gọi dẫn tới SĐT hotline cấu hình trong Ui
+
         btnCall.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_DIAL,
                 Uri.parse("tel:" + Ui.HOTLINE))));
     }
@@ -182,7 +182,7 @@ public class RoomDetailActivity extends AppCompatActivity {
             }
         }
 
-        // Chỉ đặt lịch / thuê khi phòng còn trống
+
         boolean available = "AVAILABLE".equals(room.getStatus());
         btnBookAppointment.setEnabled(available);
         btnRent.setEnabled(available);
@@ -209,7 +209,7 @@ public class RoomDetailActivity extends AppCompatActivity {
 
             @Override
             public void onError(String message) {
-                room.setFavorite(!newValue); // hoàn tác
+                room.setFavorite(!newValue);
                 updateFavoriteIcon();
                 Ui.toast(RoomDetailActivity.this, message);
             }
