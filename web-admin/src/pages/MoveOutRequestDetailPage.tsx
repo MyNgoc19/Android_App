@@ -47,7 +47,7 @@ const formatDate = (value: string | null) =>
 const formatMoney = (value: number) =>
     new Intl.NumberFormat("en-US").format(value) + " VND";
 
-// Trạng thái được phép chuyển (khớp backend routers/move_out.py)
+
 const NEXT_STATUSES: Record<MoveOutStatus, NextStatus[]> = {
     PENDING: ["APPROVED", "REJECTED"],
     APPROVED: ["COMPLETED", "REJECTED"],
