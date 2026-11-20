@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Network access -->
+
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- Required for direct LAN access when targeting Android 17 (API 37+). -->
+
     <uses-permission android:name="android.permission.ACCESS_LOCAL_NETWORK" />
 
     <application
