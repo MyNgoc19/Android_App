@@ -23,21 +23,21 @@ import com.google.gson.JsonElement;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Đăng ký / đăng nhập bằng Firebase Authentication, sau đó BẮT BUỘC gọi
- * POST auth/session để backend tạo/đồng bộ tài khoản vào bảng users (PostgreSQL),
- * rồi GET auth/me để lấy thông tin tài khoản.
- *
- * Bảng users có full_name NOT NULL, backend lấy họ tên từ trường "name" trong
- * Firebase ID Token. Vì vậy trước khi gọi auth/session, app luôn đảm bảo tài khoản
- * Firebase có displayName và lấy token MỚI (getIdToken(true)) để token chứa "name".
- */
+
+
+
+
+
+
+
+
+
 public class AuthRepository {
 
     private final ApiService api = RetrofitClient.getApi();
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
-    // ===== Đăng nhập =====
+
     public void login(String email, String password, ApiCallback<User> callback) {
         if (notConfigured(callback)) return;
         firebaseAuth.signInWithEmailAndPassword(email, password)
@@ -47,15 +47,15 @@ public class AuthRepository {
                         callback.onError("Đăng nhập thất bại");
                         return;
                     }
-                    // Tài khoản cũ có thể chưa có họ tên => tạm lấy phần trước @ của email
+
                     ensureNameThenSync(firebaseUser, null, callback);
                 })
                 .addOnFailureListener(e -> callback.onError(firebaseError(e)));
     }
 
-    // ===== Đăng nhập / Đăng ký bằng Google =====
-    // idToken lấy từ GoogleSignInHelper. Tài khoản mới sẽ được backend tạo
-    // trong bảng users ở bước POST auth/session (giống đăng ký bằng email).
+
+
+
     public void signInWithGoogle(String idToken, ApiCallback<User> callback) {
         if (notConfigured(callback)) return;
         firebaseAuth.signInWithCredential(GoogleAuthProvider.getCredential(idToken, null))
@@ -65,13 +65,13 @@ public class AuthRepository {
                         callback.onError("Đăng nhập Google thất bại");
                         return;
                     }
-                    // Tài khoản Google đã có họ tên => token có trường "name"
+
                     ensureNameThenSync(firebaseUser, null, callback);
                 })
                 .addOnFailureListener(e -> callback.onError(firebaseError(e)));
     }
 
-    // ===== Đăng ký =====
+
     public void register(String fullName, String email, String password, ApiCallback<User> callback) {
         if (notConfigured(callback)) return;
         firebaseAuth.createUserWithEmailAndPassword(email, password)
@@ -84,7 +84,7 @@ public class AuthRepository {
                     ensureNameThenSync(firebaseUser, fullName, new ApiCallback<User>() {
                         @Override
                         public void onSuccess(User user) {
-                            // Đảm bảo full_name trong PostgreSQL đúng tên người dùng vừa nhập
+
                             if (!fullName.equals(user.getFullName())) {
                                 updateProfile(fullName, null, callback);
                             } else {
@@ -101,13 +101,13 @@ public class AuthRepository {
                 .addOnFailureListener(e -> callback.onError(firebaseError(e)));
     }
 
-    /**
-     * 1. Nếu Firebase chưa có displayName (hoặc có tên mới) => cập nhật displayName
-     * 2. Lấy Firebase ID Token MỚI để token có trường "name"
-     * 3. Gọi POST auth/session -> GET auth/me
-     *
-     * @param wantedName tên muốn đặt (khi đăng ký); null = giữ tên cũ, nếu trống thì lấy từ email
-     */
+
+
+
+
+
+
+
     private void ensureNameThenSync(FirebaseUser firebaseUser, String wantedName,
                                     ApiCallback<User> callback) {
         String currentName = firebaseUser.getDisplayName();
@@ -116,7 +116,7 @@ public class AuthRepository {
                   : nameFromEmail(firebaseUser.getEmail());
 
         if (name.equals(currentName)) {
-            // Đã có đúng tên => chỉ cần làm mới token rồi đồng bộ
+
             refreshTokenThenSync(firebaseUser, callback);
             return;
         }
@@ -137,7 +137,7 @@ public class AuthRepository {
                 });
     }
 
-    /** "nguyenvana@gmail.com" -> "nguyenvana" */
+
     private static String nameFromEmail(String email) {
         if (TextUtils.isEmpty(email)) {
             return "Người dùng";
@@ -146,10 +146,10 @@ public class AuthRepository {
         return at > 0 ? email.substring(0, at) : email;
     }
 
-    /**
-     * POST auth/session (đồng bộ vào bảng users) -> GET auth/me.
-     * Gọi lại hàm này khi mở app để cập nhật trạng thái tài khoản.
-     */
+
+
+
+
     public void syncSession(ApiCallback<User> callback) {
         ApiCaller.enqueue(api.createSession(), new ApiCallback<JsonElement>() {
             @Override
@@ -179,7 +179,7 @@ public class AuthRepository {
 
             @Override
             public void onError(String message) {
-                // Không đồng bộ được => không cho vào app, tránh tài khoản "chỉ có trên Firebase"
+
                 firebaseAuth.signOut();
                 callback.onError(message);
             }
@@ -197,12 +197,12 @@ public class AuthRepository {
         SessionManager.getInstance().clear();
     }
 
-    // ===== Hồ sơ =====
+
     public void getProfile(ApiCallback<User> callback) {
         ApiCaller.enqueue(api.getProfile(), saveUser(callback));
     }
 
-    /** Update editable profile fields without exposing role or account status. */
+
     public void updateProfile(String fullName, String phone, ApiCallback<User> callback) {
         updateProfile(fullName, phone, null, callback);
     }
@@ -253,7 +253,7 @@ public class AuthRepository {
         return false;
     }
 
-    /** Đổi lỗi Firebase sang tiếng Việt */
+
     private static String firebaseError(Exception e) {
         if (e instanceof FirebaseAuthWeakPasswordException) {
             return "Mật khẩu quá yếu (tối thiểu 6 ký tự)";
