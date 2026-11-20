@@ -68,7 +68,9 @@ jobs:
           java-version: "17"
       - uses: android-actions/setup-android@v3
         with:
-          packages: "platform-tools platforms;android-37"
+          packages: "platform-tools"
+      - name: Install Android SDK platform
+        run: sdkmanager --channel=3 "platforms;android-37"
       - uses: gradle/actions/setup-gradle@v4
       - name: Assemble Android app
         working-directory: android-user
