@@ -347,7 +347,11 @@ Quy ước phối hợp:
 - Backend là phần dùng chung; thay đổi API cần được kiểm tra trên cả hai client.
 - Dùng commit message mô tả rõ nội dung thay đổi; ưu tiên Pull Request khi tích hợp nhánh.
 
-## 11. Tài khoản Admin mẫu\n\nTài khoản demo dành cho môi trường local được mô tả tại [docs/admin-account.md](docs/admin-account.md). Tài liệu gồm thông tin đăng nhập mẫu, cách tạo tài khoản trong Firebase Authentication và cách cấp role `ADMIN` trong PostgreSQL bằng `backend/schemas/seed_admin.sql`. Không sử dụng thông tin demo trên production.\n\n## 12. Bảo mật
+## 11. Tài khoản Admin mẫu
+
+Tài khoản demo dành cho môi trường local được mô tả tại [docs/admin-account.md](docs/admin-account.md). Tài liệu gồm thông tin đăng nhập mẫu, cách tạo tài khoản trong Firebase Authentication và cách cấp role `ADMIN` trong PostgreSQL bằng `backend/schemas/seed_admin.sql`. Không sử dụng thông tin demo trên production.
+
+## 12. Bảo mật
 
 - Không commit `.env`, Firebase Service Account JSON, mật khẩu database hoặc Cloudinary API Secret.
 - Không đưa thông tin bí mật vào README, issue hoặc commit.
