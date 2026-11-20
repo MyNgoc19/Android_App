@@ -18,6 +18,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.user.R;
 import com.example.user.model.User;
 import com.example.user.network.ApiCallback;
+import com.example.user.network.ApiCaller;
+import com.example.user.network.RetrofitClient;
+import com.google.gson.JsonElement;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import com.example.user.repository.AuthRepository;
 import com.example.user.utils.SessionManager;
 import com.google.android.material.button.MaterialButton;
@@ -50,6 +63,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private String avatarUri = "";
 
     private final AuthRepository authRepository = new AuthRepository();
+    private final ExecutorService avatarExecutor = Executors.newSingleThreadExecutor();
 
     // Chọn ảnh đại diện
     private final ActivityResultLauncher<Intent> imagePicker =
@@ -296,17 +310,90 @@ public class EditProfileActivity extends AppCompatActivity {
             gender = "OTHER";
         }
 
-        // Avatar selection remains local until a configured upload provider is available.
-        preferences.edit()
-                .putString("avatar_uri", avatarUri)
-                .apply();
-
         btnSaveProfile.setEnabled(false);
         btnSaveProfile.setText("Đang lưu...");
 
-        authRepository.updateProfile(fullName, phone, gender, new ApiCallback<User>() {
+        if (avatarUri != null && avatarUri.startsWith("content://")) {
+            uploadAvatarThenSave(fullName, phone, gender);
+        } else {
+            saveProfileToServer(fullName, phone, gender, null);
+        }
+    }
+
+    private void uploadAvatarThenSave(String fullName, String phone, String gender) {
+        ApiCaller.enqueue(RetrofitClient.getApi().getAvatarUploadSignature(),
+                new ApiCallback<JsonElement>() {
+                    @Override
+                    public void onSuccess(JsonElement signatureData) {
+                        try {
+                            org.json.JSONObject signature = new org.json.JSONObject(signatureData.toString());
+                            String cloudName = signature.getString("cloud_name");
+                            String uploadUrl = "https://api.cloudinary.com/v1_1/" + cloudName + "/image/upload";
+
+                            avatarExecutor.execute(() -> {
+                                try {
+                                    byte[] imageBytes;
+                                    try (InputStream input = getContentResolver().openInputStream(Uri.parse(avatarUri));
+                                         ByteArrayOutputStream output = new ByteArrayOutputStream()) {
+                                        if (input == null) throw new IllegalStateException("Không đọc được ảnh đã chọn");
+                                        byte[] buffer = new byte[8192];
+                                        int count;
+                                        while ((count = input.read(buffer)) != -1) output.write(buffer, 0, count);
+                                        imageBytes = output.toByteArray();
+                                    }
+
+                                    MultipartBody.Part imagePart = MultipartBody.Part.createFormData(
+                                            "file", "avatar.jpg",
+                                            RequestBody.create(MediaType.parse("image/jpeg"), imageBytes));
+                                    RequestBody apiKey = RequestBody.create(MultipartBody.FORM, signature.getString("api_key"));
+                                    RequestBody timestamp = RequestBody.create(MultipartBody.FORM, signature.getString("timestamp"));
+                                    RequestBody folder = RequestBody.create(MultipartBody.FORM, signature.getString("folder"));
+                                    RequestBody signed = RequestBody.create(MultipartBody.FORM, signature.getString("signature"));
+
+                                    RetrofitClient.getApi().uploadAvatar(uploadUrl, imagePart, apiKey, timestamp, folder, signed)
+                                            .enqueue(new Callback<JsonElement>() {
+                                                @Override
+                                                public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                                                    if (!response.isSuccessful() || response.body() == null) {
+                                                        runOnUiThread(() -> showSaveError("Không tải được ảnh đại diện lên Cloudinary."));
+                                                        return;
+                                                    }
+                                                    try {
+                                                        String secureUrl = response.body().getAsJsonObject()
+                                                                .get("secure_url").getAsString();
+                                                        runOnUiThread(() -> saveProfileToServer(fullName, phone, gender, secureUrl));
+                                                    } catch (Exception e) {
+                                                        runOnUiThread(() -> showSaveError("Cloudinary không trả về đường dẫn ảnh hợp lệ."));
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<JsonElement> call, Throwable t) {
+                                                    runOnUiThread(() -> showSaveError("Không thể tải ảnh lên. Vui lòng thử lại."));
+                                                }
+                                            });
+                                } catch (Exception e) {
+                                    runOnUiThread(() -> showSaveError(
+                                            e.getMessage() != null ? e.getMessage() : "Không đọc được ảnh đã chọn."));
+                                }
+                            });
+                        } catch (Exception e) {
+                            showSaveError("Không đọc được thông tin tải ảnh lên.");
+                        }
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        showSaveError(message);
+                    }
+                });
+    }
+
+    private void saveProfileToServer(String fullName, String phone, String gender, String uploadedAvatarUrl) {
+        authRepository.updateProfile(fullName, phone, gender, uploadedAvatarUrl, new ApiCallback<User>() {
             @Override
             public void onSuccess(User user) {
+                preferences.edit().remove("avatar_uri").apply();
                 Toast.makeText(EditProfileActivity.this,
                         "Cập nhật thông tin thành công!", Toast.LENGTH_SHORT).show();
                 finish();
@@ -314,11 +401,15 @@ public class EditProfileActivity extends AppCompatActivity {
 
             @Override
             public void onError(String message) {
-                btnSaveProfile.setEnabled(true);
-                btnSaveProfile.setText("Lưu thay đổi");
-                Toast.makeText(EditProfileActivity.this, message, Toast.LENGTH_LONG).show();
+                showSaveError(message);
             }
         });
+    }
+
+    private void showSaveError(String message) {
+        btnSaveProfile.setEnabled(true);
+        btnSaveProfile.setText("Lưu thay đổi");
+        Toast.makeText(EditProfileActivity.this, message, Toast.LENGTH_LONG).show();
     }
 
     // Lấy nội dung ô nhập
