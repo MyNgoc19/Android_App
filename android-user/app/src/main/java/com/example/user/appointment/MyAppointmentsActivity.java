@@ -23,10 +23,10 @@ import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import java.util.List;
 
-/**
- * Yêu cầu thuê & lịch hẹn của tôi (GET users/me/rental-requests).
- * Trạng thái: PENDING / APPROVED / REJECTED / CANCELLED. Hủy được yêu cầu đang chờ.
- */
+
+
+
+
 public class MyAppointmentsActivity extends AppCompatActivity {
 
     private AppointmentAdapter adapter;
