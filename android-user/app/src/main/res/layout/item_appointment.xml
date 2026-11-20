@@ -20,7 +20,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Tên phòng và trạng thái lịch hẹn -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
 
         </LinearLayout>
 
-        <!-- Ảnh phòng và thông tin lịch hẹn -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <!-- Ảnh phòng -->
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="80dp"
                 android:layout_height="80dp"
@@ -81,7 +81,7 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Thời gian và ghi chú -->
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -113,7 +113,7 @@
 
         </LinearLayout>
 
-        <!-- Đường phân cách -->
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -121,7 +121,7 @@
             android:layout_marginBottom="10dp"
             android:background="#F1EDF0" />
 
-        <!-- Hành động -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
