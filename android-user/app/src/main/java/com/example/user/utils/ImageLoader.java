@@ -8,9 +8,9 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.example.user.R;
 
-/**
- * Tải ảnh phòng bằng Glide, có kiểm tra Activity còn sống để tránh crash.
- */
+
+
+
 public final class ImageLoader {
 
     private ImageLoader() {
