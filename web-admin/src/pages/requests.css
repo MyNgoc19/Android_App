@@ -1,10 +1,10 @@
-/* =========================================================
-   Maintenance Requests + Move-out Requests
-   (dùng chung class có sẵn: page-container, content-card,
-   dashboard-table, request-detail-layout, success-button...)
-   ========================================================= */
 
-/* Trạng thái mới chưa có màu trong App.css */
+
+
+
+
+
+
 .dashboard-status.status-in_progress {
     background: rgba(59, 130, 246, 0.12);
     color: #2563eb;
@@ -16,7 +16,7 @@
     color: #16a34a;
 }
 
-/* Mức ưu tiên */
+
 .priority-badge {
     display: inline-block;
     padding: 5px 9px;
@@ -40,14 +40,14 @@
     color: var(--text-secondary);
 }
 
-/* Bộ lọc thứ 2 cạnh bộ lọc trạng thái */
+
 .requests-filters {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
 }
 
-/* Ghi chú của admin */
+
 .admin-note-field {
     display: flex;
     flex-direction: column;
