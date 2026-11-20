@@ -7,9 +7,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Định dạng tiền, ngày tháng để hiển thị.
- */
+
+
+
 public final class Format {
 
     private static final Locale VN = new Locale("vi", "VN");
@@ -17,7 +17,7 @@ public final class Format {
     private Format() {
     }
 
-    /** 3200000 -> "3.200.000 đ" */
+
     public static String money(double amount) {
         return NumberFormat.getNumberInstance(VN).format(Math.round(amount)) + " đ";
     }
@@ -26,7 +26,7 @@ public final class Format {
         return amount == null ? "" : money(amount.doubleValue());
     }
 
-    /** 3200000 -> "3,2 triệu/tháng" */
+
     public static String pricePerMonth(double price) {
         if (price >= 1_000_000) {
             double million = price / 1_000_000.0;
@@ -38,7 +38,7 @@ public final class Format {
         return money(price) + "/tháng";
     }
 
-    /** 22.0 -> "22 m²" (null => "—") */
+
     public static String area(Double area) {
         if (area == null) {
             return "—";
@@ -50,7 +50,7 @@ public final class Format {
         return a + " m²";
     }
 
-    /** "2026-11-20" -> "20/11/2026" */
+
     public static String date(String isoDate) {
         if (isoDate == null || isoDate.length() < 10) {
             return isoDate == null ? "" : isoDate;
@@ -59,7 +59,7 @@ public final class Format {
         return d.substring(8, 10) + "/" + d.substring(5, 7) + "/" + d.substring(0, 4);
     }
 
-    /** "2026-10" -> "Tháng 10/2026" */
+
     public static String month(String yearMonth) {
         if (yearMonth == null || yearMonth.length() < 7) {
             return "";
@@ -67,12 +67,12 @@ public final class Format {
         return "Tháng " + yearMonth.substring(5, 7) + "/" + yearMonth.substring(0, 4);
     }
 
-    /** Calendar -> "2026-11-20" để gửi lên API */
+
     public static String toApiDate(Calendar calendar) {
         return new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(calendar.getTime());
     }
 
-    /** Cộng tháng vào ngày yyyy-MM-dd, trả về dd/MM/yyyy */
+
     public static String addMonths(String isoDate, int months) {
         try {
             SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
@@ -92,7 +92,7 @@ public final class Format {
         return apartment ? "Căn hộ" : "Phòng trọ";
     }
 
-    /** "2026-11" -> "11/2026"; chuỗi khác giữ nguyên */
+
     public static String period(String value) {
         if (value != null && value.matches("\\d{4}-\\d{2}")) {
             return value.substring(5, 7) + "/" + value.substring(0, 4);
