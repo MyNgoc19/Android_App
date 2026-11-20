@@ -2,21 +2,16 @@
 fastapi
 uvicorn[standard]
 
-# Database
 sqlalchemy
 psycopg[binary]
 
-# Environment variables
 python-dotenv
 
-# Firebase Authentication
 firebase-admin
 
-# Validation
 pydantic
 pydantic-settings
 
-# Redis (optional)
 redis
 
 cloudinary
