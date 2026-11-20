@@ -48,7 +48,7 @@ Cột: `id`, `room_id`, `image_url`, `sort_order`, `created_at`.
 
 Quan hệ User yêu thích phòng; khóa chính ghép user_id và room_id.
 
-Cột: `user_id`, `room_id`, `created_at`, `PRIMARY`.
+Cột: `user_id`, `room_id`, `created_at`.
 
 ### `viewing_appointments`
 
@@ -168,4 +168,3 @@ psql -U <postgres_user> -d <database_name> -v ON_ERROR_STOP=1 -f backend/schemas
 ```
 
 Có thể chạy lại schema để tạo các bảng/index/trigger còn thiếu và áp dụng các bước nâng cấp đã khai báo. Trước khi chạy trên database đang có dữ liệu, cần sao lưu database.
-
