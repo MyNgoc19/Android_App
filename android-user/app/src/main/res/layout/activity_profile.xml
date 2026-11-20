@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FFFBFC">
 
-    <!-- ==================== HEADER ==================== -->
+
 
     <LinearLayout
         android:id="@+id/profileHeader"
@@ -42,7 +42,7 @@
 
     </LinearLayout>
 
-    <!-- ==================== CONTENT ==================== -->
+
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollProfile"
@@ -63,7 +63,7 @@
             android:paddingEnd="20dp"
             android:paddingBottom="28dp">
 
-            <!-- ==================== USER INFORMATION ==================== -->
+
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardUserInfo"
@@ -191,7 +191,7 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- ==================== RENTAL MANAGEMENT ==================== -->
+
 
             <TextView
                 android:layout_width="match_parent"
@@ -347,7 +347,7 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- ==================== UTILITIES ==================== -->
+
 
             <TextView
                 android:layout_width="match_parent"
@@ -503,7 +503,7 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- ==================== LOGOUT ==================== -->
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnLogout"
@@ -532,7 +532,7 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <!-- ==================== BOTTOM NAVIGATION ==================== -->
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
