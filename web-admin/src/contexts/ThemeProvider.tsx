@@ -31,7 +31,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
         try {
             localStorage.setItem("admin-theme", theme);
         } catch {
-            // Ignore storage errors.
+
         }
     }, [theme]);
 
