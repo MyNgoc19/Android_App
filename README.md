@@ -26,7 +26,6 @@ Hệ thống quản lý phòng cho thuê, gồm ứng dụng Android dành cho n
 - **Tài khoản:** đăng ký, đăng nhập, đăng nhập Google, xem và cập nhật hồ sơ.
 - **Khám phá phòng:** xem danh sách phòng, xem chi tiết, tìm kiếm và lọc phòng.
 - **Yêu thích:** thêm và quản lý danh sách phòng yêu thích.
-- **Lịch hẹn xem phòng:** tạo và theo dõi lịch hẹn.
 - **Yêu cầu thuê:** gửi yêu cầu thuê, chọn ngày dự kiến bắt đầu và thời hạn thuê, theo dõi trạng thái xử lý.
 - **Phòng và hợp đồng của tôi:** xem thông tin phòng đang thuê và hợp đồng.
 - **Thanh toán:** xem các khoản thanh toán, tiền cọc và lịch sử thanh toán.
@@ -358,7 +357,7 @@ Quy ước phối hợp:
 
 Repository hiện chứa mã nguồn cho ba thành phần Android User, Web Admin và FastAPI Backend, cùng tài liệu API và database. Các chức năng được liệt kê ở trên phản ánh những module/luồng đã có trong source code; mức độ hoàn thiện và khả năng chạy thực tế còn phụ thuộc cấu hình Firebase, Cloudinary, PostgreSQL, biến môi trường và kiểm thử tích hợp ở từng máy.
 
-Một số dữ liệu như chỉ số điện/nước và thông tin tài khoản thanh toán đã có cấu trúc trong database; không nên xem đó là bằng chứng rằng toàn bộ quy trình tiện ích hoặc thanh toán trực tuyến đã được triển khai hoàn chỉnh.
+Một số dữ liệu như lịch hẹn xem phòng, chỉ số điện/nước và thông tin tài khoản thanh toán đã có cấu trúc trong database nhưng chưa có đầy đủ API/luồng giao diện tương ứng; không nên xem đó là bằng chứng rằng toàn bộ quy trình đã được triển khai hoàn chỉnh.
 
 ---
 
