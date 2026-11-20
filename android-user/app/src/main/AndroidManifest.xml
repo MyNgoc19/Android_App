@@ -2,10 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Gọi API backend -->
+    <!-- Network access -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Required for direct LAN access when targeting Android 17 (API 37+). -->
+    <uses-permission android:name="android.permission.ACCESS_LOCAL_NETWORK" />
 
-    <!-- usesCleartextTraffic: cho phép gọi http:// (backend chạy local, chưa có https) -->
     <application
         android:name=".NNHomeApp"
         android:allowBackup="true"
@@ -19,7 +20,6 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-        <!-- Màn hình chào mừng -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -30,14 +30,12 @@
             </intent-filter>
         </activity>
 
-        <!-- Auth + hồ sơ -->
         <activity android:name=".auth.LoginActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".auth.RegisterActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".auth.ProfileActivity" android:exported="false" />
         <activity android:name=".auth.EditProfileActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".auth.MoveOutActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
 
-        <!-- Phòng -->
         <activity android:name=".room.HomeActivity" android:exported="false" />
         <activity android:name=".room.SearchActivity" android:exported="false" android:windowSoftInputMode="adjustPan" />
         <activity android:name=".room.RoomDetailActivity" android:exported="false" />
@@ -45,20 +43,15 @@
         <activity android:name=".room.PaymentActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".room.MaintenanceActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
 
-        <!-- Lịch hẹn -->
         <activity android:name=".appointment.BookAppointmentActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".appointment.MyAppointmentsActivity" android:exported="false" />
 
-        <!-- Thuê phòng -->
         <activity android:name=".rental.RentalActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".rental.ContractActivity" android:exported="false" />
         <activity android:name=".rental.DepositActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".rental.MyRoomActivity" android:exported="false" />
 
-        <!-- Hóa đơn -->
         <activity android:name=".invoice.InvoiceListActivity" android:exported="false" />
         <activity android:name=".invoice.InvoiceDetailActivity" android:exported="false" />
-
     </application>
-
 </manifest>
