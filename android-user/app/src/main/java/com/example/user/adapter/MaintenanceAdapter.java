@@ -22,10 +22,10 @@ import com.google.android.material.card.MaterialCardView;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Danh sách yêu cầu sửa chữa + trạng thái xử lý.
- * Thẻ được tạo bằng code nên KHÔNG cần file item_maintenance.xml.
- */
+
+
+
+
 public class MaintenanceAdapter extends RecyclerView.Adapter<MaintenanceAdapter.ViewHolder> {
 
     private final List<MaintenanceRequest> items = new ArrayList<>();
@@ -58,7 +58,7 @@ public class MaintenanceAdapter extends RecyclerView.Adapter<MaintenanceAdapter.
         box.setPadding(p, p, p, p);
         card.addView(box);
 
-        // Dòng 1: tiêu đề + trạng thái
+
         LinearLayout top = new LinearLayout(c);
         top.setOrientation(LinearLayout.HORIZONTAL);
         TextView txtTitle = new TextView(c);
