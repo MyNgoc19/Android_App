@@ -7,7 +7,7 @@
     android:background="#FFF9FC"
     android:orientation="vertical">
 
-    <!-- Header -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
 
     </LinearLayout>
 
-    <!-- Thanh tải dữ liệu -->
+
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
@@ -46,13 +46,13 @@
         app:indicatorColor="#FF69A6"
         app:trackColor="#FFE4EF" />
 
-    <!-- Nội dung -->
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <!-- Danh sách lịch hẹn -->
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvAppointments"
             android:layout_width="match_parent"
@@ -64,7 +64,7 @@
             android:paddingBottom="20dp"
             android:visibility="gone" />
 
-        <!-- Trạng thái chưa có lịch hẹn -->
+
         <LinearLayout
             android:id="@+id/layoutEmpty"
             android:layout_width="match_parent"
@@ -120,7 +120,7 @@
 
     </FrameLayout>
 
-    <!-- Bottom Navigation -->
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
