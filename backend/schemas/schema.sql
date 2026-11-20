@@ -246,6 +246,7 @@ ALTER TABLE payments
     ADD COLUMN IF NOT EXISTS transaction_code VARCHAR(100),
     ADD COLUMN IF NOT EXISTS submitted_at TIMESTAMPTZ,
     ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
+UPDATE payments SET status = 'PENDING' WHERE status = 'PROCESSING';
 ALTER TABLE payments DROP CONSTRAINT IF EXISTS payments_status_check;
 ALTER TABLE payments ADD CONSTRAINT payments_status_check
     CHECK (status IN ('PENDING', 'PAID', 'FAILED', 'REFUNDED'));
