@@ -138,8 +138,7 @@ public class EditProfileActivity extends AppCompatActivity {
         authRepository.getProfile(new ApiCallback<User>() {
             @Override
             public void onSuccess(User user) {
-                bindUser(user.getFullName(), user.getEmail(), user.getPhone(),
-                        SessionManager.getInstance().getGender());
+                bindUser(user.getFullName(), user.getEmail(), user.getPhone(), user.getGender());
             }
 
             @Override
@@ -156,6 +155,16 @@ public class EditProfileActivity extends AppCompatActivity {
         edtPhone.setText(phone);
         if (gender == null) {
             gender = "";
+        }
+
+        // Backend stores gender as MALE, FEMALE, or OTHER.
+        // Convert to the existing localized radio labels without changing the UI.
+        if ("FEMALE".equalsIgnoreCase(gender)) {
+            gender = "Nữ";
+        } else if ("MALE".equalsIgnoreCase(gender)) {
+            gender = "Nam";
+        } else if ("OTHER".equalsIgnoreCase(gender)) {
+            gender = "Khác";
         }
 
         // Không cho chỉnh sửa email
@@ -277,10 +286,17 @@ public class EditProfileActivity extends AppCompatActivity {
         RadioButton selectedGender =
                 findViewById(selectedGenderId);
 
-        String gender =
-                selectedGender.getText().toString();
+        String selectedGenderLabel = selectedGender.getText().toString();
+        String gender;
+        if ("Nữ".equals(selectedGenderLabel)) {
+            gender = "FEMALE";
+        } else if ("Nam".equals(selectedGenderLabel)) {
+            gender = "MALE";
+        } else {
+            gender = "OTHER";
+        }
 
-        // Ảnh đại diện lưu trên máy, thông tin còn lại gửi lên server
+        // Avatar selection remains local until a configured upload provider is available.
         preferences.edit()
                 .putString("avatar_uri", avatarUri)
                 .apply();
@@ -288,10 +304,7 @@ public class EditProfileActivity extends AppCompatActivity {
         btnSaveProfile.setEnabled(false);
         btnSaveProfile.setText("Đang lưu...");
 
-        // Giới tính backend chưa có => lưu trên máy; họ tên + SĐT gửi PATCH users/me
-        SessionManager.getInstance().saveGender(gender);
-
-        authRepository.updateProfile(fullName, phone, new ApiCallback<User>() {
+        authRepository.updateProfile(fullName, phone, gender, new ApiCallback<User>() {
             @Override
             public void onSuccess(User user) {
                 Toast.makeText(EditProfileActivity.this,
