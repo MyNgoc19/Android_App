@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Quên mật khẩu: Firebase gửi email đặt lại mật khẩu
+
         txtForgotPassword.setOnClickListener(v -> resetPassword());
 
         btnGoogle.setOnClickListener(v -> loginWithGoogle());
@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // Firebase đăng nhập -> POST auth/session -> GET auth/me
+
         setLoading(true);
         authRepository.login(email, password, new ApiCallback<User>() {
             @Override
@@ -120,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    // Chọn tài khoản Google -> Firebase -> POST auth/session -> GET auth/me
+
     private void loginWithGoogle() {
         layoutPassword.setError(null);
         setGoogleLoading(true);
@@ -190,7 +190,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setText(loading ? "Đang đăng nhập..." : "Đăng nhập");
     }
 
-    // Vào trang chủ và xóa các màn hình đăng nhập khỏi back stack
+
     private void goHome() {
         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
