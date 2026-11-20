@@ -3896,3 +3896,34 @@ a:focus-visible {
   inset: 0;
   z-index: 1;
 }
+
+
+/* Rental request review actions: enabled buttons must look interactive. */
+.request-review-actions .success-button:not(:disabled),
+.request-review-actions .danger-button:not(:disabled) {
+  cursor: pointer;
+  opacity: 1;
+  pointer-events: auto;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+}
+
+.request-review-actions .success-button:not(:disabled):hover {
+  filter: brightness(0.97);
+  box-shadow: 0 5px 14px rgba(38, 150, 90, 0.14);
+  transform: translateY(-1px);
+}
+
+.request-review-actions .danger-button:not(:disabled):hover {
+  filter: brightness(0.97);
+  box-shadow: 0 5px 14px rgba(217, 74, 74, 0.12);
+  transform: translateY(-1px);
+}
+
+.request-review-actions .success-button:disabled,
+.request-review-actions .danger-button:disabled {
+  cursor: wait;
+  opacity: 0.58;
+  pointer-events: none;
+  transform: none;
+  box-shadow: none;
+}
