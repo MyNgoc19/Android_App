@@ -1,8 +1,8 @@
 package com.example.user.model;
 
-/**
- * Yêu cầu sửa chữa (GET/POST users/me/maintenance-requests). status: PENDING | IN_PROGRESS | DONE | REJECTED | CANCELLED.
- */
+
+
+
 public class MaintenanceRequest {
 
     private int id;
