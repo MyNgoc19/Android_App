@@ -22,12 +22,12 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Calendar;
 
-/**
- * Gửi yêu cầu trả phòng + xem trạng thái yêu cầu.
- * API: GET/POST users/me/move-out-requests (backend routers/move_out.py).
- * Admin: PENDING -> APPROVED -> COMPLETED (hợp đồng ENDED, phòng trống lại).
- * Mỗi hợp đồng chỉ có 1 yêu cầu đang chờ / đã duyệt.
- */
+
+
+
+
+
+
 public class MoveOutActivity extends AppCompatActivity {
 
     private TextView txtNoRoom;
@@ -72,7 +72,7 @@ public class MoveOutActivity extends AppCompatActivity {
         btnSubmit = findViewById(R.id.btnSubmit);
         progressBar = findViewById(R.id.progressBar);
 
-        // Mặc định: 30 ngày sau
+
         moveOutDate = Calendar.getInstance();
         moveOutDate.add(Calendar.DAY_OF_MONTH, 30);
         edtMoveOutDate.setText(Format.date(Format.toApiDate(moveOutDate)));
@@ -123,8 +123,8 @@ public class MoveOutActivity extends AppCompatActivity {
         repository.getMoveOutRequests(new ApiCallback<java.util.List<MoveOutRequest>>() {
             @Override
             public void onSuccess(java.util.List<MoveOutRequest> list) {
-                // Yêu cầu mới nhất (danh sách đã xếp mới nhất trước) của hợp đồng hiện tại,
-                // bỏ qua yêu cầu đã hủy
+
+
                 MoveOutRequest data = null;
                 if (list != null) {
                     for (MoveOutRequest r : list) {
