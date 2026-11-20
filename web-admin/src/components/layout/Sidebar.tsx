@@ -71,7 +71,7 @@ const futureMenu = [
 export default function Sidebar() {
     return (
         <aside className="sidebar">
-            {/* BRAND */}
+            {}
             <div className="sidebar-brand">
                 <div className="brand-icon">
                     <Home size={23} />
@@ -83,7 +83,7 @@ export default function Sidebar() {
                 </div>
             </div>
 
-            {/* MAIN MENU */}
+            {}
             <div className="sidebar-section">
                 <p className="sidebar-heading">MAIN MENU</p>
 
@@ -109,7 +109,7 @@ export default function Sidebar() {
                 </nav>
             </div>
 
-            {/* FUTURE FEATURES */}
+            {}
             <div className="sidebar-section">
                 <p className="sidebar-heading">FUTURE FEATURES</p>
 
@@ -138,7 +138,7 @@ export default function Sidebar() {
                 </nav>
             </div>
 
-            {/* SIDEBAR FOOTER */}
+            {}
             <div className="sidebar-footer">
                 <div className="admin-avatar">A</div>
 
