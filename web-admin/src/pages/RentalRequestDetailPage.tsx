@@ -279,21 +279,25 @@ export default function RentalRequestDetailPage() {
                     {request.status === "PENDING" ? (
                         <div className="request-review-actions">
                             <button
+                                type="button"
                                 className="success-button"
                                 disabled={updating}
+                                aria-busy={updating}
                                 onClick={() => void updateStatus("APPROVED")}
                             >
                                 <CheckCircle size={17} />
-                                Approve Request
+                                {updating ? "Processing..." : "Approve Request"}
                             </button>
 
                             <button
+                                type="button"
                                 className="danger-button"
                                 disabled={updating}
+                                aria-busy={updating}
                                 onClick={() => void updateStatus("REJECTED")}
                             >
                                 <XCircle size={17} />
-                                Reject Request
+                                {updating ? "Processing..." : "Reject Request"}
                             </button>
                         </div>
                     ) : (
