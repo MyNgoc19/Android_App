@@ -133,7 +133,7 @@ Cột: `id`, `actor_id`, `action`, `target_type`, `target_id`, `details`, `creat
 | Rental request | `PENDING`, `APPROVED`, `REJECTED`, `CANCELLED` |
 | Contract | `ACTIVE`, `ENDED`, `CANCELLED` |
 | Payment type | `DEPOSIT`, `RENT`, `OTHER` |
-| Payment status | `PENDING`, `PROCESSING`, `PAID`, `FAILED`, `REFUNDED` |
+| Payment status | `PENDING`, `PAID`, `FAILED`, `REFUNDED` |
 | Payment method | `BANK_TRANSFER`, `CASH`, `MOMO` |
 | Maintenance priority | `LOW`, `MEDIUM`, `HIGH` |
 | Maintenance status | `PENDING`, `IN_PROGRESS`, `DONE`, `REJECTED`, `CANCELLED` |
