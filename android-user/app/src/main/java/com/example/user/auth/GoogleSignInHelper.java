@@ -19,19 +19,19 @@ import com.example.user.BuildConfig;
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption;
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential;
 
-/**
- * Hiện hộp chọn tài khoản Google (Credential Manager) và trả về Google ID Token.
- * ID Token này được đưa cho Firebase (AuthRepository.signInWithGoogle) để đăng nhập.
- *
- * Cần: GOOGLE_WEB_CLIENT_ID trong app/build.gradle.kts, bật Google trong
- * Firebase Authentication, và thêm SHA-1 của máy vào app Android trên Firebase.
- */
+
+
+
+
+
+
+
 public final class GoogleSignInHelper {
 
     public interface Listener {
         void onIdToken(String idToken);
 
-        /** Người dùng tự đóng hộp chọn tài khoản: không cần báo lỗi */
+
         void onCancelled();
 
         void onError(String message);
@@ -47,7 +47,7 @@ public final class GoogleSignInHelper {
             return;
         }
 
-        // Luôn hiện nút/hộp "Đăng nhập bằng Google" để người dùng chọn tài khoản
+
         GetSignInWithGoogleOption option =
                 new GetSignInWithGoogleOption.Builder(webClientId).build();
 
@@ -99,7 +99,7 @@ public final class GoogleSignInHelper {
 
     private static String translate(GetCredentialException e) {
         String message = e.getMessage() == null ? "" : e.getMessage();
-        // 28444 / 10: sai Web client ID hoặc chưa thêm SHA-1 trên Firebase
+
         if (message.contains("28444") || message.contains("Developer console")
                 || message.contains("10:")) {
             return "Cấu hình Google chưa đúng: kiểm tra GOOGLE_WEB_CLIENT_ID "
