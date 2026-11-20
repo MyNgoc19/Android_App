@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FFFBFC">
 
-    <!-- ==================== HEADER ==================== -->
+
 
     <LinearLayout
         android:id="@+id/layoutHeader"
@@ -43,7 +43,7 @@
 
     </LinearLayout>
 
-    <!-- ==================== CONTENT ==================== -->
+
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollEditProfile"
@@ -63,7 +63,7 @@
             android:paddingEnd="22dp"
             android:paddingBottom="24dp">
 
-            <!-- ==================== AVATAR ==================== -->
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -105,7 +105,7 @@
 
             </LinearLayout>
 
-            <!-- ==================== FULL NAME ==================== -->
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layoutFullName"
@@ -131,10 +131,10 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- ==================== EMAIL ==================== -->
 
 
-            <!-- ==================== EMAIL ==================== -->
+
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layoutEmail"
@@ -171,7 +171,7 @@
                 android:textColor="#928993"
                 android:textSize="12sp" />
 
-            <!-- ==================== PHONE ==================== -->
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layoutPhone"
@@ -199,7 +199,7 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- ==================== GENDER ==================== -->
+
 
             <TextView
                 android:layout_width="match_parent"
@@ -253,7 +253,7 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <!-- ==================== SAVE BUTTON ==================== -->
+
 
     <LinearLayout
         android:id="@+id/layoutSave"
