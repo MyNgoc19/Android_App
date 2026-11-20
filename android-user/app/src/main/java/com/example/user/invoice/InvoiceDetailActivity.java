@@ -21,10 +21,10 @@ import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import java.util.List;
 
-/**
- * Chi tiết 1 khoản thanh toán (lấy từ GET users/me/payments).
- * Backend chung CHƯA có chỉ số điện/nước => ẩn 2 mục điện, nước của layout.
- */
+
+
+
+
 public class InvoiceDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_INVOICE_ID = "invoice_id";
@@ -60,7 +60,7 @@ public class InvoiceDetailActivity extends AppCompatActivity {
         layoutContent = findViewById(R.id.layoutContent);
         progressBar = findViewById(R.id.progressBar);
 
-        // Chưa có dữ liệu điện/nước, chưa có API thanh toán online
+
         hideSection(findViewById(R.id.layoutElectricity));
         hideSection(findViewById(R.id.layoutWater));
         MaterialButton btnPay = findViewById(R.id.btnPay);
@@ -70,7 +70,7 @@ public class InvoiceDetailActivity extends AppCompatActivity {
         loadPayment();
     }
 
-    /** Ẩn thẻ chứa container + tiêu đề ngay phía trên thẻ */
+
     private void hideSection(View container) {
         if (!(container.getParent() instanceof View)) {
             return;
