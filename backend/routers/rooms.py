@@ -1,6 +1,9 @@
 
 from typing import Any, Literal
 from datetime import date
+import os
+import time
+import cloudinary
 
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field
@@ -299,6 +302,35 @@ def update_my_profile(
     ).mappings().one()
 
     return dict(profile)
+
+
+@user_router.get("/users/me/avatar/signature")
+def create_my_avatar_upload_signature(
+    current_user: dict = Depends(require_user),
+):
+    """Create a short-lived signed Cloudinary upload for the authenticated user."""
+    cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME")
+    api_key = os.getenv("CLOUDINARY_API_KEY")
+    api_secret = os.getenv("CLOUDINARY_API_SECRET")
+
+    if not cloud_name or not api_key or not api_secret:
+        raise HTTPException(
+            status_code=500,
+            detail="Cloudinary configuration is incomplete.",
+        )
+
+    timestamp = int(time.time())
+    folder = f"avatars/{current_user['id']}"
+    params = {"timestamp": timestamp, "folder": folder}
+    signature = cloudinary.utils.api_sign_request(params, api_secret)
+
+    return {
+        "cloud_name": cloud_name,
+        "api_key": api_key,
+        "timestamp": timestamp,
+        "folder": folder,
+        "signature": signature,
+    }
 
 
 @user_router.get("/users/me/favorites")
