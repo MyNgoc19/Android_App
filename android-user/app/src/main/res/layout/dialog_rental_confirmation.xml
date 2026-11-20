@@ -256,5 +256,6 @@
                 app:insetTop="0dp"
                 app:insetBottom="0dp" />
 
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>
