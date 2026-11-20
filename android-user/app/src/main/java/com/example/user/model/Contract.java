@@ -2,10 +2,10 @@ package com.example.user.model;
 
 import java.util.List;
 
-/**
- * Hợp đồng (GET users/me/contracts, users/me/contracts/{id}).
- * JSON snake_case (monthly_price) được Gson tự map sang camelCase (monthlyPrice).
- */
+
+
+
+
 public class Contract {
 
     private int id;
@@ -58,7 +58,7 @@ public class Contract {
     public String getRoomImage() { return roomImage; }
     public List<Payment> getPayments() { return payments; }
 
-    /** Địa chỉ phòng đầy đủ */
+
     public String getRoomFullAddress() {
         StringBuilder sb = new StringBuilder(roomAddress == null ? "" : roomAddress);
         for (String part : new String[]{roomWard, roomDistrict, roomCity}) {
