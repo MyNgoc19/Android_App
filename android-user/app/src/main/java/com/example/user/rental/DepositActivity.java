@@ -20,16 +20,16 @@ import com.example.user.utils.Ui;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
-/**
- * Thông tin tiền cọc của 1 hợp đồng.
- * Số tiền: contract.deposit_amount. Trạng thái: khoản payment loại DEPOSIT của hợp đồng.
- * Backend chưa có API để người thuê tự báo đã chuyển cọc => chủ nhà ghi nhận trên Web Admin.
- */
+
+
+
+
+
 public class DepositActivity extends AppCompatActivity {
 
     public static final String EXTRA_CONTRACT_ID = "contract_id";
 
-    // Thông tin nhận tiền (backend chưa có API) – sửa theo tài khoản thật của nhóm
+
     private static final String BANK_NAME = "Liên hệ chủ nhà để nhận STK";
     private static final String BANK_ACCOUNT = "—";
     private static final String ACCOUNT_HOLDER = "N&N HOME";
@@ -69,7 +69,7 @@ public class DepositActivity extends AppCompatActivity {
         btnConfirmDeposit = findViewById(R.id.btnConfirmDeposit);
         progressBar = findViewById(R.id.progressBar);
 
-        // Chưa có API báo chuyển cọc => ẩn ô nhập mã giao dịch và nút xác nhận
+
         Ui.visible(layoutConfirm, false);
         Ui.visible(btnConfirmDeposit, false);
         layoutContent.setVisibility(View.INVISIBLE);
@@ -98,7 +98,7 @@ public class DepositActivity extends AppCompatActivity {
                 layoutContent.setVisibility(View.VISIBLE);
                 txtDepositAmount.setText(Format.money(contract.getDepositAmount()));
 
-                // Gom tất cả khoản DEPOSIT của hợp đồng, cộng các khoản đã PAID
+
                 double paid = 0;
                 Payment latest = null;
                 StringBuilder history = new StringBuilder();
