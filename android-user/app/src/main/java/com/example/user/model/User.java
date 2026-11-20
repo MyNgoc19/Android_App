@@ -1,9 +1,9 @@
 package com.example.user.model;
 
-/**
- * Tài khoản (bảng users). Lấy từ GET auth/me, users/me.
- * JSON snake_case (monthly_price) được Gson tự map sang camelCase (monthlyPrice).
- */
+
+
+
+
 public class User {
 
     private int id;
