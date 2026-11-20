@@ -23,9 +23,9 @@ import com.example.user.utils.StatusUtil;
 import com.example.user.utils.Ui;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
-/**
- * Phòng của tôi = hợp đồng ACTIVE (GET users/me/contracts).
- */
+
+
+
 public class MyRoomActivity extends AppCompatActivity {
 
     private View layoutEmpty;
@@ -121,7 +121,7 @@ public class MyRoomActivity extends AppCompatActivity {
         if (contract.getRoomImage() != null && !contract.getRoomImage().isEmpty()) {
             ImageLoader.load(imgRoom, contract.getRoomImage());
         } else {
-            // API hợp đồng không trả ảnh => lấy ảnh từ GET rooms/{id}
+
             new com.example.user.repository.RoomRepository().getRoom(contract.getRoomId(),
                     new ApiCallback<com.example.user.model.Room>() {
                         @Override
