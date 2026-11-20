@@ -10,10 +10,10 @@ import com.example.user.room.HomeActivity;
 import com.example.user.room.SearchActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-/**
- * Dùng chung thanh điều hướng dưới cho 4 tab: Trang chủ, Tìm phòng, Lịch hẹn, Cá nhân.
- * REORDER_TO_FRONT giúp không tạo chồng nhiều màn hình giống nhau.
- */
+
+
+
+
 public final class BottomNavHelper {
 
     private BottomNavHelper() {
@@ -49,7 +49,7 @@ public final class BottomNavHelper {
         });
     }
 
-    /** Gọi trong onResume để tô lại đúng tab khi quay về */
+
     public static void refresh(BottomNavigationView nav, int selectedItemId) {
         if (nav != null) {
             nav.getMenu().findItem(selectedItemId).setChecked(true);
