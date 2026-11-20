@@ -23,6 +23,7 @@ class UserResponse(BaseModel):
     full_name: str
     phone: str | None = None
     avatar_url: str | None = None
+    gender: str | None = None
     role: str
     status: str
 
@@ -54,6 +55,7 @@ def get_current_user(
                 full_name,
                 phone,
                 avatar_url,
+                gender,
                 role,
                 status
             FROM users
