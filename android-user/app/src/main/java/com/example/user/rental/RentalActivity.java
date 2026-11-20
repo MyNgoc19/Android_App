@@ -4,9 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import android.content.res.ColorStateList;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.user.R;
@@ -147,20 +148,38 @@ public class RentalActivity extends AppCompatActivity {
             return;
         }
 
+        View content = LayoutInflater.from(this)
+                .inflate(R.layout.dialog_rental_confirmation, null, false);
+
+        TextView roomName = content.findViewById(R.id.dialogRoomName);
+        TextView roomAddress = content.findViewById(R.id.dialogRoomAddress);
+        TextView rentalPeriod = content.findViewById(R.id.dialogRentalPeriod);
+        TextView startDateText = content.findViewById(R.id.dialogStartDate);
+        TextView monthlyPrice = content.findViewById(R.id.dialogMonthlyPrice);
+        TextView duration = content.findViewById(R.id.dialogDuration);
+
+        int months = selectedMonths();
+        String start = Format.toApiDate(startDate);
+        roomName.setText(room.getTitle());
+        roomAddress.setText(room.getFullAddress());
+        rentalPeriod.setText(Format.date(start) + "  –  " + Format.addMonths(start, months));
+        startDateText.setText(Format.date(start));
+        monthlyPrice.setText(Format.money(room.getMonthlyPrice()) + " / tháng");
+        duration.setText(months + " tháng");
+
         androidx.appcompat.app.AlertDialog dialog = new MaterialAlertDialogBuilder(this)
-                .setTitle("Xác nhận gửi yêu cầu")
-                .setMessage(buildSummary())
+                .setView(content)
                 .setNegativeButton("Chỉnh sửa", null)
                 .setPositiveButton("Gửi yêu cầu", (d, w) -> createRental())
                 .create();
-
-        dialog.setOnShowListener(ignored -> {
-            dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
-                    .setTextColor(android.graphics.Color.parseColor("#E85D93"));
-            dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE)
-                    .setTextColor(android.graphics.Color.parseColor("#77717A"));
-        });
         dialog.show();
+        dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
+                .setTextColor(android.graphics.Color.parseColor("#E85D93"));
+        dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE)
+                .setTextColor(android.graphics.Color.parseColor("#77717A"));
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        }
     }
 
     /**
