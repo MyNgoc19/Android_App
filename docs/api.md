@@ -1,18 +1,18 @@
 
 # Tài liệu đặc tả API dùng chung — HỆ THỐNG QUẢN LÝ PHÒNG THUÊ
 
-Version: v1
+Phiên bản: v1
 
-Base URL:
+Địa chỉ API gốc:
 - Local backend: `http://localhost:8000/api/v1`
 - Android Emulator: use `http://10.0.2.2:8000/api/v1` when using the standard Android Emulator.
 - Physical Android device: use `http://<computer-lan-ip>:8000/api/v1`.
 - Production: use the deployed HTTPS domain.
 
-Backend: FastAPI  
-Database: PostgreSQL  
-Authentication: Firebase Authentication ID Token  
-Image Storage: Cloudinary
+Máy chủ: FastAPI  
+Cơ sở dữ liệu: PostgreSQL  
+Xác thực: Mã ID Token của Firebase Authentication  
+Lưu trữ hình ảnh: Cloudinary
 
 ---
 
@@ -486,26 +486,26 @@ Current payment APIs record payment entries and let Admin transition payment sta
 
 ## 9. Danh sách trạng thái
 
-### Room
+### Phòng
 
 - `AVAILABLE`: can receive rental requests.
 - `RENTED`: has an active rental contract.
 - `INACTIVE`: not displayed in public room discovery.
 
-### Rental Request
+### Yêu cầu thuê
 
 - `PENDING`: waiting for admin review.
 - `APPROVED`: accepted, can proceed to contract creation.
 - `REJECTED`: declined by admin.
 - `CANCELLED`: cancelled by the requesting user.
 
-### Contract
+### Hợp đồng
 
 - `ACTIVE`: currently in effect.
 - `ENDED`: completed.
 - `CANCELLED`: terminated.
 
-### Payment
+### Thanh toán
 
 - `PENDING`: awaiting confirmation.
 - `PAID`: payment received.
@@ -528,7 +528,7 @@ Current payment APIs record payment entries and let Admin transition payment sta
 
 ## 11. Phân chia công việc phát triển
 
-### Android User
+### Ứng dụng Android cho người thuê
 
 - Firebase login.
 - User profile.
@@ -537,7 +537,7 @@ Current payment APIs record payment entries and let Admin transition payment sta
 - Rental request create/list/cancel.
 - Own contracts and payments.
 
-### Web Admin
+### Trang quản trị Web
 
 - Admin login.
 - Dashboard.
@@ -547,7 +547,7 @@ Current payment APIs record payment entries and let Admin transition payment sta
 - Rental request review.
 - Contract and payment management.
 
-### Shared Backend
+### Backend dùng chung
 
 - Firebase token verification.
 - Role and account status checks.
