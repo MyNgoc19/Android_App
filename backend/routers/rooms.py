@@ -101,7 +101,7 @@ def get_rooms(
                 detail="min_area cannot be greater than max_area.",
             )
 
-    
+
     filters = """
         WHERE r.status = 'AVAILABLE'
         AND (
@@ -213,7 +213,7 @@ def get_room_detail(
     return dict(room)
 
 
-# Authenticated user APIs
+
 user_router = APIRouter(tags=["User"])
 
 
