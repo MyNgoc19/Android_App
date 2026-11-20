@@ -202,12 +202,20 @@ public class AuthRepository {
         ApiCaller.enqueue(api.getProfile(), saveUser(callback));
     }
 
-    /** Chỉ cập nhật full_name, phone (không gửi role/status) */
+    /** Update editable profile fields without exposing role or account status. */
     public void updateProfile(String fullName, String phone, ApiCallback<User> callback) {
+        updateProfile(fullName, phone, null, callback);
+    }
+
+    public void updateProfile(String fullName, String phone, String gender,
+                              ApiCallback<User> callback) {
         Map<String, Object> body = new HashMap<>();
         body.put("full_name", fullName);
         if (phone != null) {
             body.put("phone", phone);
+        }
+        if (gender != null) {
+            body.put("gender", gender);
         }
         ApiCaller.enqueue(api.updateProfile(body), saveUser(callback));
 
