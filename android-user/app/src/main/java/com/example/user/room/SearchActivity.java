@@ -34,10 +34,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Tìm kiếm + lọc phòng: từ khóa, loại phòng, khoảng giá, khu vực, sắp xếp.
- * Nhận extra "room_type" (ROOM | APARTMENT) từ trang chủ.
- */
+
+
+
+
 public class SearchActivity extends AppCompatActivity {
 
     public static final String EXTRA_ROOM_TYPE = "room_type";
@@ -63,7 +63,7 @@ public class SearchActivity extends AppCompatActivity {
     private final RoomRepository roomRepository = new RoomRepository();
     private final List<String> districts = new ArrayList<>();
 
-    // Chờ người dùng gõ xong 400ms mới tìm, tránh gọi API liên tục
+
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final Runnable searchRunnable = this::search;
     private int requestId = 0;
@@ -85,7 +85,7 @@ public class SearchActivity extends AppCompatActivity {
         search();
     }
 
-    // Mở lại từ Home với loại phòng khác (do REORDER_TO_FRONT)
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -139,7 +139,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void setupFilters() {
-        // Từ khóa
+
         edtKeyword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -164,16 +164,16 @@ public class SearchActivity extends AppCompatActivity {
             return false;
         });
 
-        // Loại + giá
+
         chipGroupType.setOnCheckedStateChangeListener((group, ids) -> search());
         chipGroupPrice.setOnCheckedStateChangeListener((group, ids) -> search());
 
-        // Sắp xếp
+
         spinnerSort.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, SORT_LABELS));
         spinnerSort.setOnItemSelectedListener(simpleListener());
 
-        // Khu vực (đổ dữ liệu sau khi gọi API)
+
         districts.add("Tất cả khu vực");
         spinnerDistrict.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, districts));
@@ -204,7 +204,7 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-    // Backend chưa có API danh sách quận => lấy từ các phòng đã tải
+
     private void updateDistricts(List<Room> rooms) {
         boolean changed = false;
         for (Room r : rooms) {
@@ -219,8 +219,8 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-    // Gọi API GET rooms?keyword=... rồi lọc loại / giá / quận / sắp xếp ngay trên máy
-    // (API công khai của backend chung chưa có tham số lọc giá, quận)
+
+
     private void search() {
         String keyword = Ui.text(edtKeyword);
 
@@ -231,7 +231,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onSuccess(List<Room> rooms) {
                 if (myRequest != requestId) {
-                    return; // đã có lần tìm mới hơn
+                    return;
                 }
                 Ui.visible(progressBar, false);
                 updateDistricts(rooms);
