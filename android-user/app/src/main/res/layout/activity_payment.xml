@@ -7,7 +7,7 @@
     android:background="#FFF9FC"
     android:orientation="vertical">
 
-    <!-- Header -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -38,7 +38,7 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- Loading -->
+
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
@@ -47,7 +47,7 @@
         android:visibility="gone"
         app:indicatorColor="#FF69A6" />
 
-    <!-- Nội dung -->
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -61,7 +61,7 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- Tổng tiền -->
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Phương thức thanh toán -->
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
                     app:buttonTint="#FF69A6" />
             </RadioGroup>
 
-            <!-- Thông tin ngân hàng -->
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardBankInfo"
                 android:layout_width="match_parent"
@@ -230,7 +230,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Mã giao dịch -->
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layoutTransactionCode"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -255,7 +255,7 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Ghi chú -->
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -268,7 +268,7 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Nút xác nhận -->
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnConfirmPayment"
         android:layout_width="match_parent"
