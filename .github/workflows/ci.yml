@@ -12,6 +12,32 @@ permissions:
   contents: read
 
 jobs:
+  setup-validation:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run Windows setup
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: setup.bat
+      - name: Run macOS/Linux setup
+        if: runner.os != 'Windows'
+        shell: bash
+        run: bash ./setup.sh
+
   backend-and-database:
     runs-on: ubuntu-latest
     services:
