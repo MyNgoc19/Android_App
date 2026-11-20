@@ -7,7 +7,7 @@
     android:background="#FFF9FC"
     android:orientation="vertical">
 
-    <!-- Header -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
 
     </LinearLayout>
 
-    <!-- Loading -->
+
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
@@ -49,13 +49,13 @@
         app:indicatorColor="#FF69A6"
         app:trackColor="#FFE4EF" />
 
-    <!-- Nội dung màn hình -->
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <!-- Trạng thái chưa thuê phòng -->
+
         <LinearLayout
             android:id="@+id/layoutEmpty"
             android:layout_width="match_parent"
@@ -118,7 +118,7 @@
 
         </LinearLayout>
 
-        <!-- Trạng thái đã có phòng -->
+
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollMyRoom"
             android:layout_width="match_parent"
@@ -132,7 +132,7 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-                <!-- Thông tin phòng -->
+
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardRoom"
                     android:layout_width="match_parent"
@@ -199,7 +199,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Hợp đồng -->
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -264,7 +264,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Hướng dẫn bước tiếp theo -->
+
                 <TextView
                     android:id="@+id/txtNextStep"
                     android:layout_width="match_parent"
@@ -277,7 +277,7 @@
                     android:textSize="13sp"
                     android:visibility="visible" />
 
-                <!-- Nút xem hợp đồng -->
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnViewContract"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -291,7 +291,7 @@
                     app:strokeColor="#FF69A6"
                     app:strokeWidth="1dp" />
 
-                <!-- Nút thông tin cọc -->
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnDeposit"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -305,7 +305,7 @@
                     app:strokeColor="#FF69A6"
                     app:strokeWidth="1dp" />
 
-                <!-- Các chức năng khi đang thuê -->
+
                 <LinearLayout
                     android:id="@+id/layoutActiveActions"
                     android:layout_width="match_parent"
@@ -313,7 +313,7 @@
                     android:orientation="vertical"
                     android:visibility="visible">
 
-                    <!-- Hóa đơn -->
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnInvoices"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -327,7 +327,7 @@
                         app:strokeColor="#FF69A6"
                         app:strokeWidth="1dp" />
 
-                    <!-- Sửa chữa -->
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnMaintenance"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -341,7 +341,7 @@
                         app:strokeColor="#FF69A6"
                         app:strokeWidth="1dp" />
 
-                    <!-- Trả phòng -->
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnMoveOut"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
