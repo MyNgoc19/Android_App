@@ -177,6 +177,43 @@ Nguồn schema để khởi tạo database là `backend/schemas/schema.sql`. Khi
 
 ## 8. Cài đặt và chạy dự án
 
+### 8.1. Cài đặt tự động cho Backend và Web Admin
+
+Cài sẵn Python 3.10 trở lên, Node.js 20 trở lên, npm và PostgreSQL. Mở terminal tại thư mục gốc repository rồi chạy đúng lệnh theo hệ điều hành:
+
+| Hệ điều hành | Lệnh |
+|---|---|
+| Windows Command Prompt | `setup.bat` |
+| Windows PowerShell | `Set-ExecutionPolicy -Scope Process Bypass` rồi `./setup.ps1` |
+| macOS | `bash ./setup.sh` |
+| Linux | `bash ./setup.sh` |
+
+Bộ cài sẽ tạo `backend/.venv`, cài các package Python trong `backend/requirements.txt`, cài package npm trong `web-admin/` và tạo `backend/.env` cùng `web-admin/.env` từ file mẫu nếu các file này chưa tồn tại. File cấu hình có sẵn sẽ được giữ nguyên.
+
+Sau khi cài đặt, cần tự điền thông tin PostgreSQL, Firebase và Cloudinary trong hai file `.env`. Bộ cài không tự tạo tài khoản dịch vụ, database PostgreSQL hoặc Firebase project.
+
+Tạo database PostgreSQL rồi chạy schema:
+
+```bash
+psql -U <postgres_user> -d <database_name> -v ON_ERROR_STOP=1 -f backend/schemas/schema.sql
+```
+
+Chạy Backend:
+
+- Windows PowerShell: `cd backend; .venv\\Scripts\\python.exe -m uvicorn main:app --reload --host 0.0.0.0 --port 8000`
+- macOS/Linux: `cd backend && .venv/bin/python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000`
+
+Chạy Web Admin trong terminal khác:
+
+```bash
+cd web-admin
+npm run dev
+```
+
+Mở URL Vite hiển thị trong terminal, mặc định thường là `http://localhost:5173`.
+
+### 8.2. Yêu cầu môi trường
+
 ### 8.1. Yêu cầu môi trường
 
 - Git
@@ -187,7 +224,7 @@ Nguồn schema để khởi tạo database là `backend/schemas/schema.sql`. Khi
 - Firebase project có bật phương thức đăng nhập mà ứng dụng sử dụng
 - Cloudinary account để upload ảnh
 
-### 8.2. Backend
+### 8.3. Backend
 
 Mở terminal tại thư mục repository:
 
@@ -228,7 +265,7 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 - API documentation: `http://localhost:8000/docs`
 - API base URL: `http://localhost:8000/api/v1`
 
-### 8.3. Web Admin
+### 8.4. Web Admin
 
 ```bash
 cd web-admin
@@ -255,7 +292,7 @@ Build production:
 npm run build
 ```
 
-### 8.4. Android User
+### 8.5. Android User
 
 1. Mở Android Studio.
 2. Chọn **Open** và trỏ đến thư mục `android-user/`.
