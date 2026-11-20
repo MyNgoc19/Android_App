@@ -14,8 +14,13 @@ __pycache__/
 .venv/
 venv/
 
-# Logs
+# Logs and generated caches
 *.log
+node_modules/
+.vite/
+**/.vite/
+.gradle/
+**/build/
 
 # IDE
 .idea/
