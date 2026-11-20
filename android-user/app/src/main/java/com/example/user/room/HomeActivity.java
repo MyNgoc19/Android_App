@@ -32,7 +32,7 @@ import com.google.android.material.card.MaterialCardView;
 
 public class HomeActivity extends AppCompatActivity {
 
-    // TextView
+
     private TextView txtUserName;
     private TextView txtSearch;
     private TextView txtExploreAll;
@@ -42,19 +42,19 @@ public class HomeActivity extends AppCompatActivity {
     private TextView txtMyRoomName;
     private TextView txtMyRoomStatus;
 
-    // CardView
+
     private MaterialCardView cardSearch;
     private MaterialCardView cardRoom;
     private MaterialCardView cardApartment;
     private MaterialCardView cardMyRoom;
 
-    // RecyclerView
+
     private RecyclerView rvAvailableRooms;
 
-    // Bottom Navigation
+
     private BottomNavigationView bottomNavigation;
 
-    // Dữ liệu
+
     private RoomAdapter roomAdapter;
     private final RoomRepository roomRepository = new RoomRepository();
     private final RentalRepository rentalRepository = new RentalRepository();
@@ -72,7 +72,7 @@ public class HomeActivity extends AppCompatActivity {
         setupBottomNavigation();
     }
 
-    // Ánh xạ các thành phần giao diện
+
     private void initViews() {
 
         txtUserName = findViewById(R.id.txtUserName);
@@ -94,13 +94,13 @@ public class HomeActivity extends AppCompatActivity {
         bottomNavigation = findViewById(R.id.bottomNavigation);
     }
 
-    // Hiển thị thông tin người dùng (lấy nhanh từ phiên, sau đó cập nhật từ API)
+
     private void setupUserInfo() {
 
         txtUserName.setText(shortName(SessionManager.getInstance().getFullName()));
 
-        // Đồng bộ lại tài khoản với backend (POST auth/session + GET auth/me),
-        // đồng thời phát hiện tài khoản bị khóa
+
+
         authRepository.syncSession(new ApiCallback<User>() {
             @Override
             public void onSuccess(User user) {
@@ -111,7 +111,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onError(String message) {
                 Ui.toast(HomeActivity.this, message);
                 if (!SessionManager.getInstance().isLoggedIn()) {
-                    // bị khóa / không đồng bộ được => về màn đăng nhập
+
                     startActivity(new Intent(HomeActivity.this, com.example.user.auth.LoginActivity.class)
                             .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                     finish();
@@ -119,11 +119,11 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        // Mặc định ẩn, loadMyRoom() sẽ hiện nếu đang thuê
+
         showMyRoom(false, "", "");
     }
 
-    // "Phan Thụy Mỹ Ngọc" -> "Ngọc"
+
     private String shortName(String fullName) {
         if (fullName == null || fullName.trim().isEmpty()) {
             return "bạn";
@@ -132,7 +132,7 @@ public class HomeActivity extends AppCompatActivity {
         return parts[parts.length - 1];
     }
 
-    // Thiết lập danh sách phòng còn trống
+
     private void setupRecyclerView() {
 
         LinearLayoutManager layoutManager =
@@ -163,7 +163,7 @@ public class HomeActivity extends AppCompatActivity {
         rvAvailableRooms.setAdapter(roomAdapter);
     }
 
-    // Lấy 5 phòng còn trống mới nhất
+
     private void loadAvailableRooms() {
         Map<String, String> filters = RoomRepository.query(null, 5);
 
@@ -183,7 +183,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    // Thêm / bỏ yêu thích
+
     private void toggleFavorite(Room room) {
         roomRepository.setFavorite(room.getId(), room.isFavorite(), new ApiCallback<String>() {
             @Override
@@ -199,7 +199,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    // Phòng đang thuê / hợp đồng đang xử lý
+
     private void loadMyRoom() {
         rentalRepository.getActiveContract(new ApiCallback<Contract>() {
             @Override
@@ -219,41 +219,41 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    // Xử lý các sự kiện trên trang chủ
+
     private void setupEvents() {
 
-        // Nhấn vào ô tìm kiếm
+
         cardSearch.setOnClickListener(v -> {
             openActivity(SearchActivity.class);
         });
 
-        // Nhấn xem tất cả danh mục
+
         txtExploreAll.setOnClickListener(v -> {
             openActivity(SearchActivity.class);
         });
 
-        // Nhấn xem tất cả phòng còn trống
+
         txtViewAllRooms.setOnClickListener(v -> {
             openActivity(SearchActivity.class);
         });
 
-        // Nhấn danh mục phòng trọ
+
         cardRoom.setOnClickListener(v -> {
             openSearchByType("ROOM");
         });
 
-        // Nhấn danh mục căn hộ
+
         cardApartment.setOnClickListener(v -> {
             openSearchByType("APARTMENT");
         });
 
-        // Nhấn phòng đang thuê
+
         cardMyRoom.setOnClickListener(v -> {
             openActivity(MyRoomActivity.class);
         });
     }
 
-    // Chuyển đến tìm kiếm theo loại phòng
+
     private void openSearchByType(String roomType) {
 
         Intent intent = new Intent(
@@ -266,7 +266,7 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // Hiển thị hoặc ẩn phòng đang thuê
+
     private void showMyRoom(
             boolean hasRoom,
             String roomName,
@@ -288,12 +288,12 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    // Thiết lập thanh điều hướng phía dưới
+
     private void setupBottomNavigation() {
         BottomNavHelper.setup(this, bottomNavigation, R.id.navHome);
     }
 
-    // Hàm chuyển màn hình dùng chung
+
     private void openActivity(Class<?> activityClass) {
 
         Intent intent = new Intent(
@@ -309,7 +309,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onResume();
         BottomNavHelper.refresh(bottomNavigation, R.id.navHome);
 
-        // Tải lại mỗi lần quay về (vd vừa thuê phòng / bấm yêu thích ở màn khác)
+
         loadAvailableRooms();
         loadMyRoom();
     }
