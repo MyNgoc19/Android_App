@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS payments (
                         ),
     due_date            DATE,
     status              VARCHAR(10) NOT NULL DEFAULT 'PENDING'
-                        CHECK (status IN ('PENDING', 'PROCESSING', 'PAID', 'FAILED', 'REFUNDED')),
+                        CHECK (status IN ('PENDING', 'PAID', 'FAILED', 'REFUNDED')),
     method              VARCHAR(15)
                         CHECK (method IS NULL OR method IN ('BANK_TRANSFER', 'CASH', 'MOMO')),
     transaction_code    VARCHAR(100),
@@ -248,7 +248,7 @@ ALTER TABLE payments
     ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
 ALTER TABLE payments DROP CONSTRAINT IF EXISTS payments_status_check;
 ALTER TABLE payments ADD CONSTRAINT payments_status_check
-    CHECK (status IN ('PENDING', 'PROCESSING', 'PAID', 'FAILED', 'REFUNDED'));
+    CHECK (status IN ('PENDING', 'PAID', 'FAILED', 'REFUNDED'));
 DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'ck_payment_paid_at') THEN
