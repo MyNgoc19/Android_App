@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Style gốc rỗng: bắt buộc vì NN.Label, NN.Body... kế thừa ngầm từ "NN" -->
+
     <style name="NN" />
 
-    <!-- ===== 4 style bạn đã có (giữ nguyên) ===== -->
+
 
     <style name="NN.Card" parent="Widget.MaterialComponents.CardView">
         <item name="cardCornerRadius">16dp</item>
@@ -41,16 +41,16 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
-    <!-- ===== 4 style BỊ THIẾU (layout của bạn có dùng nên phải thêm, nếu không sẽ lỗi build) ===== -->
 
-    <!-- Dùng ở activity_contract.xml -->
+
+
     <style name="NN.Body">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/nn_text</item>
         <item name="android:lineSpacingExtra">3dp</item>
     </style>
 
-    <!-- Dùng ở activity_contract.xml -->
+
     <style name="NN.OutlineButton"
         parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="strokeColor">@color/nn_primary</item>
@@ -61,7 +61,7 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
-    <!-- Nhãn trạng thái (màu đặt trong code bằng StatusUtil.apply). Dùng ở activity_contract.xml -->
+
     <style name="NN.StatusChip">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -74,7 +74,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <!-- Chip lọc. Dùng ở activity_maintenance, activity_invoice_list, activity_search -->
+
     <style name="NN.FilterChip" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="chipBackgroundColor">@color/chip_bg</item>
         <item name="android:textColor">@color/chip_text</item>
