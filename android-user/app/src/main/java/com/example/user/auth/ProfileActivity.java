@@ -26,13 +26,13 @@ import com.google.android.material.button.MaterialButton;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    // Thông tin người dùng
+
     private ImageView imgAvatar;
     private TextView txtProfileName;
     private TextView txtProfileEmail;
     private TextView txtProfileRole;
 
-    // Các mục chức năng
+
     private android.view.View btnMyRoom;
     private android.view.View btnContract;
     private android.view.View btnInvoices;
@@ -41,10 +41,10 @@ public class ProfileActivity extends AppCompatActivity {
     private android.view.View btnMaintenance;
     private android.view.View btnEditProfile;
 
-    // Đăng xuất
+
     private MaterialButton btnLogout;
 
-    // Thanh điều hướng
+
     private BottomNavigationView bottomNavigation;
 
     private final AuthRepository authRepository = new AuthRepository();
@@ -59,7 +59,7 @@ public class ProfileActivity extends AppCompatActivity {
         setupBottomNavigation();
     }
 
-    // Ánh xạ các thành phần giao diện
+
     private void initViews() {
 
         imgAvatar = findViewById(R.id.imgAvatar);
@@ -81,7 +81,7 @@ public class ProfileActivity extends AppCompatActivity {
         bottomNavigation = findViewById(R.id.bottomNavigation);
     }
 
-    // Hiển thị thông tin người dùng: hiện ngay từ phiên, rồi cập nhật từ API
+
     private void setupUserInfo() {
 
         SessionManager session = SessionManager.getInstance();
@@ -104,7 +104,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onSuccess(User user) {
                 bindUser(user.getFullName(), user.getEmail());
-                // Ảnh đại diện trên server (avatar_url) nếu có
+
                 if (user.getAvatarUrl() != null && !user.getAvatarUrl().isEmpty()) {
                     imgAvatar.setImageTintList(null);
                     com.example.user.utils.ImageLoader.load(imgAvatar, user.getAvatarUrl());
@@ -113,7 +113,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onError(String message) {
-                // giữ thông tin đã lưu trên máy
+
             }
         });
     }
@@ -123,54 +123,54 @@ public class ProfileActivity extends AppCompatActivity {
         txtProfileEmail.setText(email);
     }
 
-    // Xử lý các sự kiện
+
     private void setupEvents() {
 
-        // Phòng đang thuê
+
         btnMyRoom.setOnClickListener(v ->
                 openActivity(MyRoomActivity.class)
         );
 
-        // Hợp đồng thuê
+
         btnContract.setOnClickListener(v ->
                 openActivity(ContractActivity.class)
         );
 
-        // Hóa đơn và thanh toán
+
         btnInvoices.setOnClickListener(v ->
                 openActivity(InvoiceListActivity.class)
         );
 
-        // Lịch hẹn xem phòng
+
         btnAppointments.setOnClickListener(v ->
                 openActivity(MyAppointmentsActivity.class)
         );
 
-        // Phòng yêu thích
+
         btnFavorites.setOnClickListener(v ->
                 openActivity(FavoriteActivity.class)
         );
 
-        // Yêu cầu bảo trì
+
         btnMaintenance.setOnClickListener(v ->
                 openActivity(MaintenanceActivity.class)
         );
 
-        // Chỉnh sửa thông tin cá nhân
+
         btnEditProfile.setOnClickListener(v ->
                 openActivity(EditProfileActivity.class)
         );
 
-        // Đăng xuất
+
         btnLogout.setOnClickListener(v -> showLogoutDialog());
     }
 
-    // Thiết lập thanh điều hướng
+
     private void setupBottomNavigation() {
         BottomNavHelper.setup(this, bottomNavigation, R.id.navProfile);
     }
 
-    // Hiển thị hộp thoại xác nhận đăng xuất
+
     private void showLogoutDialog() {
 
         new AlertDialog.Builder(this)
@@ -185,10 +185,10 @@ public class ProfileActivity extends AppCompatActivity {
                 .show();
     }
 
-    // Xử lý đăng xuất
+
     private void logout() {
 
-        // Xóa token trên máy + báo backend hủy phiên
+
         authRepository.logout();
 
         Intent intent = new Intent(
@@ -205,7 +205,7 @@ public class ProfileActivity extends AppCompatActivity {
         finish();
     }
 
-    // Chuyển đến các màn hình chức năng
+
     private void openActivity(Class<?> activityClass) {
 
         Intent intent = new Intent(
@@ -220,7 +220,7 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         BottomNavHelper.refresh(bottomNavigation, R.id.navProfile);
-        // Cập nhật lại sau khi sửa hồ sơ
+
         setupUserInfo();
     }
 }
