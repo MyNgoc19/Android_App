@@ -44,6 +44,7 @@ public class SessionManager {
                 .putString("email", user.getEmail())
                 .putString("phone", user.getPhone())
                 .putString("avatar_url", user.getAvatarUrl())
+                .putString("gender", user.getGender())
                 .putString("role", user.getRole())
                 .putString("status", user.getStatus())
                 .apply();
@@ -60,9 +61,8 @@ public class SessionManager {
     public String getPhone() { return prefs.getString("phone", ""); }
     public String getAvatarUrl() { return prefs.getString("avatar_url", ""); }
 
-    /** Giới tính: backend chưa có trường này => chỉ lưu trên máy */
+    /** Gender is synchronized with the backend profile. */
     public String getGender() { return prefs.getString("gender", ""); }
-    public void saveGender(String gender) { prefs.edit().putString("gender", gender).apply(); }
 
     public void clear() {
         prefs.edit().clear().apply();
