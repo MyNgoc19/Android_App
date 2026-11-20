@@ -21,10 +21,10 @@ import com.google.android.material.progressindicator.LinearProgressIndicator;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Lịch sử thanh toán (GET users/me/payments): tiền cọc, tiền thuê, khoản khác.
- * Lọc theo trạng thái ngay trên máy.
- */
+
+
+
+
 public class InvoiceListActivity extends AppCompatActivity {
 
     private ChipGroup chipGroupStatus;
@@ -44,7 +44,7 @@ public class InvoiceListActivity extends AppCompatActivity {
         txtEmpty = findViewById(R.id.txtEmpty);
         progressBar = findViewById(R.id.progressBar);
 
-        // Đổi chữ chip cho đúng trạng thái của backend: PENDING / PAID / FAILED, REFUNDED
+
         ((Chip) findViewById(R.id.chipUnpaid)).setText("Chờ thanh toán");
         ((Chip) findViewById(R.id.chipPending)).setText("Thất bại / Hoàn tiền");
         ((Chip) findViewById(R.id.chipPaid)).setText("Đã thanh toán");
