@@ -1,9 +1,9 @@
 package com.example.user.model;
 
-/**
- * Khoản thanh toán (GET users/me/payments). payment_type: DEPOSIT | RENT | OTHER; status: PENDING | PAID | FAILED | REFUNDED.
- * JSON snake_case (monthly_price) được Gson tự map sang camelCase (monthlyPrice).
- */
+
+
+
+
 public class Payment {
 
     private int id;
