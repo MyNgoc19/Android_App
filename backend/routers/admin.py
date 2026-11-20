@@ -24,7 +24,7 @@ cloudinary.config(
     api_secret=os.getenv("CLOUDINARY_API_SECRET")
 )
 
-# REQUEST MODELS
+
 
 class RoomCreate(BaseModel):
     title: str = Field(min_length=1, max_length=200)
@@ -94,8 +94,8 @@ class PaymentStatusUpdate(BaseModel):
     status: str = Field(
         pattern="^(PENDING|PAID|FAILED|REFUNDED)$"
     )
-    
-# SHARED ROOM QUERY
+
+
 
 ROOM_SELECT = """
     SELECT
@@ -141,8 +141,8 @@ ROOM_SELECT = """
 """
 
 
-# GET /admin/rooms
-# List all rooms
+
+
 
 @router.get("/rooms")
 def get_admin_rooms(
@@ -199,8 +199,8 @@ def get_admin_rooms(
     }
 
 
-# GET /admin/rooms/{room_id}
-# Get room details
+
+
 
 @router.get("/rooms/{room_id}")
 def get_admin_room(
@@ -225,8 +225,8 @@ def get_admin_room(
     return dict(result)
 
 
-# POST /admin/rooms
-# Create a room
+
+
 
 @router.post("/rooms", status_code=201)
 def create_room(
@@ -291,8 +291,8 @@ def create_room(
     }
 
 
-# PATCH /admin/rooms/{room_id}
-# Update room information
+
+
 
 @router.patch("/rooms/{room_id}")
 def update_room(
@@ -369,8 +369,8 @@ def update_room(
     }
 
 
-# PATCH /admin/rooms/{room_id}/status
-# Change room status
+
+
 
 @router.patch("/rooms/{room_id}/status")
 def update_room_status(
@@ -464,7 +464,7 @@ def validate_cloudinary_url(image_url: str) -> bool:
         and parsed.path.startswith(expected_prefix)
     )
 
-# CLOUDINARY IMAGE UPLOAD
+
 
 @router.post("/rooms/{room_id}/images/signature")
 def create_cloudinary_signature(
@@ -514,8 +514,8 @@ def create_cloudinary_signature(
         "signature": signature,
     }
 
-# POST /admin/rooms/{room_id}/images
-# Add an image URL to a room
+
+
 
 @router.post("/rooms/{room_id}/images", status_code=201)
 def add_room_image(
@@ -574,11 +574,11 @@ def add_room_image(
     }
 
 
-# DELETE /admin/rooms/{room_id}/images/{image_id}
-# Remove an image record from database
 
-# DELETE /admin/rooms/{room_id}/images/{image_id}
-# Delete an image from Cloudinary and database
+
+
+
+
 
 @router.delete(
     "/rooms/{room_id}/images/{image_id}",
@@ -668,7 +668,7 @@ def delete_room_image(
             public_id,
             resource_type="image",
             invalidate=True,
-        )       
+        )
     except Exception as exc:
         print(f"Cloudinary deletion error: {repr(exc)}")
 
@@ -703,8 +703,8 @@ def delete_room_image(
     return None
 
 
-# GET /admin/users
-# List and search users
+
+
 
 @router.get("/users")
 def get_admin_users(
@@ -788,8 +788,8 @@ def get_admin_users(
     }
 
 
-# GET /admin/users/{user_id}
-# Get user details
+
+
 
 @router.get("/users/{user_id}")
 def get_admin_user(
@@ -822,7 +822,7 @@ def get_admin_user(
             detail="User not found.",
         )
 
-    # Additional user statistics.
+
     rental_request_count = db.execute(
         text("""
             SELECT COUNT(*)
@@ -850,8 +850,8 @@ def get_admin_user(
     }
 
 
-# PATCH /admin/users/{user_id}/status
-# Block or unblock a user
+
+
 
 @router.patch("/users/{user_id}/status")
 def update_user_status(
@@ -861,8 +861,8 @@ def update_user_status(
     current_user: dict = Depends(require_admin),
 ):
     try:
-        # Lock active administrator rows to prevent
-        # concurrent operations from blocking the last admin.
+
+
         active_admins = db.execute(
             text("""
                 SELECT id
@@ -897,7 +897,7 @@ def update_user_status(
                 "status": user["status"],
             }
 
-        # Prevent an administrator from blocking their own account.
+
         if (
             user_id == current_user["id"]
             and body.status == "BLOCKED"
@@ -907,7 +907,7 @@ def update_user_status(
                 detail="You cannot block your own account.",
             )
 
-        # Never block the last active administrator.
+
         if (
             user["role"] == "ADMIN"
             and user["status"] == "ACTIVE"
@@ -943,8 +943,8 @@ def update_user_status(
     except Exception:
         db.rollback()
         raise
-# PATCH /admin/users/{user_id}/role
-# Change a user's role
+
+
 
 @router.patch("/users/{user_id}/role")
 def update_user_role(
@@ -954,8 +954,8 @@ def update_user_role(
     current_user: dict = Depends(require_admin),
 ):
     try:
-        # Lock active administrators to prevent concurrent
-        # operations from removing the last administrator.
+
+
         active_admins = db.execute(
             text("""
                 SELECT id
@@ -990,7 +990,7 @@ def update_user_role(
                 "role": user["role"],
             }
 
-        # Prevent administrators from removing their own privileges.
+
         if (
             user_id == current_user["id"]
             and body.role == "USER"
@@ -1000,7 +1000,7 @@ def update_user_role(
                 detail="You cannot remove your own administrator privileges.",
             )
 
-        # Never demote the last active administrator.
+
         if (
             user["role"] == "ADMIN"
             and user["status"] == "ACTIVE"
@@ -1037,13 +1037,13 @@ def update_user_role(
         db.rollback()
         raise
 
-# =========================================================
-# RENTAL REQUEST MANAGEMENT
-# =========================================================
 
 
-# GET /admin/rental-requests
-# List and filter rental requests
+
+
+
+
+
 
 @router.get("/rental-requests")
 def get_admin_rental_requests(
@@ -1136,8 +1136,8 @@ def get_admin_rental_requests(
     }
 
 
-# GET /admin/rental-requests/{request_id}
-# Get rental request details
+
+
 
 @router.get("/rental-requests/{request_id}")
 def get_admin_rental_request(
@@ -1191,8 +1191,8 @@ def get_admin_rental_request(
     return dict(result)
 
 
-# PATCH /admin/rental-requests/{request_id}/status
-# Approve or reject a pending request
+
+
 
 @router.patch("/rental-requests/{request_id}/status")
 def update_rental_request_status(
@@ -1230,7 +1230,7 @@ def update_rental_request_status(
                 ),
             )
 
-        # Lock the associated room before checking availability.
+
         room = db.execute(
             text("""
                 SELECT id, status
@@ -1247,7 +1247,7 @@ def update_rental_request_status(
                 detail="Associated room not found.",
             )
 
-        # An unavailable room cannot receive an approved request.
+
         if (
             body.status == "APPROVED"
             and room["status"] != "AVAILABLE"
@@ -1329,13 +1329,13 @@ def update_rental_request_status(
         db.rollback()
         raise
 
-# =========================================================
-# CONTRACT MANAGEMENT
-# =========================================================
 
 
-# GET /admin/contracts
-# List and filter contracts
+
+
+
+
+
 
 @router.get("/contracts")
 def get_admin_contracts(
@@ -1430,8 +1430,8 @@ def get_admin_contracts(
     }
 
 
-# GET /admin/contracts/{contract_id}
-# Get contract details
+
+
 
 @router.get("/contracts/{contract_id}")
 def get_admin_contract(
@@ -1510,8 +1510,8 @@ def get_admin_contract(
     }
 
 
-# POST /admin/contracts
-# Create a contract from an approved rental request
+
+
 
 @router.post("/contracts", status_code=201)
 def create_contract(
@@ -1526,7 +1526,7 @@ def create_contract(
         )
 
     try:
-        # Lock the rental request first.
+
         rental_request = db.execute(
             text("""
                 SELECT
@@ -1553,7 +1553,7 @@ def create_contract(
                 detail="Only approved rental requests can create contracts.",
             )
 
-        # A request can have only one contract.
+
         existing_contract = db.execute(
             text("""
                 SELECT id
@@ -1569,7 +1569,7 @@ def create_contract(
                 detail="This rental request already has a contract.",
             )
 
-        # Lock the room to prevent concurrent contract creation.
+
         room = db.execute(
             text("""
                 SELECT id, status
@@ -1592,7 +1592,7 @@ def create_contract(
                 detail="This room is no longer available.",
             )
 
-        # Check for an existing active contract.
+
         active_contract = db.execute(
             text("""
                 SELECT id
@@ -1610,7 +1610,7 @@ def create_contract(
                 detail="This room already has an active contract.",
             )
 
-        # Create the contract.
+
         result = db.execute(
             text("""
                 INSERT INTO rental_contracts (
@@ -1648,7 +1648,7 @@ def create_contract(
 
         contract_id = result.scalar_one()
 
-        # Mark the room as rented.
+
         db.execute(
             text("""
                 UPDATE rooms
@@ -1659,7 +1659,7 @@ def create_contract(
             {"room_id": room["id"]},
         )
 
-        # Close other pending requests because the room is no longer available.
+
         db.execute(
             text("""
                 UPDATE rental_requests
@@ -1691,8 +1691,8 @@ def create_contract(
         raise
 
 
-# PATCH /admin/contracts/{contract_id}/status
-# End or cancel an active contract
+
+
 
 @router.patch("/contracts/{contract_id}/status")
 def update_contract_status(
@@ -1702,7 +1702,7 @@ def update_contract_status(
     current_user: dict = Depends(require_admin),
 ):
     try:
-        # Lock the contract.
+
         contract = db.execute(
             text("""
                 SELECT
@@ -1728,7 +1728,7 @@ def update_contract_status(
                 detail="Only active contracts can be ended or cancelled.",
             )
 
-        # Lock the associated room.
+
         room = db.execute(
             text("""
                 SELECT id
@@ -1745,7 +1745,7 @@ def update_contract_status(
                 detail="Associated room not found.",
             )
 
-        # Update contract status.
+
         db.execute(
             text("""
                 UPDATE rental_contracts
@@ -1759,7 +1759,7 @@ def update_contract_status(
             },
         )
 
-        # If no other active contract exists, make the room available.
+
         other_active_contract = db.execute(
             text("""
                 SELECT id
@@ -1800,13 +1800,13 @@ def update_contract_status(
         raise
 
 
-# =========================================================
-# PAYMENT MANAGEMENT
-# =========================================================
 
 
-# GET /admin/payments
-# List and filter payments
+
+
+
+
+
 
 @router.get("/payments")
 def get_admin_payments(
@@ -1911,8 +1911,8 @@ def get_admin_payments(
     }
 
 
-# GET /admin/payments/{payment_id}
-# Get one payment with its tenant and room summary
+
+
 
 @router.get("/payments/{payment_id}")
 def get_admin_payment(
@@ -1955,8 +1955,8 @@ def get_admin_payment(
     return dict(payment)
 
 
-# POST /admin/contracts/{contract_id}/payments
-# Record a payment for a contract
+
+
 
 @router.post(
     "/contracts/{contract_id}/payments",
@@ -2003,7 +2003,7 @@ def create_payment(
                 detail="payment_period is required for RENT payments.",
             )
 
-        # Prevent duplicate active rent charges for the same contract and month.
+
         if body.payment_type == "RENT":
             existing_payment = db.execute(
                 text("""
@@ -2030,7 +2030,7 @@ def create_payment(
                     ),
                 )
 
-        # Prevent multiple active deposit charges for one contract.
+
         if body.payment_type == "DEPOSIT":
             existing_deposit = db.execute(
                 text("""
@@ -2104,8 +2104,8 @@ def create_payment(
         raise
 
 
-# PATCH /admin/payments/{payment_id}/status
-# Update payment status
+
+
 
 @router.patch("/payments/{payment_id}/status")
 def update_payment_status(
@@ -2141,7 +2141,7 @@ def update_payment_status(
                 "status": old_status,
             }
 
-        # Validate payment status transitions.
+
         allowed_transitions = {
             "PENDING": {"PAID", "FAILED"},
             "PAID": {"REFUNDED"},
@@ -2194,16 +2194,16 @@ def update_payment_status(
         db.rollback()
         raise
 
-# =========================================================
-# ADMIN DASHBOARD
-# =========================================================
+
+
+
 
 @router.get("/dashboard")
 def get_admin_dashboard(
     db: Session = Depends(get_db),
     current_user: dict = Depends(require_admin),
 ):
-    # Room statistics
+
     room_stats = db.execute(
         text("""
             SELECT
@@ -2221,7 +2221,7 @@ def get_admin_dashboard(
         """)
     ).mappings().one()
 
-    # User statistics
+
     user_stats = db.execute(
         text("""
             SELECT
@@ -2242,7 +2242,7 @@ def get_admin_dashboard(
         """)
     ).mappings().one()
 
-    # Rental request statistics
+
     request_stats = db.execute(
         text("""
             SELECT
@@ -2263,7 +2263,7 @@ def get_admin_dashboard(
         """)
     ).mappings().one()
 
-    # Contract statistics
+
     contract_stats = db.execute(
         text("""
             SELECT
@@ -2281,7 +2281,7 @@ def get_admin_dashboard(
         """)
     ).mappings().one()
 
-    # Payment statistics
+
     payment_stats = db.execute(
         text("""
             SELECT
@@ -2317,7 +2317,7 @@ def get_admin_dashboard(
         """)
     ).mappings().one()
 
-    # Recent rental requests
+
     recent_requests = db.execute(
         text("""
             SELECT
@@ -2334,7 +2334,7 @@ def get_admin_dashboard(
         """)
     ).mappings().all()
 
-    # Recent payments
+
     recent_payments = db.execute(
         text("""
             SELECT
