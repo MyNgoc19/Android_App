@@ -7,7 +7,7 @@
     android:background="#FFF9FC"
     android:orientation="vertical">
 
-    <!-- Header -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,13 +55,13 @@
 
     </LinearLayout>
 
-    <!-- Đường phân cách -->
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#FFE4EF" />
 
-    <!-- Thanh tải dữ liệu -->
+
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
@@ -71,13 +71,13 @@
         app:indicatorColor="#FF69A6"
         app:trackColor="#FFE4EF" />
 
-    <!-- Nội dung -->
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <!-- Danh sách phòng yêu thích -->
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvFavorites"
             android:layout_width="match_parent"
@@ -89,7 +89,7 @@
             android:paddingBottom="20dp"
             android:visibility="gone" />
 
-        <!-- Giao diện khi chưa có phòng yêu thích -->
+
         <LinearLayout
             android:id="@+id/layoutEmpty"
             android:layout_width="match_parent"
