@@ -19,9 +19,9 @@ import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import java.util.List;
 
-/**
- * Danh sách phòng yêu thích (bảng favorites). Bỏ tim => xóa khỏi danh sách.
- */
+
+
+
 public class FavoriteActivity extends AppCompatActivity {
 
     private RoomAdapter adapter;
@@ -40,7 +40,7 @@ public class FavoriteActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         Ui.visible(layoutEmpty, false);
 
-        // Chưa có phòng nào => đi khám phá
+
         findViewById(R.id.btnExploreRooms).setOnClickListener(v ->
                 startActivity(new Intent(this, SearchActivity.class)));
 
@@ -57,7 +57,7 @@ public class FavoriteActivity extends AppCompatActivity {
 
             @Override
             public void onFavoriteClick(Room room, int position) {
-                // Ở màn này bấm tim luôn là bỏ yêu thích
+
                 adapter.removeAt(position);
                 showEmpty(adapter.getItemCount() == 0);
                 roomRepository.setFavorite(room.getId(), false, new ApiCallback<String>() {
