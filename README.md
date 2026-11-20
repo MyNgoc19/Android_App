@@ -217,7 +217,7 @@ Mở URL Vite hiển thị trong terminal, mặc định thường là `http://l
 
 ### 8.2. Yêu cầu môi trường
 
-### 8.1. Yêu cầu môi trường
+### 8.2. Yêu cầu môi trường
 
 - Git
 - Python 3.11+ (nên dùng phiên bản tương thích với các package trong `backend/requirements.txt`)
@@ -347,7 +347,7 @@ Quy ước phối hợp:
 - Backend là phần dùng chung; thay đổi API cần được kiểm tra trên cả hai client.
 - Dùng commit message mô tả rõ nội dung thay đổi; ưu tiên Pull Request khi tích hợp nhánh.
 
-## 11. Tài khoản Admin mẫu
+## 11. Tài khoản quản trị mẫu
 
 Tài khoản demo dành cho môi trường local được mô tả tại [docs/admin-account.md](docs/admin-account.md). Tài liệu gồm thông tin đăng nhập mẫu, cách tạo tài khoản trong Firebase Authentication và cách cấp role `ADMIN` trong PostgreSQL bằng `backend/schemas/seed_admin.sql`. Không sử dụng thông tin demo trên production.
 
