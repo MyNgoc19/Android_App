@@ -15,19 +15,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Yêu cầu thuê, hợp đồng, thanh toán của người dùng đang đăng nhập.
- * Không gửi user_id: backend tự lấy user từ Firebase token.
- */
+
+
+
+
 public class RentalRepository {
 
     private final ApiService api = RetrofitClient.getApi();
 
-    // ===== Rental requests =====
 
-    /**
-     * @param desiredMoveIn yyyy-MM-dd hoặc null
-     */
+
+
+
+
     public void createRentalRequest(int roomId, String message, String desiredMoveIn,
                                     ApiCallback<Void> callback) {
         Map<String, Object> body = new HashMap<>();
@@ -50,7 +50,7 @@ public class RentalRepository {
         ApiCaller.enqueue(api.cancelRentalRequest(requestId), ignoreBody(callback));
     }
 
-    // ===== Contracts =====
+
 
     public void getContracts(ApiCallback<List<Contract>> callback) {
         ApiCaller.enqueue(api.getContracts(), callback);
@@ -60,7 +60,7 @@ public class RentalRepository {
         ApiCaller.enqueue(api.getContract(contractId), callback);
     }
 
-    /** Hợp đồng ACTIVE (phòng đang thuê), có kèm danh sách payments. null nếu chưa thuê */
+
     public void getActiveContract(ApiCallback<Contract> callback) {
         getContracts(new ApiCallback<List<Contract>>() {
             @Override
@@ -77,7 +77,7 @@ public class RentalRepository {
                 if (active == null) {
                     callback.onSuccess(null);
                 } else {
-                    getContract(active.getId(), callback); // lấy bản chi tiết
+                    getContract(active.getId(), callback);
                 }
             }
 
@@ -88,19 +88,19 @@ public class RentalRepository {
         });
     }
 
-    // ===== Payments =====
+
 
     public void getPayments(ApiCallback<List<Payment>> callback) {
         ApiCaller.enqueue(api.getPayments(), callback);
     }
 
-    // ===== Sửa chữa =====
+
 
     public void getMaintenanceRequests(ApiCallback<List<MaintenanceRequest>> callback) {
         ApiCaller.enqueue(api.getMaintenanceRequests(), callback);
     }
 
-    /** priority: LOW | MEDIUM | HIGH */
+
     public void createMaintenanceRequest(String title, String description, String priority,
                                          ApiCallback<MaintenanceRequest> callback) {
         Map<String, Object> body = new HashMap<>();
@@ -114,13 +114,13 @@ public class RentalRepository {
         ApiCaller.enqueue(api.cancelMaintenanceRequest(requestId), callback);
     }
 
-    // ===== Trả phòng =====
+
 
     public void getMoveOutRequests(ApiCallback<List<MoveOutRequest>> callback) {
         ApiCaller.enqueue(api.getMoveOutRequests(), callback);
     }
 
-    /** moveOutDate: yyyy-MM-dd */
+
     public void createMoveOutRequest(String moveOutDate, String reason,
                                      ApiCallback<MoveOutRequest> callback) {
         Map<String, Object> body = new HashMap<>();
