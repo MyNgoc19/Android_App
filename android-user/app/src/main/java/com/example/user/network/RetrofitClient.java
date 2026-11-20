@@ -41,7 +41,11 @@ public class RetrofitClient {
     public static synchronized ApiService getApi() {
         if (apiService == null) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY); // Logcat: lọc "okhttp"
+            // Never print Firebase ID tokens or request/response bodies to Logcat.
+            logging.redactHeader("Authorization");
+            logging.setLevel(BuildConfig.DEBUG
+                    ? HttpLoggingInterceptor.Level.BASIC
+                    : HttpLoggingInterceptor.Level.NONE);
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(20, TimeUnit.SECONDS)
