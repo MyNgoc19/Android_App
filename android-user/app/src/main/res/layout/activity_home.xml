@@ -147,7 +147,7 @@
             </LinearLayout>
 
 
-            <!-- ==================== CATEGORY ==================== -->
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -155,7 +155,7 @@
                 android:layout_marginTop="14dp"
                 android:orientation="horizontal">
 
-                <!-- ==================== PHÒNG TRỌ ==================== -->
+
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardRoom"
@@ -178,7 +178,7 @@
                         android:paddingStart="16dp"
                         android:paddingEnd="14dp">
 
-                        <!-- Icon -->
+
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="54dp"
                             android:layout_height="54dp"
@@ -196,7 +196,7 @@
 
                         </com.google.android.material.card.MaterialCardView>
 
-                        <!-- Text -->
+
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -214,7 +214,7 @@
 
                         </LinearLayout>
 
-                        <!-- Arrow -->
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -227,7 +227,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
 
-                <!-- ==================== CĂN HỘ ==================== -->
+
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardApartment"
@@ -250,7 +250,7 @@
                         android:paddingStart="16dp"
                         android:paddingEnd="14dp">
 
-                        <!-- Icon -->
+
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="54dp"
                             android:layout_height="54dp"
@@ -268,7 +268,7 @@
 
                         </com.google.android.material.card.MaterialCardView>
 
-                        <!-- Text -->
+
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -286,7 +286,7 @@
 
                         </LinearLayout>
 
-                        <!-- Arrow -->
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -301,7 +301,7 @@
             </LinearLayout>
 
 
-            <!-- ==================== PHÒNG CÒN TRỐNG ==================== -->
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -332,7 +332,7 @@
             </LinearLayout>
 
 
-            <!-- Subtitle -->
+
             <TextView
                 android:id="@+id/txtAvailableSubtitle"
                 android:layout_width="wrap_content"
@@ -343,8 +343,8 @@
                 android:textSize="12sp" />
 
 
-            <!-- ==================== AVAILABLE ROOMS ==================== -->
-            <!-- Backend chỉ trả các Room có status = AVAILABLE -->
+
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvAvailableRooms"
@@ -356,8 +356,8 @@
                 android:overScrollMode="never" />
 
 
-            <!-- ==================== PHÒNG CỦA TÔI ==================== -->
-            <!-- Chỉ hiện khi người dùng có hợp đồng thuê đang hoạt động -->
+
+
 
             <TextView
                 android:id="@+id/txtMyRoomTitle"
@@ -393,7 +393,7 @@
                     android:orientation="horizontal"
                     android:padding="13dp">
 
-                    <!-- Room image -->
+
                     <ImageView
                         android:id="@+id/imgMyRoom"
                         android:layout_width="88dp"
@@ -403,7 +403,7 @@
                         android:src="@drawable/ic_home"
                         app:tint="#FF5C9D" />
 
-                    <!-- Room information -->
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -448,7 +448,7 @@
     </androidx.core.widget.NestedScrollView>
 
 
-    <!-- ==================== BOTTOM NAVIGATION ==================== -->
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
