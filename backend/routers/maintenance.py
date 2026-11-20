@@ -25,9 +25,9 @@ router = APIRouter(tags=["User Maintenance"])
 admin_router = APIRouter(prefix="/admin", tags=["Admin Maintenance"])
 
 
-# =========================================================
-# REQUEST MODELS
-# =========================================================
+
+
+
 
 class MaintenanceCreate(BaseModel):
     title: str = Field(min_length=1, max_length=200)
@@ -41,9 +41,9 @@ class MaintenanceStatusUpdate(BaseModel):
     admin_note: str | None = Field(default=None, max_length=2000)
 
 
-# =========================================================
-# SHARED QUERY
-# =========================================================
+
+
+
 
 MAINTENANCE_SELECT = """
     SELECT
@@ -83,9 +83,9 @@ def _get_maintenance(db: Session, request_id: int) -> dict | None:
     return dict(row) if row is not None else None
 
 
-# =========================================================
-# USER APIs
-# =========================================================
+
+
+
 
 @router.get("/users/me/maintenance-requests")
 def get_my_maintenance_requests(
@@ -126,7 +126,7 @@ def create_my_maintenance_request(
         raise HTTPException(status_code=422, detail="Image URL must use HTTPS.")
 
     try:
-        # Yêu cầu sửa chữa phải gắn với hợp đồng đang hiệu lực của chính người thuê
+
         contract_id = db.execute(
             text("""
                 SELECT id
@@ -217,9 +217,9 @@ def cancel_my_maintenance_request(
     return _get_maintenance(db, request_id)
 
 
-# =========================================================
-# ADMIN APIs
-# =========================================================
+
+
+
 
 @admin_router.get("/maintenance-requests")
 def get_admin_maintenance_requests(
