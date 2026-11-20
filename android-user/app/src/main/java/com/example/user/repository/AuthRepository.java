@@ -209,17 +209,18 @@ public class AuthRepository {
 
     public void updateProfile(String fullName, String phone, String gender,
                               ApiCallback<User> callback) {
+        updateProfile(fullName, phone, gender, null, callback);
+    }
+
+    public void updateProfile(String fullName, String phone, String gender,
+                              String avatarUrl, ApiCallback<User> callback) {
         Map<String, Object> body = new HashMap<>();
         body.put("full_name", fullName);
-        if (phone != null) {
-            body.put("phone", phone);
-        }
-        if (gender != null) {
-            body.put("gender", gender);
-        }
+        if (phone != null) body.put("phone", phone);
+        if (gender != null) body.put("gender", gender);
+        if (avatarUrl != null) body.put("avatar_url", avatarUrl);
         ApiCaller.enqueue(api.updateProfile(body), saveUser(callback));
 
-        // Cập nhật luôn tên trên Firebase để lần đăng nhập sau token có tên mới
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null && !TextUtils.isEmpty(fullName)) {
             firebaseUser.updateProfile(new UserProfileChangeRequest.Builder()
