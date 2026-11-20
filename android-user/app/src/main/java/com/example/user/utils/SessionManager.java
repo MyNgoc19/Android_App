@@ -6,10 +6,10 @@ import android.content.SharedPreferences;
 import com.example.user.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 
-/**
- * Lưu thông tin tài khoản (lấy từ GET auth/me) để hiển thị nhanh.
- * Token KHÔNG lưu ở đây: Firebase tự quản lý và tự làm mới token.
- */
+
+
+
+
 public class SessionManager {
 
     private static final String PREF_NAME = "NN_HOME_SESSION";
@@ -50,7 +50,7 @@ public class SessionManager {
                 .apply();
     }
 
-    /** Đã đăng nhập Firebase (token do Firebase giữ) */
+
     public boolean isLoggedIn() {
         return FirebaseAuth.getInstance().getCurrentUser() != null;
     }
@@ -61,7 +61,7 @@ public class SessionManager {
     public String getPhone() { return prefs.getString("phone", ""); }
     public String getAvatarUrl() { return prefs.getString("avatar_url", ""); }
 
-    /** Gender is synchronized with the backend profile. */
+
     public String getGender() { return prefs.getString("gender", ""); }
 
     public void clear() {
