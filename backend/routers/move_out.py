@@ -29,9 +29,9 @@ router = APIRouter(tags=["User Move-out"])
 admin_router = APIRouter(prefix="/admin", tags=["Admin Move-out"])
 
 
-# =========================================================
-# REQUEST MODELS
-# =========================================================
+
+
+
 
 class MoveOutCreate(BaseModel):
     move_out_date: date
@@ -43,9 +43,9 @@ class MoveOutStatusUpdate(BaseModel):
     admin_note: str | None = Field(default=None, max_length=2000)
 
 
-# =========================================================
-# SHARED QUERY
-# =========================================================
+
+
+
 
 MOVE_OUT_SELECT = """
     SELECT
@@ -87,9 +87,9 @@ def _get_move_out(db: Session, request_id: int) -> dict | None:
     return dict(row) if row is not None else None
 
 
-# =========================================================
-# USER APIs
-# =========================================================
+
+
+
 
 @router.get("/users/me/move-out-requests")
 def get_my_move_out_requests(
@@ -241,9 +241,9 @@ def cancel_my_move_out_request(
     return _get_move_out(db, request_id)
 
 
-# =========================================================
-# ADMIN APIs
-# =========================================================
+
+
+
 
 @admin_router.get("/move-out-requests")
 def get_admin_move_out_requests(
@@ -360,7 +360,7 @@ def update_move_out_status(
                 detail=f"Cannot change move-out status from {old_status} to {body.status}.",
             )
 
-        # Hoàn tất trả phòng => kết thúc hợp đồng + mở lại phòng
+
         if body.status == "COMPLETED":
             contract = db.execute(
                 text("""
