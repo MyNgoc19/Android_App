@@ -19,19 +19,19 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Calendar;
 
-/**
- * Đặt lịch xem phòng: chọn ngày + khung giờ + ghi chú.
- * Backend chung chưa có bảng lịch hẹn => gửi thành 1 RENTAL REQUEST
- * (POST rooms/{id}/rental-requests) với nội dung "[Hẹn xem phòng] ...".
- * Admin xem trong Web Admin → Rental Requests.
- */
+
+
+
+
+
+
 public class BookAppointmentActivity extends AppCompatActivity {
 
     public static final String EXTRA_ROOM_ID = "room_id";
     public static final String EXTRA_ROOM_TITLE = "room_title";
     public static final String EXTRA_ROOM_ADDRESS = "room_address";
 
-    // Khung giờ cho chọn
+
     private static final String[] TIME_SLOTS = {
             "08:00", "09:00", "10:00", "11:00", "14:00", "15:00", "16:00", "17:00", "19:00"
     };
@@ -64,7 +64,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
         chipGroupTime = findViewById(R.id.chipGroupTime);
         btnSubmit = findViewById(R.id.btnSubmit);
 
-        // Tạo chip giờ
+
         for (String slot : TIME_SLOTS) {
             Chip chip = new Chip(this);
             chip.setText(slot);
@@ -75,7 +75,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
             chipGroupTime.addView(chip);
         }
 
-        // Mặc định: ngày mai
+
         selectedDate = Calendar.getInstance();
         selectedDate.add(Calendar.DAY_OF_MONTH, 1);
         showDate();
@@ -101,7 +101,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
         }
         String time = ((Chip) findViewById(checkedId)).getText().toString();
 
-        // Không cho đặt giờ đã qua trong hôm nay
+
         Calendar chosen = (Calendar) selectedDate.clone();
         String[] hm = time.split(":");
         chosen.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hm[0]));
