@@ -170,8 +170,9 @@ Allowed profile fields:
 - `full_name`
 - `phone`
 - `avatar_url`
+- `gender` (`MALE`, `FEMALE`, `OTHER`)
 
-User cannot update their own role or account status.
+User cannot update their own role or account status. Avatar uploads use `GET /users/me/avatar/signature` to obtain a signed Cloudinary upload payload, then save the returned HTTPS URL through `PATCH /users/me`.
 
 ### Favorites
 
@@ -418,7 +419,72 @@ These APIs only record payment information and status. They do not process onlin
 
 ---
 
-## 6. Status Reference
+
+## 6. Maintenance Requests — Android and Web Admin
+
+All user endpoints require an authenticated, active `USER`. A maintenance request must belong to an active rental contract owned by that user.
+
+| Method | Endpoint | Access | Purpose |
+|---|---|---|---|
+| GET | `/users/me/maintenance-requests` | USER | List own maintenance requests |
+| POST | `/users/me/maintenance-requests` | USER | Create a maintenance request |
+| PATCH | `/users/me/maintenance-requests/{request_id}/cancel` | USER | Cancel own pending request |
+| GET | `/admin/maintenance-requests` | ADMIN | List/filter all requests |
+| GET | `/admin/maintenance-requests/{request_id}` | ADMIN | Get request details |
+| PATCH | `/admin/maintenance-requests/{request_id}/status` | ADMIN | Update request status and admin note |
+
+Create body:
+
+```json
+{
+  "title": "Air conditioner is not cooling",
+  "description": "The unit turns on but does not cool the room.",
+  "priority": "MEDIUM",
+  "image_url": null
+}
+```
+
+Priority values are `LOW`, `MEDIUM`, and `HIGH`. Admin status values are `IN_PROGRESS`, `DONE`, and `REJECTED`. User cancellation is allowed only while status is `PENDING`.
+
+Allowed admin transitions:
+- `PENDING -> IN_PROGRESS | DONE | REJECTED`
+- `IN_PROGRESS -> DONE | REJECTED`
+
+## 7. Move-out Requests — Android and Web Admin
+
+A user must have an active contract to submit a move-out request. The requested date cannot be in the past or earlier than the contract start date.
+
+| Method | Endpoint | Access | Purpose |
+|---|---|---|---|
+| GET | `/users/me/move-out-requests` | USER | List own requests |
+| POST | `/users/me/move-out-requests` | USER | Submit a move-out request |
+| PATCH | `/users/me/move-out-requests/{request_id}/cancel` | USER | Cancel own pending request |
+| GET | `/admin/move-out-requests` | ADMIN | List/filter all requests |
+| GET | `/admin/move-out-requests/{request_id}` | ADMIN | Get request details |
+| PATCH | `/admin/move-out-requests/{request_id}/status` | ADMIN | Approve, reject, or complete a request |
+
+Create body:
+
+```json
+{
+  "move_out_date": "2026-12-31",
+  "reason": "Moving to another area"
+}
+```
+
+Admin status values are `APPROVED`, `REJECTED`, and `COMPLETED`. Allowed transitions:
+- `PENDING -> APPROVED | REJECTED`
+- `APPROVED -> COMPLETED | REJECTED`
+
+When a move-out request becomes `COMPLETED`, Backend ends the related contract, records the move-out date as the contract end date, and makes the room available again.
+
+## 8. Schema-only tables and functionality
+
+The database includes `viewing_appointments`, `meter_readings`, and `payment_accounts`. These tables currently do not have a complete corresponding API workflow registered in the FastAPI application. Do not build frontend integrations against them until the API contract and backend endpoints are implemented.
+
+Current payment APIs record payment entries and let Admin transition payment status. They do not expose a user-side transfer-report endpoint or online payment processing. Payment status values accepted by the current API are `PENDING`, `PAID`, `FAILED`, and `REFUNDED`.
+
+## 9. Status Reference
 
 ### Room
 
@@ -448,7 +514,7 @@ These APIs only record payment information and status. They do not process onlin
 
 ---
 
-## 7. Minimum MVP Implementation Order
+## 10. Minimum MVP Implementation Order
 
 1. Authentication and authorization.
 2. Public room listing/detail and Admin room management.
@@ -460,7 +526,7 @@ These APIs only record payment information and status. They do not process onlin
 
 ---
 
-## 8. Development Split
+## 11. Development Split
 
 ### Android User
 
