@@ -1,5 +1,5 @@
 
-# Shared API Contract — ROOM_RENTAL_MANAGEMENT_SYSTEM
+# Tài liệu đặc tả API dùng chung — HỆ THỐNG QUẢN LÝ PHÒNG THUÊ
 
 Version: v1
 
@@ -16,31 +16,31 @@ Image Storage: Cloudinary
 
 ---
 
-## 1. Shared Rules
+## 1. Quy tắc dùng chung
 
-### Authentication
+### Xác thực
 
-All protected requests must include:
+Tất cả yêu cầu đến API cần xác thực phải gửi kèm:
 
 `Authorization: Bearer <firebase_id_token>`
 
-- Firebase verifies the user's identity.
-- Backend maps the verified Firebase UID to `users.firebase_uid`.
-- Backend reads `users.role` and `users.status` from PostgreSQL.
-- Never trust `role`, `user_id`, `tenant_id`, or `created_by` sent by the client.
-- New accounts are always assigned `USER`.
-- `ADMIN` accounts must be assigned through a trusted admin/seed process.
+- Firebase xác minh danh tính người dùng.
+- Backend đối chiếu Firebase UID đã xác minh với `users.firebase_uid`.
+- Backend đọc `users.role` và `users.status` từ PostgreSQL.
+- Không tin tưởng các giá trị `role`, `user_id`, `tenant_id` hoặc `created_by` do ứng dụng gửi lên.
+- Tài khoản mới luôn được gán vai trò `USER`.
+- Tài khoản `ADMIN` phải được cấp quyền thông qua quy trình quản trị đáng tin cậy hoặc tệp dữ liệu khởi tạo.
 
-### Roles
+### Vai trò tài khoản
 
 | Role | Client | Permissions |
 |---|---|---|
 | USER | Android | Browse rooms, manage profile, favorites, rental requests, own contracts/payments |
 | ADMIN | Web | Manage rooms, users, requests, contracts, payments, dashboard |
 
-Blocked accounts (`status = BLOCKED`) cannot use protected business APIs.
+Tài khoản bị khóa (`status = BLOCKED`) không thể sử dụng các API nghiệp vụ cần xác thực.
 
-### HTTP Status Codes
+### Mã trạng thái HTTP
 
 | Code | Meaning |
 |---|---|
@@ -54,7 +54,7 @@ Blocked accounts (`status = BLOCKED`) cannot use protected business APIs.
 | 409 | Business conflict |
 | 422 | Invalid request data |
 
-### Data Conventions
+### Quy ước dữ liệu
 
 - Money: integer VND.
 - Date: `YYYY-MM-DD`.
@@ -78,15 +78,15 @@ Error response:
   "detail": "Human-readable error message"
 }
 
-### Database Access
+### Truy cập cơ sở dữ liệu
 
-Android and Web must never connect directly to PostgreSQL.
+Android và Web không được kết nối trực tiếp đến PostgreSQL.
 
-Both clients call the same FastAPI backend. FastAPI is responsible for authentication, authorization, validation, transactions, and database access.
+Cả hai ứng dụng đều gọi chung Backend FastAPI. FastAPI chịu trách nhiệm xác thực, phân quyền, kiểm tra dữ liệu, quản lý giao dịch và truy cập cơ sở dữ liệu.
 
 ---
 
-## 2. Authentication
+## 2. Xác thực tài khoản
 
 | Method | Endpoint | Access | Purpose |
 |---|---|---|---|
@@ -115,7 +115,7 @@ Example response:
 
 ---
 
-## 3. Public Room Discovery — Android
+## 3. Tìm kiếm phòng công khai — Android
 
 | Method | Endpoint | Purpose |
 |---|---|---|
@@ -131,7 +131,7 @@ Example response:
 - `min_area`, `max_area`: room area range.
 - `page`, `limit`: pagination.
 
-Only rooms with `status = AVAILABLE` are returned by User-facing endpoints.
+Các API dành cho người thuê chỉ trả về phòng có `status = AVAILABLE`.
 
 Example room response:
 
@@ -155,11 +155,11 @@ Example room response:
 
 ---
 
-## 4. User APIs — Android
+## 4. API dành cho người thuê — Android
 
-All endpoints require an authenticated, active `USER` account.
+Tất cả endpoint yêu cầu tài khoản `USER` đã đăng nhập và đang hoạt động.
 
-### Profile
+### Hồ sơ cá nhân
 
 | Method | Endpoint | Purpose |
 |---|---|---|
@@ -174,7 +174,7 @@ Allowed profile fields:
 
 User cannot update their own role or account status. Avatar uploads use `GET /users/me/avatar/signature` to obtain a signed Cloudinary upload payload, then save the returned HTTPS URL through `PATCH /users/me`.
 
-### Favorites
+### Danh sách yêu thích
 
 | Method | Endpoint | Purpose |
 |---|---|---|
@@ -184,7 +184,7 @@ User cannot update their own role or account status. Avatar uploads use `GET /us
 
 A user cannot add an inactive or unavailable room as a new favorite. Existing favorites may remain stored if a room later becomes unavailable.
 
-### Rental Requests
+### Yêu cầu thuê phòng
 
 | Method | Endpoint | Purpose |
 |---|---|---|
@@ -220,7 +220,7 @@ Business rules:
 - Users cannot approve, reject, or directly change request status.
 - Backend derives `user_id` from the verified token.
 
-### Contracts and Payments
+### Hợp đồng và thanh toán
 
 | Method | Endpoint | Purpose |
 |---|---|---|
@@ -228,15 +228,15 @@ Business rules:
 | GET | `/users/me/contracts/{contract_id}` | Get own contract |
 | GET | `/users/me/payments` | List own payment records |
 
-Users can only access their own contracts and payments.
+Người thuê chỉ được xem hợp đồng và khoản thanh toán của chính mình.
 
 ---
 
-## 5. Admin APIs — Web
+## 5. API dành cho quản trị viên — Web
 
-All endpoints below require an authenticated, active `ADMIN` account.
+Tất cả endpoint bên dưới yêu cầu tài khoản `ADMIN` đã đăng nhập và đang hoạt động.
 
-### Dashboard
+### Bảng điều khiển
 
 | Method | Endpoint | Purpose |
 |---|---|---|
@@ -244,7 +244,7 @@ All endpoints below require an authenticated, active `ADMIN` account.
 
 Dashboard counts should be calculated from current database records, with clearly defined status filters.
 
-### Room Management
+### Quản lý phòng
 
 | Method | Endpoint | Purpose |
 |---|---|---|
@@ -286,7 +286,7 @@ Admin cannot manually set `RENTED` through this endpoint. The backend sets `RENT
 
 A room with an active contract cannot be changed to `AVAILABLE` or `INACTIVE` without first handling the contract.
 
-### Room Images
+### Hình ảnh phòng
 
 - Admin requests a signed upload payload from `POST /admin/rooms/{room_id}/images/signature`.
 - The browser uploads the image directly to the configured Cloudinary cloud using that signature.
@@ -302,7 +302,7 @@ Add image body:
   "sort_order": 0
 }
 
-### User Management
+### Quản lý tài khoản
 
 | Method | Endpoint | Purpose |
 |---|---|---|
@@ -321,7 +321,7 @@ Allowed values: `ACTIVE`, `BLOCKED`.
 
 Do not allow an admin to block or demote the last active administrator.
 
-### Rental Request Management
+### Quản lý yêu cầu thuê
 
 | Method | Endpoint | Purpose |
 |---|---|---|
@@ -342,9 +342,9 @@ Allowed transitions:
 
 Admin cannot approve an already cancelled or rejected request.
 
-Approving a request does not automatically create a contract. Contract creation is a separate operation after the rental terms have been agreed.
+Việc duyệt yêu cầu không tự động tạo hợp đồng. Hợp đồng phải được tạo bằng thao tác riêng sau khi hai bên thống nhất điều khoản thuê.
 
-### Contract Management
+### Quản lý hợp đồng
 
 | Method | Endpoint | Purpose |
 |---|---|---|
@@ -384,7 +384,7 @@ Contract status transitions:
 
 When a contract ends or is cancelled, backend must update room availability according to the agreed business rules and ensure no other active contract exists.
 
-### Payment Management
+### Quản lý thanh toán
 
 | Method | Endpoint | Purpose |
 |---|---|---|
@@ -415,14 +415,14 @@ Payment statuses:
 
 For monthly rent, `payment_period` uses `YYYY-MM`. For non-periodic payments, it can be `null`.
 
-These APIs only record payment information and status. They do not process online transactions or transfer money.
+Các API này chỉ ghi nhận thông tin và trạng thái thanh toán. Chúng không xử lý giao dịch trực tuyến hoặc chuyển tiền.
 
 ---
 
 
-## 6. Maintenance Requests — Android and Web Admin
+## 6. Yêu cầu sửa chữa — Android và Web Admin
 
-All user endpoints require an authenticated, active `USER`. A maintenance request must belong to an active rental contract owned by that user.
+Các endpoint dành cho người thuê yêu cầu tài khoản `USER` đã đăng nhập và đang hoạt động. Yêu cầu sửa chữa phải thuộc hợp đồng thuê còn hiệu lực của chính người dùng đó.
 
 | Method | Endpoint | Access | Purpose |
 |---|---|---|---|
@@ -450,9 +450,9 @@ Allowed admin transitions:
 - `PENDING -> IN_PROGRESS | DONE | REJECTED`
 - `IN_PROGRESS -> DONE | REJECTED`
 
-## 7. Move-out Requests — Android and Web Admin
+## 7. Yêu cầu trả phòng — Android và Web Admin
 
-A user must have an active contract to submit a move-out request. The requested date cannot be in the past or earlier than the contract start date.
+Người thuê phải có hợp đồng còn hiệu lực mới được gửi yêu cầu trả phòng. Ngày trả phòng không được nằm trong quá khứ hoặc trước ngày bắt đầu hợp đồng.
 
 | Method | Endpoint | Access | Purpose |
 |---|---|---|---|
@@ -478,13 +478,13 @@ Admin status values are `APPROVED`, `REJECTED`, and `COMPLETED`. Allowed transit
 
 When a move-out request becomes `COMPLETED`, Backend ends the related contract, records the move-out date as the contract end date, and makes the room available again.
 
-## 8. Schema-only tables and functionality
+## 8. Các bảng mới có cấu trúc, chưa có đầy đủ chức năng
 
-The database includes `viewing_appointments`, `meter_readings`, and `payment_accounts`. These tables currently do not have a complete corresponding API workflow registered in the FastAPI application. Do not build frontend integrations against them until the API contract and backend endpoints are implemented.
+Cơ sở dữ liệu có các bảng `viewing_appointments`, `meter_readings` và `payment_accounts`. Hiện tại, ứng dụng FastAPI chưa đăng ký đầy đủ luồng API tương ứng cho các bảng này. Không tích hợp giao diện với các bảng đó cho đến khi đặc tả API và endpoint Backend được triển khai.
 
 Current payment APIs record payment entries and let Admin transition payment status. They do not expose a user-side transfer-report endpoint or online payment processing. Payment status values accepted by the current API are `PENDING`, `PAID`, `FAILED`, and `REFUNDED`.
 
-## 9. Status Reference
+## 9. Danh sách trạng thái
 
 ### Room
 
@@ -514,7 +514,7 @@ Current payment APIs record payment entries and let Admin transition payment sta
 
 ---
 
-## 10. Minimum MVP Implementation Order
+## 10. Thứ tự triển khai phiên bản tối thiểu
 
 1. Authentication and authorization.
 2. Public room listing/detail and Admin room management.
@@ -526,7 +526,7 @@ Current payment APIs record payment entries and let Admin transition payment sta
 
 ---
 
-## 11. Development Split
+## 11. Phân chia công việc phát triển
 
 ### Android User
 
@@ -555,6 +555,6 @@ Current payment APIs record payment entries and let Admin transition payment sta
 - PostgreSQL database access.
 - Business validation and transactions.
 
-Both frontends must use the same API contract and backend. During parallel development, frontend developers may use mock JSON matching this document.
+Hai giao diện phải sử dụng chung đặc tả API và Backend. Trong quá trình phát triển song song, thành viên phụ trách giao diện có thể dùng dữ liệu JSON giả lập theo đúng cấu trúc trong tài liệu này.
 
-Do not create separate databases as integration sources of truth.
+Không tạo các cơ sở dữ liệu riêng làm nguồn dữ liệu chính để tích hợp.
