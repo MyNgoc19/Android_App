@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF9FC"
+    android:orientation="vertical">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="18dp">
+
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="Quay lại"
+            android:gravity="center"
+            android:text="‹"
+            android:textColor="#F54C91"
+            android:textSize="32sp" />
+
+        <TextView
+            android:id="@+id/txtHeaderTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="Phòng của tôi"
+            android:textColor="#24242B"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <!-- Loading -->
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:indicatorColor="#FF69A6"
+        app:trackColor="#FFE4EF" />
+
+    <!-- Nội dung màn hình -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <!-- Trạng thái chưa thuê phòng -->
+        <LinearLayout
+            android:id="@+id/layoutEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="28dp"
+            android:visibility="gone">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                app:cardBackgroundColor="#FFE4EF"
+                app:cardCornerRadius="55dp"
+                app:cardElevation="0dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="⌂"
+                    android:textColor="#F54C91"
+                    android:textSize="64sp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="Bạn chưa thuê phòng nào"
+                android:textColor="#24242B"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="Hãy khám phá những căn phòng phù hợp với bạn tại N&amp;N Home!"
+                android:textColor="#888888"
+                android:textSize="14sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFindRoom"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="24dp"
+                android:text="Tìm phòng ngay"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                app:backgroundTint="#FF69A6"
+                app:cornerRadius="16dp" />
+
+        </LinearLayout>
+
+        <!-- Trạng thái đã có phòng -->
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollMyRoom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- Thông tin phòng -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardRoom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imgRoom"
+                            android:layout_width="match_parent"
+                            android:layout_height="170dp"
+                            android:background="#FFE4EF"
+                            android:contentDescription="Ảnh phòng"
+                            android:scaleType="centerCrop" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="18dp">
+
+                            <TextView
+                                android:id="@+id/txtRoomStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="#FFE4EF"
+                                android:paddingStart="12dp"
+                                android:paddingTop="6dp"
+                                android:paddingEnd="12dp"
+                                android:paddingBottom="6dp"
+                                android:text="Đang thuê"
+                                android:textColor="#F54C91"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/txtRoomTitle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:text="Phòng NN001"
+                                android:textColor="#24242B"
+                                android:textSize="19sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/txtRoomAddress"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
+                                android:text="Địa chỉ phòng đang thuê"
+                                android:textColor="#888888"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Hợp đồng -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Thông tin hợp đồng"
+                    android:textColor="#24242B"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:id="@+id/layoutContractInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="18dp">
+
+                        <TextView
+                            android:id="@+id/txtContractCode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Mã hợp đồng: HD-NN001"
+                            android:textColor="#24242B"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtStartDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Ngày bắt đầu: 01/09/2026"
+                            android:textColor="#777777"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/txtEndDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Ngày kết thúc: 01/09/2027"
+                            android:textColor="#777777"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/txtMonthlyRent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:text="Tiền thuê: 3.500.000 VNĐ / tháng"
+                            android:textColor="#F54C91"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Hướng dẫn bước tiếp theo -->
+                <TextView
+                    android:id="@+id/txtNextStep"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="#FFE4EF"
+                    android:padding="14dp"
+                    android:text="Bạn có thể xem hợp đồng, thông tin tiền cọc và quản lý các dịch vụ của phòng đang thuê."
+                    android:textColor="#555555"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+
+                <!-- Nút xem hợp đồng -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnViewContract"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Xem hợp đồng"
+                    android:textAllCaps="false"
+                    android:textColor="#F54C91"
+                    app:cornerRadius="14dp"
+                    app:strokeColor="#FF69A6"
+                    app:strokeWidth="1dp" />
+
+                <!-- Nút thông tin cọc -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDeposit"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Thông tin cọc"
+                    android:textAllCaps="false"
+                    android:textColor="#F54C91"
+                    app:cornerRadius="14dp"
+                    app:strokeColor="#FF69A6"
+                    app:strokeWidth="1dp" />
+
+                <!-- Các chức năng khi đang thuê -->
+                <LinearLayout
+                    android:id="@+id/layoutActiveActions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <!-- Hóa đơn -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnInvoices"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Hóa đơn &amp; thanh toán"
+                        android:textAllCaps="false"
+                        android:textColor="#F54C91"
+                        app:cornerRadius="14dp"
+                        app:strokeColor="#FF69A6"
+                        app:strokeWidth="1dp" />
+
+                    <!-- Sửa chữa -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnMaintenance"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Yêu cầu sửa chữa"
+                        android:textAllCaps="false"
+                        android:textColor="#F54C91"
+                        app:cornerRadius="14dp"
+                        app:strokeColor="#FF69A6"
+                        app:strokeWidth="1dp" />
+
+                    <!-- Trả phòng -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnMoveOut"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Yêu cầu trả phòng"
+                        android:textAllCaps="false"
+                        android:textColor="#D93A3A"
+                        app:cornerRadius="14dp"
+                        app:strokeColor="#D93A3A"
+                        app:strokeWidth="1dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </FrameLayout>
+
+</LinearLayout>

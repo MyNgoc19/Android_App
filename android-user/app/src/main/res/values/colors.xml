@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="nn_primary">#FF69A6</color>
+    <color name="nn_primary_dark">#F54C91</color>
+    <color name="nn_background">#FFF9FC</color>
+    <color name="nn_text">#24242B</color>
+    <color name="nn_gray">#777777</color>
+</resources>

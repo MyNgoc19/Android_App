@@ -1,0 +1,274 @@
+[
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_activity_invoice_list.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/activity_invoice_list.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_bg_login_card.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/bg_login_card.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_activity_deposit.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/activity_deposit.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_activity_profile.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/activity_profile.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_item_invoice.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/item_invoice.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_activity_favorite.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/activity_favorite.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_bg_rental_dialog_pill.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/bg_rental_dialog_pill.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_activity_payment.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/activity_payment.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_ic_heart_outline.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/ic_heart_outline.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_bg_room_placeholder.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/bg_room_placeholder.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_bg_rental_dialog_icon.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/bg_rental_dialog_icon.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_ic_apartment.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/ic_apartment.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/color_bottom_nav_color.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/color/bottom_nav_color.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_activity_edit_profile.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/activity_edit_profile.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_activity_move_out.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/activity_move_out.xml"
+    },
+    {
+        "merged": "com.example.user.app-debug-54:/layout_dialog_rental_confirmation.xml.flat",
+        "source": "com.example.user.app-main-56:/layout/dialog_rental_confirmation.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_activity_contract.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/activity_contract.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_ic_search.png.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/ic_search.png"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_activity_home.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/activity_home.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_activity_room_detail.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/activity_room_detail.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_ic_calendar.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/ic_calendar.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/xml_data_extraction_rules.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/color_chip_bg.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/color/chip_bg.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_activity_rental.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/activity_rental.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_activity_book_appointment.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/activity_book_appointment.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_banner.jpg.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/banner.jpg"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_bg_chip.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/bg_chip.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_activity_login.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/activity_login.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/color_chip_text.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/color/chip_text.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/menu_menu_bottom_navigation.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/menu/menu_bottom_navigation.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_dialog_rental_confirmation.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/dialog_rental_confirmation.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_ic_launcher_background.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_activity_invoice_detail.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/activity_invoice_detail.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_ic_home.png.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/ic_home.png"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_activity_register.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/activity_register.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_bg_rental_dialog_notice.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/bg_rental_dialog_notice.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/xml_backup_rules.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_ic_google.png.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/ic_google.png"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_ic_heart.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/ic_heart.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_activity_search.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/activity_search.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_activity_my_appointments.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/activity_my_appointments.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_activity_my_room.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/activity_my_room.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_item_appointment.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/item_appointment.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_activity_maintenance.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/activity_maintenance.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_ic_user.png.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/ic_user.png"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_item_maintenance.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/item_maintenance.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_ic_arrow_back.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/ic_arrow_back.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_bg_rental_dialog.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/bg_rental_dialog.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_ic_notifications.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/ic_notifications.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_activity_main.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/activity_main.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_ic_lock.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/ic_lock.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_backrouge.jpg.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/backrouge.jpg"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/drawable_logo.jpg.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/drawable/logo.jpg"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_item_room.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/item_room.xml"
+    },
+    {
+        "merged": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-debug-54:/layout_layout_header.xml.flat",
+        "source": "/home/trannhu6666/.gradle/daemon/9.5.0/com.example.user.app-main-56:/layout/layout_header.xml"
+    }
+]
